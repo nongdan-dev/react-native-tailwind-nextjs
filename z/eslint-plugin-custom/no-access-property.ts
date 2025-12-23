@@ -1,8 +1,10 @@
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 
+import type { StrMap } from '@/utils/ts'
+
 export const noAccessProperty: TSESLint.RuleModule<
   'noAccessProperty',
-  [{ [k: string]: string }]
+  [StrMap<string>]
 > = {
   meta: {
     type: 'problem',

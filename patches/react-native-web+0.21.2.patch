@@ -17,11 +17,11 @@ index d3148da..ee719f0 100644
 -    style: [disabled ? styles.disabled : styles.active, typeof style === 'function' ? style(interactionState) : style],
 +    style,
 +    className: props.className,
-+    __injectClassNameData: Object.assign({
++    __rnwClassNameData: Object.assign({
 +      Pressable: {
 +        disabled,
 +      },
-+    }, props.__injectClassNameData),
++    }, props.__rnwClassNameData),
      tabIndex: _tabIndex
    }), typeof children === 'function' ? children(interactionState) : children);
  }
@@ -70,7 +70,7 @@ index c4f9b5b..e91c938 100644
        if (child != null && (isSticky || pagingEnabled)) {
          return /*#__PURE__*/React.createElement(View, {
 -          style: [isSticky && styles.stickyHeader, pagingEnabled && styles.pagingEnabledChild]
-+          __injectClassNameData: {
++          __rnwClassNameData: {
 +            ScrollView: {
 +              stickyHeader: isSticky,
 +              pagingEnabledChild: pagingEnabled,
@@ -86,7 +86,7 @@ index c4f9b5b..e91c938 100644
 -      style: [horizontal && styles.contentContainerHorizontal, centerContent && styles.contentContainerCenterContent, contentContainerStyle]
 +      style: contentContainerStyle,
 +      className: this.props.contentContainerClassName,
-+      __injectClassNameData: {
++      __rnwClassNameData: {
 +        ScrollView: {
 +          pagingEnabledHorizontal: horizontal,
 +          contentContainerCenterContent: centerContent,
@@ -99,7 +99,7 @@ index c4f9b5b..e91c938 100644
 -      style: [baseStyle, pagingEnabled && pagingEnabledStyle, this.props.style],
 +      style: this.props.style,
 +      className: this.props.className,
-+      __injectClassNameData: Object.assign({
++      __rnwClassNameData: Object.assign({
 +        ScrollView: {
 +          base: true,
 +          baseHorizontal: horizontal,
@@ -107,7 +107,7 @@ index c4f9b5b..e91c938 100644
 +          pagingEnabledHorizontal: horizontal,
 +          pagingEnabledVertical: !horizontal,
 +        },
-+      }, this.props.__injectClassNameData),
++      }, this.props.__rnwClassNameData),
        onTouchStart: this.scrollResponderHandleTouchStart,
        onTouchMove: this.scrollResponderHandleTouchMove,
        onTouchEnd: this.scrollResponderHandleTouchEnd,
@@ -118,7 +118,7 @@ index c4f9b5b..e91c938 100644
 -        style: props.style
 +        style: props.style,
 +        className: props.className,
-+        __injectClassNameData: props.__injectClassNameData,
++        __rnwClassNameData: props.__rnwClassNameData,
        }, scrollView);
      }
      return scrollView;
@@ -191,14 +191,14 @@ index 1076f55..01ac398 100644
 -  }, hasTextAncestor === true ? styles.textHasAncestor$raw : styles.text$raw, numberOfLines === 1 && styles.textOneLine, numberOfLines != null && numberOfLines > 1 && styles.textMultiLine, props.style, selectable === true && styles.selectable, selectable === false && styles.notSelectable, onPress && styles.pressable];
 +  supportedProps.style = props.style;
 +  supportedProps.className = props.className;
-+  supportedProps.__injectClassNameData = Object.assign({
++  supportedProps.__rnwClassNameData = Object.assign({
 +    Text: {
 +      hasTextAncestor,
 +      numberOfLines,
 +      selectable,
 +      pressable: !!onPress,
 +    },
-+  }, props.__injectClassNameData);
++  }, props.__rnwClassNameData);
    if (props.href != null) {
      component = 'a';
      if (hrefAttrs != null) {
@@ -267,7 +267,7 @@ index 0f476a7..605fb92 100644
 -import StyleSheet from '../StyleSheet';
  import TextInputState from '../../modules/TextInputState';
  //import { warnOnce } from '../../modules/warnOnce';
- 
+
 @@ -376,9 +375,14 @@ var TextInput = /*#__PURE__*/React.forwardRef((props, forwardedRef) => {
    */
    supportedProps.rows = multiline ? rows != null ? rows : numberOfLines : 1;
@@ -277,12 +277,12 @@ index 0f476a7..605fb92 100644
 -  }, styles.textinput$raw, styles.placeholder, props.style, caretHidden && styles.caretHidden];
 +  supportedProps.style = props.style;
 +  supportedProps.className = props.className;
-+  supportedProps.__injectClassNameData = Object.assign({
++  supportedProps.__rnwClassNameData = Object.assign({
 +    TextInput: {
 +      placeholderTextColor,
 +      caretHidden,
 +    },
-+  }, props.__injectClassNameData);
++  }, props.__rnwClassNameData);
    supportedProps.type = multiline ? undefined : type;
    supportedProps.virtualkeyboardpolicy = showSoftInputOnFocus === false ? 'manual' : 'auto';
    var platformMethodsRef = usePlatformMethods(supportedProps);
@@ -330,11 +330,11 @@ index 45343e5..2347bb5 100644
 -  supportedProps.style = [styles.view$raw, hasTextAncestor && styles.inline, props.style];
 +  supportedProps.style = props.style;
 +  supportedProps.className = props.className;
-+  supportedProps.__injectClassNameData = Object.assign({
++  supportedProps.__rnwClassNameData = Object.assign({
 +    View: {
 +      inline: hasTextAncestor,
 +    },
-+  }, props.__injectClassNameData);
++  }, props.__rnwClassNameData);
    if (props.href != null) {
      component = 'a';
      if (hrefAttrs != null) {
@@ -377,7 +377,7 @@ index 18f5e8b..3ded080 100644
      inlineStyle = _StyleSheet[1];
 -  if (className) {
 -    domProps.className = className;
-+  if (_props.__injectClassNameData) {
++  if (_props.__rnwClassNameData) {
 +    var o = Object.assign(
 +      {
 +        className: _props.className,
@@ -388,13 +388,13 @@ index 18f5e8b..3ded080 100644
 +    );
 +    var f;
 +    if (typeof window === 'object' && window) {
-+      f = window.__injectClassName;
++      f = window.__rnwClassName;
 +    }
 +    if (typeof global === 'object' && global) {
-+      f = global.__injectClassName;
++      f = global.__rnwClassName;
 +    }
-+    domProps.className = f(_props.__injectClassNameData, o);
-+    delete domProps.__injectClassNameData;
++    domProps.className = f(_props.__rnwClassNameData, o);
++    delete domProps.__rnwClassNameData;
 +  } else if (className) {
 +    domProps.className = [className, domProps.className].filter(v => v).join(' ');
    }
@@ -406,9 +406,9 @@ index 2e60013..76455e1 100644
 +++ b/node_modules/react-native-web/dist/modules/forwardedProps/index.js
 @@ -8,6 +8,8 @@
   */
- 
+
  export var defaultProps = {
-+  __injectClassNameData: true,
++  __rnwClassNameData: true,
 +  className: true,
    children: true,
    dataSet: true,
@@ -419,7 +419,7 @@ index 86af896..08c9423 100644
 +++ b/node_modules/react-native-web/dist/vendor/react-native/FlatList/index.js
 @@ -13,7 +13,6 @@ var _excluded = ["numColumns", "columnWrapperStyle", "removeClippedSubviews", "s
   */
- 
+
  import View from '../../../exports/View';
 -import StyleSheet from '../../../exports/StyleSheet';
  import deepDiffer from '../deepDiffer';
@@ -432,11 +432,11 @@ index 86af896..08c9423 100644
 -            style: [styles.row, columnWrapperStyle]
 +            style: columnWrapperStyle,
 +            className: this.props.columnWrapperClassName,
-+            __injectClassNameData: Object.assign({
++            __rnwClassNameData: Object.assign({
 +              FlatList: {
 +                columnWrapper: true,
 +              },
-+            }, this.props.__injectClassNameData),
++            }, this.props.__rnwClassNameData),
            }, _item2.map((it, kk) => {
              var element = render({
                // $FlowFixMe[incompatible-call]

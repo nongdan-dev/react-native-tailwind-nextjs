@@ -3,6 +3,7 @@ import { headers } from 'next/headers'
 import type { PropsWithChildren, ReactNode } from 'react'
 import { cache } from 'react'
 
+import { LinkUntyped } from '@/components/base/link-untyped'
 import type { Lang, Locale, Namespace } from '@/i18n/config'
 import {
   defaultLocale,
@@ -14,8 +15,6 @@ import {
   isValidLocale,
 } from '@/i18n/config'
 import { useRoute } from '@/navigation'
-import { LinkUntyped } from '@/navigation/link-untyped'
-import { tw } from '@/tw'
 
 export const useCurrentLocale = cache(async () => {
   const h = await headers()
@@ -78,7 +77,7 @@ const WebLink = async ({ children, lang }: WebLinkProps) => {
 
   return (
     <LinkUntyped
-      className={tw`flex`}
+      className='flex'
       pathname={pathname as any}
       query={query}
       noPrependCurrentLocale

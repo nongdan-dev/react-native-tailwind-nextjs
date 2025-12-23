@@ -4,6 +4,7 @@ import { createStaticNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import type { PropsWithChildren } from 'react'
 import { useEffect, useState } from 'react'
+import type { ViewStyle } from 'react-native'
 import { AppRegistry } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
@@ -11,7 +12,7 @@ import { i18nPromise, I18nProvider } from '@/i18n/index.native'
 import { rHome } from '@/pages/route-paths'
 import { routes } from '@/pages/routes'
 import { darkModePromise, DarkModeProvider } from '@/theme/client.native'
-import { tw } from '@/tw'
+import { tw } from '@/tw/tw'
 import { composeProviders } from '@/utils/compose-providers'
 
 import { name as appName } from '../app.json'
@@ -21,7 +22,7 @@ const RootStack = createNativeStackNavigator({
   initialRouteName: rHome,
   screenOptions: {
     headerShown: false,
-    contentStyle: tw`bg-white` as any,
+    contentStyle: tw`bg-white` as ViewStyle,
   },
 })
 const Navigation = createStaticNavigation(RootStack)

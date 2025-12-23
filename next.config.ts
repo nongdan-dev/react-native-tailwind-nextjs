@@ -3,6 +3,7 @@ import type { NextConfig } from 'next'
 const config: NextConfig = {
   turbopack: {
     resolveAlias: {
+      lodash: 'lodash-es',
       'react-native': 'react-native-web',
       'react-native-svg': 'react-native-svg-web',
     },
@@ -31,6 +32,7 @@ const config: NextConfig = {
     // we need to disable the default babel loader and add a custom one above
     turbopackUseBuiltinBabel: false,
   },
+  reactCompiler: true,
   devIndicators: false,
 }
 

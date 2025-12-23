@@ -2,7 +2,7 @@ import type { Config } from 'prettier'
 
 import twConfig from './tailwind.config.cjs'
 
-const { twFn, useTwFn, twCvaFn } = twConfig.extra.babel.codegen
+const { twFn, cvaFn, clsxFn } = twConfig.extra.babel.codegen
 
 const config: Config = {
   printWidth: 80,
@@ -21,7 +21,7 @@ const config: Config = {
   endOfLine: 'lf',
   htmlWhitespaceSensitivity: 'ignore',
   plugins: ['prettier-plugin-tailwindcss', '@prettier/plugin-xml'],
-  tailwindFunctions: [twFn, useTwFn, twCvaFn],
+  tailwindFunctions: [twFn, cvaFn, clsxFn],
   xmlQuoteAttributes: 'double',
   xmlSelfClosingSpace: true,
   xmlSortAttributesByKey: true,

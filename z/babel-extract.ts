@@ -24,7 +24,7 @@ const err = (npath: NodePath, msg: string) => {
 }
 
 const extracts = []
-if (process.env._EXTRACT_TW) {
+if (process.env.NEXT_PUBLIC_MINIFY_CLASS_NAMES) {
   extracts.push(twExtract({ err }))
 }
 

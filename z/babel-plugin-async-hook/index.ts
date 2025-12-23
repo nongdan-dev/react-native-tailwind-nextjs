@@ -1,66 +1,61 @@
 import type { NodePath, PluginObj } from '@babel/core'
 import { types as t } from '@babel/core'
-import path from 'node:path'
 
-import { srcRoot } from '#/root'
+import { isInSrcRoot } from '#/root'
 
 const hookRegex = /^use[A-Z]/
 
 export const asyncHookPlugin = (): PluginObj => ({
   visitor: {
-    // use program to prioritize this plugin over others such as react compiler
+    // use program path to prioritize this plugin over others such as react compiler
     Program: (programPath, pluginPass) => {
-      const f = pluginPass.filename
-      if (!f || path.relative(srcRoot, f).startsWith('../')) {
+      if (pluginPass && !isInSrcRoot(pluginPass.filename)) {
         return
       }
-
       programPath.traverse({
-        CallExpression: p => {
-          const callee = p.node.callee
-          if (!t.isIdentifier(callee)) {
-            return
-          }
-          if (!hookRegex.test(callee.name)) {
-            return
-          }
-
-          const parentFn = p.getFunctionParent()
-          if (
-            !parentFn ||
-            !parentFn.node.async ||
-            !(
-              parentFn.isFunctionDeclaration() ||
-              parentFn.isFunctionExpression() ||
-              parentFn.isArrowFunctionExpression() ||
-              parentFn.isObjectMethod() ||
-              parentFn.isClassMethod()
-            )
-          ) {
-            return
-          }
-
-          parentFn.traverse({
-            Function: inner => {
-              if (inner === parentFn) {
-                return
-              }
-              inner.skip()
-            },
-            AwaitExpression: inner => {
-              stripAwaitOrYield(inner)
-            },
-            YieldExpression: inner => {
-              stripAwaitOrYield(inner)
-            },
-          })
-
-          parentFn.node.async = false
-        },
+        CallExpression: traverseCallExpression,
       })
     },
   },
 })
+
+const traverseCallExpression = (p: NodePath<t.CallExpression>) => {
+  const callee = p.node.callee
+  if (!t.isIdentifier(callee)) {
+    return
+  }
+  if (!hookRegex.test(callee.name)) {
+    return
+  }
+
+  const parentFn = p.getFunctionParent()
+  if (
+    !parentFn ||
+    !parentFn.node.async ||
+    !(
+      parentFn.isFunctionDeclaration() ||
+      parentFn.isFunctionExpression() ||
+      parentFn.isArrowFunctionExpression() ||
+      parentFn.isObjectMethod() ||
+      parentFn.isClassMethod()
+    )
+  ) {
+    return
+  }
+
+  parentFn.traverse({
+    Function: inner => {
+      if (inner === parentFn) {
+        return
+      }
+      inner.skip()
+    },
+    AwaitExpression: stripAwaitOrYield,
+    YieldExpression: stripAwaitOrYield,
+  })
+
+  parentFn.node.async = false
+}
 
 const stripAwaitOrYield = (
   p: NodePath<t.YieldExpression | t.AwaitExpression>,

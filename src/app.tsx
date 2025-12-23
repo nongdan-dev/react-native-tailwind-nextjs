@@ -1,37 +1,30 @@
 // nextjs entry point
 
-import '@/polyfill/inject-global-nextjs'
+import '@/polyfill/react-native'
 
 import type { PropsWithChildren } from 'react'
 
 import '@/app.css'
 
 import { useCurrentLang } from '@/i18n'
-import { InjectGlobalNextjsClient } from '@/polyfill/inject-global-nextjs-client'
+import { ReactNativeWebPatch } from '@/polyfill/react-native.client'
 import { useDarkMode } from '@/theme'
-import { cnDark, cnLight } from '@/theme/config-web'
-import { tw } from '@/tw'
-import { cn } from '@/tw/cn'
+import { darkClassName, lightClassName } from '@/theme/config'
+import { clsx } from '@/tw/clsx'
 
 export const App = async ({ children }: PropsWithChildren) => {
   const [lang, dark] = await Promise.all([useCurrentLang(), useDarkMode()])
+  const htmlClassName = clsx(
+    // custom variant web: selector
+    'web',
+    dark === true && darkClassName,
+    dark === false && lightClassName,
+  ) as string
 
   return (
-    <html
-      lang={lang}
-      className={
-        // use tw`` here to collect and map when class names are minified
-        // the class name should match with custom variant in global.css
-        cn(tw`web`, dark === true && cnDark, dark === false && cnLight) as any
-      }
-    >
-      <InjectGlobalNextjsClient />
-      <body
-        // use tw`` here to collect and map when class names are minified
-        className={tw`flex min-h-dvh w-full flex-col` as any}
-      >
-        {children}
-      </body>
+    <html lang={lang} className={htmlClassName}>
+      <ReactNativeWebPatch />
+      <body className='flex min-h-dvh w-full flex-col'>{children}</body>
     </html>
   )
 }

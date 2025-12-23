@@ -1,30 +1,30 @@
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import type { CnValue } from '@/tw/cn'
+import type { ClassName } from '@/tw/class-name'
 
-export const useSafeAreaPadding = (): CnValue => {
+export const useSafeAreaPadding = () => {
   const insets = useSafeAreaInsets()
   return {
     paddingTop: insets.top,
     paddingRight: insets.right,
     paddingBottom: insets.bottom,
     paddingLeft: insets.left,
-  } as any
+  } as ClassName
 }
 
-export const useSafeAreaPaddingTop = (): CnValue => {
+export const useSafeAreaPaddingTop = () => {
   const insets = useSafeAreaInsets()
-  return { paddingTop: insets.top } as any
+  return { paddingTop: insets.top } as ClassName
 }
-export const useSafeAreaPaddingRight = (): CnValue => {
+export const useSafeAreaPaddingRight = () => {
   const insets = useSafeAreaInsets()
-  return { paddingRight: insets.right } as any
+  return { paddingRight: insets.right } as ClassName
 }
-export const useSafeAreaPaddingBottom = (): CnValue => {
+export const useSafeAreaPaddingBottom = () => {
   const insets = useSafeAreaInsets()
-  return { paddingBottom: insets.bottom } as any
+  return { paddingBottom: insets.bottom } as ClassName
 }
-export const useSafeAreaPaddingLeft = (): CnValue => {
+export const useSafeAreaPaddingLeft = () => {
   const insets = useSafeAreaInsets()
-  return { paddingLeft: insets.left } as any
+  return { paddingLeft: insets.left } as ClassName
 }

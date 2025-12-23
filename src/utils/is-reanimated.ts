@@ -1,14 +1,12 @@
-import { cnKey } from '@/utils/platform'
-
 // reference tw.native.ts to see the transpiled styles
 export const isReanimated = (props: any) => {
-  const styles = props[cnKey]
+  const styles = props.style
   if (!styles) {
     return false
   }
   if (Array.isArray(styles)) {
     return styles
-      .flat()
+      .flat(Infinity as 0)
       .filter(s => s)
       .some(s => isReanimatedSingle(s))
   }

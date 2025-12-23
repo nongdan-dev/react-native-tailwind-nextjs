@@ -23,17 +23,17 @@ export type DeepMerge<T> = {} & {
 export type PartialPick<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 export type PartialOmit<T, K extends keyof T> = Pick<T, K> & Partial<Omit<T, K>>
 
-export type Void<T = unknown> = T | undefined | void
-export type Nullish<T = unknown> = Void<T> | null
-export type Falsish<T = unknown> = Nullish<T> | false | 0 | ''
+export type Void<T = never> = T | undefined | void
+export type Nullish<T = never> = Void<T> | null
+export type Falsish<T = never> = Nullish<T> | false | 0 | ''
 
 export type NonVoid<T> = Exclude<T, undefined | void>
 export type NonNullish<T> = Exclude<T, null | undefined | void>
 export type NonFalsish<T> = Exclude<T, null | undefined | void | false | 0 | ''>
 
-export type VPromise<T = unknown> = Void<Promise<Void<T>>>
-export type NPromise<T = unknown> = Nullish<Promise<Nullish<T>>>
-export type FPromise<T = unknown> = Falsish<Promise<Falsish<T>>>
+export type VPromise<T = never> = Void<Promise<Void<T>>>
+export type NPromise<T = never> = Nullish<Promise<Nullish<T>>>
+export type FPromise<T = never> = Falsish<Promise<Falsish<T>>>
 
 type Split<T, K extends keyof T> = K extends unknown
   ? { [I in keyof T]: I extends K ? T[I] : never }

@@ -1,25 +1,8 @@
-import type { ColorSchemeName } from 'react-native'
+import { tw } from '@/tw/tw'
 
-export const darkModeCookieKey = 'dark-mode'
-export const darkModeCookieMaxAge = 60 * 60 * 24 * 365
-export const darkModeEnabled = '1'
-export const darkModeDisabled = '0'
+// use tw`` here to collect and map when class names are minified
+// these class names should match with custom variant in global.css
+export const darkClassName = tw`dark` as string
+export const lightClassName = tw`light` as string
 
-export const darkModeToBolean = (v?: string | null) => {
-  if (v === darkModeEnabled || v === darkModeDisabled) {
-    return v === darkModeEnabled
-  }
-  return
-}
-
-export type DarkMode = {
-  dark: boolean
-  system: boolean
-}
-export const darkModeCompose = (
-  user: boolean | undefined,
-  os: ColorSchemeName,
-): DarkMode => ({
-  dark: user !== undefined ? user : os === 'dark',
-  system: user === undefined,
-})
+export * from './config-shared'

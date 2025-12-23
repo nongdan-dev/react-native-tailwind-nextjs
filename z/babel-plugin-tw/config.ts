@@ -8,7 +8,7 @@ export const {
   extra: {
     twrnc,
     babel: {
-      codegen: { twFn, useTwFn, twCvaFn },
+      codegen: { twFn, cvaFn, clsxFn },
     },
     babel: twBabel,
   },

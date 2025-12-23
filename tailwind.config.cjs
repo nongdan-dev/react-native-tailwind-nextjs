@@ -33,8 +33,8 @@ const babel = {
   },
   codegen: {
     twFn: 'tw',
-    useTwFn: 'useTw',
-    twCvaFn: 'twCva',
+    cvaFn: 'cva',
+    clsxFn: 'clsx',
     output: 'src/codegen/class-names.min.json',
   },
 }

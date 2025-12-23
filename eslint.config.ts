@@ -182,10 +182,6 @@ const nonFix: ConfigWithExtends = {
       },
     ],
 
-    'custom/no-access-property': [
-      warn,
-      { className: 'cnFromProps', style: 'cnFromProps' },
-    ],
     'custom/no-error-variable': warn,
     'custom/no-import-default': [warn, ['react']],
     'custom/no-json-stringify': warn,

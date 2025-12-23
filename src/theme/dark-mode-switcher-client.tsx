@@ -3,8 +3,6 @@
 import { Text } from '@/components/base/text'
 import { View } from '@/components/base/view'
 import { useDarkMode, useSetDarkMode } from '@/theme/client'
-import { tw } from '@/tw'
-import { cn } from '@/tw/cn'
 
 type Props = {
   options: {
@@ -19,7 +17,7 @@ export const DarkModeSwitcherClient = ({ options }: Props) => {
 
   return (
     <View
-      className={tw`m-2 flex-row items-center gap-2 rounded-full bg-gray-200 p-1`}
+      className={'m-2 flex-row items-center gap-2 rounded-full bg-gray-200 p-1'}
     >
       {options.map(v => {
         const active =
@@ -29,10 +27,10 @@ export const DarkModeSwitcherClient = ({ options }: Props) => {
         return (
           <Text
             key={`${v.value}`}
-            className={cn(
-              tw`rounded-full px-3 py-1 font-medium`,
-              active ? tw`bg-white text-gray-900 shadow-sm` : tw`text-gray-600`,
-            )}
+            className={[
+              'rounded-full px-3 py-1 font-medium',
+              active ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600',
+            ]}
             onPress={() => setDarkMode(v.value)}
           >
             {v.name}

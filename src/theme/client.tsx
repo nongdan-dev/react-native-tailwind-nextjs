@@ -5,17 +5,15 @@ import { useColorScheme } from 'react-native'
 
 import type { DarkMode } from '@/theme/config'
 import {
+  darkClassName,
   darkModeCompose,
   darkModeCookieKey,
   darkModeCookieMaxAge,
   darkModeDisabled,
   darkModeEnabled,
   darkModeToBolean,
+  lightClassName,
 } from '@/theme/config'
-import { cnDark, cnLight } from '@/theme/config-web'
-
-const dark = cnDark as any as string
-const light = cnLight as any as string
 
 let initialUserScheme = darkModeToBolean(BrowserCookies.get(darkModeCookieKey))
 const emitter = new EventEmitter()
@@ -40,15 +38,15 @@ export const useDarkMode = () => {
 
 export const useSetDarkMode = () => (v?: boolean) => {
   const list = document.documentElement.classList
-  list.remove(dark)
-  list.remove(light)
+  list.remove(darkClassName)
+  list.remove(lightClassName)
   if (v === true) {
-    list.add(dark)
+    list.add(darkClassName)
     BrowserCookies.set(darkModeCookieKey, darkModeEnabled, {
       expires: darkModeCookieMaxAge,
     })
   } else if (v === false) {
-    list.add(light)
+    list.add(lightClassName)
     BrowserCookies.set(darkModeCookieKey, darkModeDisabled, {
       expires: darkModeCookieMaxAge,
     })

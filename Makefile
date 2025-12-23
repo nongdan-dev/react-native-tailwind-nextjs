@@ -22,11 +22,11 @@ clean_deep_rm:
 	rm -rf node_modules ios/build ios/Pods ~/Library/Developer/Xcode/DerivedData/* android/.gradle android/build ~/.gradle/caches ~/.gradle/daemon $$TMPDIR/react-native* $$TMPDIR/metro* $$TMPDIR/haste-map*;
 
 extract:
-	export _EXTRACT_TW=1 \
+	export NEXT_PUBLIC_MINIFY_CLASS_NAMES=1 \
 	&& node -r ./z/register ./z/babel-extract;
 
 tw:
-	export _EXTRACT_TW=1 \
+	export NEXT_PUBLIC_MINIFY_CLASS_NAMES=1 \
 	&& node -r ./z/register ./z/babel-extract;
 
 fmt:
