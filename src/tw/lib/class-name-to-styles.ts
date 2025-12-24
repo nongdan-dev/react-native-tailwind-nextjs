@@ -4,7 +4,7 @@ import { create } from 'twrnc'
 import type {
   ClassName,
   ClassNameSelector,
-  SelectorState,
+  ClassNameState,
   Style,
 } from '@/tw/class-name'
 import { twUnminify } from '@/tw/lib/class-name-minified'
@@ -16,7 +16,7 @@ const twrnc = create(twConfig.extra.twrnc).style
 
 export type ClassNameToStylesOptions = {
   className: ClassName
-  selectorState?: SelectorState
+  classNameState?: ClassNameState
   onSelector?: (selector: ClassNameSelector) => void
   warnOnString?: boolean
 }
@@ -41,7 +41,7 @@ type ClassNameToStylesRecursiveOptions = ClassNameToStylesOptions & {
 const classNameToStylesRecursive = ({
   ...options
 }: ClassNameToStylesRecursiveOptions) => {
-  const { className, selectorState, onSelector, warnOnString, level, styles } =
+  const { className, classNameState, onSelector, warnOnString, level, styles } =
     options
   if (!className) {
     return
@@ -71,7 +71,7 @@ const classNameToStylesRecursive = ({
   if ('selector' in className) {
     const { selector, style } = className
     if (selector !== true) {
-      if (!selectorState?.[selector]) {
+      if (!classNameState?.[selector]) {
         return
       }
       onSelector?.(selector)

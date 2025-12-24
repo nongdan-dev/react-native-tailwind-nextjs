@@ -6,6 +6,8 @@
   "scripts": {
     "start": "cross-env _NEXT=1 next dev",
     "build": "cross-env _NEXT=1 next build",
+    "start_minify_class_names": "cross-env NEXT_PUBLIC_MINIFY_CLASS_NAMES=1 next dev",
+    "build_minify_class_names": "cross-env NEXT_PUBLIC_MINIFY_CLASS_NAMES=1 next build",
     "rn": "react-native start",
     "android": "react-native run-android",
     "postinstall": "patch-package",

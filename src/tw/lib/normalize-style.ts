@@ -13,7 +13,12 @@ type Style = {
   animationName?: string
 }
 
-export const normalizeStyle: FnAny = (style: Style) => {
+// style should be flatten already in create class name component
+export const normalizeStyle: FnAny = (style?: Style) => {
+  if (!style) {
+    return
+  }
+
   if (typeof style.transitionProperty === 'string') {
     const p = style.transitionProperty as
       | TransitionPropertyTw

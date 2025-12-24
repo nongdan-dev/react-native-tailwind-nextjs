@@ -5,8 +5,10 @@ export const composeProviders = (
 ): ComponentType<PropsWithChildren> =>
   arr.length === 1
     ? arr[0]
-    : props =>
+    : ({ children }) =>
         arr.reduceRight(
-          (children, Provider) => <Provider>{children}</Provider>,
-          props.children,
+          (accumulatedChildren, Provider) => (
+            <Provider>{accumulatedChildren}</Provider>
+          ),
+          children,
         )

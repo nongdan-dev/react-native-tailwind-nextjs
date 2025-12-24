@@ -10,8 +10,8 @@ import twConfig from '../../../tailwind.config.cjs'
 
 export type ClassNameToNativeOptions = {
   platform: Platform['OS']
-  className: string
   twrnc: Function
+  className: string
   onUnknown?: (className: string) => void
 }
 
@@ -27,7 +27,7 @@ export const classNameToNative = (
     ...options,
     onUnknown: options.onUnknown || throwOnUnknown,
   }
-  const { className, twrnc, onUnknown } = required
+  const { twrnc, className, onUnknown } = required
 
   if (!className) {
     return
@@ -75,6 +75,22 @@ export const stripSelector = (className: string, selector: string) => {
   return striped
 }
 
+export const omitEmptyObject = <T extends object>(v?: T) => {
+  if (!v) {
+    return
+  }
+  let empty = true
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  for (const k in v) {
+    empty = false
+    break
+  }
+  if (empty) {
+    return
+  }
+  return v
+}
+
 const omitEmptyClassName = (native: ClassNameNative): ClassNameNative => {
   if (!native) {
     return
@@ -85,6 +101,23 @@ const omitEmptyClassName = (native: ClassNameNative): ClassNameNative => {
       .flat(Infinity as 0)
       .map(omitEmptyClassName)
       .filter(v => v)
+    if (native.length <= 1) {
+      return native[0]
+    }
+    const styles: any[] = []
+    const arr = native
+    native = []
+    for (const v of arr) {
+      if (v && typeof v === 'object' && !('selector' in v)) {
+        styles.push(v)
+      } else {
+        native.push(v)
+      }
+    }
+    if (styles.length) {
+      const flatten = Object.assign({}, ...styles)
+      native.unshift(flatten)
+    }
     if (native.length <= 1) {
       return native[0]
     }
@@ -102,11 +135,7 @@ const omitEmptyClassName = (native: ClassNameNative): ClassNameNative => {
     }
   }
 
-  if (!Object.keys(native).length) {
-    return
-  }
-
-  return native
+  return omitEmptyObject(native)
 }
 
 type ExtraTwrncOptions = Required<ClassNameToNativeOptions>
@@ -182,6 +211,41 @@ extraTwrnc.push(options => {
     return {
       selector,
       style,
+    }
+  }
+  return
+})
+
+// grid
+// grid-cols-<number>
+// grid-cols-none
+extraTwrnc.push(options => {
+  const { className, onUnknown } = options
+  const grid = 'grid'
+  if (className === grid) {
+    return {
+      grid: true,
+    }
+  }
+  // can add ty rows in the future
+  for (const ty of ['cols']) {
+    const prefix = `${grid}-${ty}-`
+    if (!className.startsWith(prefix)) {
+      continue
+    }
+    const striped = className.replace(prefix, '')
+    const k = camelCase(prefix)
+    if (striped === 'none') {
+      return {
+        [k]: undefined,
+      }
+    }
+    const n = Number(striped)
+    if (Number.isNaN(n)) {
+      return onUnknown(className)
+    }
+    return {
+      [k]: n,
     }
   }
   return
@@ -363,7 +427,7 @@ extraTwrnc.push(options => {
 
 // placeholder-<color>
 extraTwrnc.push(options => {
-  const { className, twrnc, onUnknown } = options
+  const { twrnc, className, onUnknown } = options
   const prefix = 'placeholder-'
   if (!className.startsWith(prefix)) {
     return

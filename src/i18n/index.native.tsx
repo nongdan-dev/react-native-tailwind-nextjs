@@ -35,7 +35,7 @@ export const useI18nSwitcherProps = (): I18nSwitcherProps => {
   const currentLang = useCurrentLang()
   return {
     currentLang,
-    nativeOnPress,
+    onPress: nativeOnPress,
   }
 }
 const nativeOnPress = async (v: Lang) => {

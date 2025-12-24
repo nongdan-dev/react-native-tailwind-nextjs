@@ -1,3 +1,5 @@
+import { omitEmptyObject } from '#/babel-plugin-tw/lib/class-name-to-native'
+
 export const safeIncludes = (className: string, k: string) =>
   className === k ||
   className.startsWith(`${k} `) ||
@@ -11,5 +13,5 @@ export const omitEmpty = <T extends object | object[]>(v: T) => {
   if (Array.isArray(v)) {
     return v.length > 0 ? v : undefined
   }
-  return Object.keys(v).length > 0 ? v : undefined
+  return omitEmptyObject(v)
 }

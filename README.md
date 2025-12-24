@@ -131,7 +131,6 @@ const MyComponent = () => <View className={classNameStringFromSomeWhere} />
   - `Attribute` is similar to a react property. We name it attribute differentiate with other react properties such as event handlers.. An attribute defines a specific characteristic of that component. For example: color, size, shape..
   - `Attribute value` is a value of an attribute. For example with color: red, green, blue..
   - `Variant` is a combination of all attributes with their coresponding values. For example with 2 attributes color and size: color=red size=xs, color=green size=lg.. So if color has 3 values and size has 4 values, the total number of variants is 3x4=12.
-  - `Children` is to compose multiple class names for other elements in the same component without calling tw again. All features should be supported in children.
 
 - Support platform selector: `web:`, `ios:`, `android:`, `native:`. It will be striped out at build time if the platform doesnt match.
   - On web we need to define a custom variant in global css to take precedence.
@@ -176,21 +175,26 @@ const MyComponent = () => <View className={classNameStringFromSomeWhere} />
     - Add new animation to `tailwind.theme.extend` in tailwind.config.cjs
     - Add name to `babel.animation.custom` in tailwind.config.cjs
     - Add new animation to `animationMap` in normalize-style.ts
+- Support basic grid columns:
+  - `grid`
+  - `grid-cols-<number>`
+  - `grid-cols-none`
+  - Only available within View.
 - Support clamping text:
   - `line-clamp-<number>`
   - `line-clamp-none`
-  - Will be transformed to `numberOfLines` and passed through props
+  - Will be transpiled to `numberOfLines` and passed through props.
 - Support placeholder text color:
   - `placeholder-<color>`
-  - Will be transformed to `placeholderTextColor` and passed through props
-  - Under the hood it will get `text-<color>` style using twrnc and map the color to the prop
+  - Will be transpiled to `placeholderTextColor` and passed through props.
+  - Under the hood it will get `text-<color>` style using twrnc and map the color to the prop.
 - Support object fit:
   - `object-contain`
   - `object-cover`
   - `object-fill`
   - `object-none`
   - `object-scale-down`
-  - Will be transformed to `resizeMode` and used in tw/components/image.native.tsx
+  - Will be transpiled to `resizeMode` and used in tw/components/image.native.tsx
 - Unsupported class names will be catched during the transpile process.
 - Class names on web can be minified using [postcss-rename](https://github.com/google/postcss-rename) since the babel plugin has captured all usage references.
 

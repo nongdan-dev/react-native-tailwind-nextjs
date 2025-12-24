@@ -1,6 +1,7 @@
+// style should be flatten already in create class name component
 export const styleToProps = (props: any, styleProps: string[]) => {
   let style = props.style
-  if (!style || typeof style !== 'object') {
+  if (!style) {
     return props
   }
   if (!styleProps.some(k => k in style)) {

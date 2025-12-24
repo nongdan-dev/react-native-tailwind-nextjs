@@ -7,8 +7,8 @@ import type { CSSTransitionProperties } from 'react-native-reanimated'
 import Animated from 'react-native-reanimated'
 
 import type { InputPropsWocn } from '@/components/base-without-class-name/input'
+import { isReanimated } from '@/tw/lib/is-reanimated'
 import { styleToProps } from '@/tw/lib/style-to-props'
-import { isReanimated } from '@/utils/is-reanimated'
 import type { StrMap } from '@/utils/ts'
 
 const styleProps = ['placeholderTextColor']

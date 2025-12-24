@@ -2,9 +2,7 @@ import type { PickByValue, PickByValueExact } from 'utility-types'
 
 export * from 'utility-types'
 
-export type StrMap<T = any> = {
-  [k: string]: T
-}
+export type StrMap<T = any> = Record<string, T>
 export type FnAny<T = any> = (...args: any[]) => T
 export type OrArr<T> = T | T[]
 
@@ -78,6 +76,5 @@ export type PartialDefaultProps<
 > = OmitUndefined<ND> & Partial<PickUndefined<ND>> & Partial<D>
 
 // https://stackoverflow.com/a/57117594/9214970
-export type NoExtra<T, U extends Partial<T> = T> = U & {
-  [K in Exclude<keyof U, keyof T>]: never
-}
+export type NoExtra<T, U extends Partial<T> = T> = U &
+  Record<Exclude<keyof U, keyof T>, never>

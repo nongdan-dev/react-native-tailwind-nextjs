@@ -18,8 +18,8 @@ const twMergeMinified = (v: string) => {
 
 const twMapMinified = j as StrMap<string>
 const minifiedMapTw: StrMap<string> = {}
-for (const k in twMapMinified) {
-  minifiedMapTw[k] = twMapMinified[k]
+for (const [k, v] of Object.entries(twMapMinified)) {
+  minifiedMapTw[v] = k
 }
 
 const unminify = (v: string) =>

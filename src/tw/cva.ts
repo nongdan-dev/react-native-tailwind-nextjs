@@ -49,7 +49,7 @@ export const cva: Cva =
 
     let variantWithDefault: typeof defaultVariant = undefined
     if (defaultVariant) {
-      variantWithDefault = Object.assign({}, defaultVariant)
+      variantWithDefault = { ...defaultVariant }
     }
     if (variant) {
       if (!variantWithDefault) {

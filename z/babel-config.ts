@@ -38,4 +38,7 @@ const next = () => ({
   ],
 })
 
-export const config = process.env._NEXT ? next() : rn()
+export const config =
+  process.env._NEXT || process.env.NEXT_PUBLIC_MINIFY_CLASS_NAMES
+    ? next()
+    : rn()

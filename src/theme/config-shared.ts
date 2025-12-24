@@ -18,7 +18,7 @@ export type DarkMode = {
 }
 export const darkModeCompose = (
   user: boolean | undefined,
-  os: ColorSchemeName,
+  os: ColorSchemeName | null | undefined,
 ): DarkMode => ({
   dark: user !== undefined ? user : os === 'dark',
   system: user === undefined,

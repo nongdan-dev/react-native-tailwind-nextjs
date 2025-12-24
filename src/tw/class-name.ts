@@ -15,7 +15,14 @@ export type Style = TextStyle &
   ViewStyle &
   ImageStyle &
   CSSTransitionProperties<any> &
-  CSSAnimationProperties<any>
+  CSSAnimationProperties<any> &
+  GridStyle
+
+export type GridStyle = {
+  grid?: true
+  gridCols?: number
+  gap?: number
+}
 
 export type ClassNameNativeWithSelector = {
   selector: ClassNameSelector | true
@@ -30,33 +37,35 @@ export type ClassNameNative = ClassNameNativeSingle | ClassNameNative[]
 export type ClassNameSingle = ClassNameWebSingle | ClassNameNativeSingle
 export type ClassName = ClassNameSingle | ClassName[]
 
-export type ClassNameGlobalSelector =
-  // responsive
+export type ClassNameResponsiveSelector =
   | 'xs'
   | 'sm'
   | 'md'
   | 'lg'
   | 'xl'
   | '2xl'
-  // dark
-  | 'dark'
-  | 'light'
+export type ClassNameDarkModeSelector = 'dark' | 'light'
 export type ClassNameHandlerSelector = 'active' | 'focus'
 export type ClassNamePropsSelector = 'disabled' | 'checked'
 export type ClassNameSelector =
-  | ClassNameGlobalSelector
+  | ClassNameResponsiveSelector
+  | ClassNameDarkModeSelector
   | ClassNameHandlerSelector
   | ClassNamePropsSelector
 
-export type SelectorGlobalState = {
-  [k in ClassNameGlobalSelector]?: boolean
+export type ClassNameResponsiveState = {
+  [k in ClassNameResponsiveSelector]?: boolean
 }
-export type SelectorHandlerState = {
+export type ClassNameDarkModeState = {
+  [k in ClassNameDarkModeSelector]?: boolean
+}
+export type ClassNameHandlerState = {
   [k in ClassNameHandlerSelector]?: boolean
 }
-export type SelectorPropsState = {
+export type ClassNamePropsState = {
   [k in ClassNamePropsSelector]?: boolean
 }
-export type SelectorState = SelectorGlobalState &
-  SelectorHandlerState &
-  SelectorPropsState
+export type ClassNameState = ClassNameResponsiveState &
+  ClassNameDarkModeState &
+  ClassNameHandlerState &
+  ClassNamePropsState

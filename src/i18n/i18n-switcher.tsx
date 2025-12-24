@@ -6,7 +6,11 @@ import { useI18nSwitcherProps } from '@/i18n'
 import { getLangName, langs } from '@/i18n/config'
 
 export const I18nSwitcher = async () => {
-  const { currentLang, nativeOnPress, webLink } = await useI18nSwitcherProps()
+  const {
+    currentLang,
+    onPress: nativeOnPress,
+    renderLink: webLink,
+  } = await useI18nSwitcherProps()
   return (
     <View className='m-2 flex-row items-center gap-2 rounded-full bg-gray-200 p-1'>
       {langs.map(l => {

@@ -1,39 +1,44 @@
-import type { SelectorState, Style } from '@/tw/class-name'
+import { getResponsiveState } from '@/responsive/index.native'
+import { getDarkModeState } from '@/theme/client.native'
+import type { ClassNameState, Style } from '@/tw/class-name'
+import { omitEmptyObject } from '@/tw/lib/class-name-to-native'
 import type { ClassNameToStylesOptions } from '@/tw/lib/class-name-to-styles'
 import { classNameToStyles } from '@/tw/lib/class-name-to-styles'
 import { normalizeStyle } from '@/tw/lib/normalize-style'
 
 export type RuntimeStyleOptions = Omit<
   ClassNameToStylesOptions,
-  'className' | 'selectorState'
+  'className' | 'classNameState'
 > & {
-  selectorState?: SelectorState | (() => SelectorState)
+  classNameState?: ClassNameState | (() => ClassNameState)
+  style?: Style
 }
 export const runtimeStyle = (
   className: string,
-  { selectorState, ...options }: RuntimeStyleOptions = {},
+  { classNameState, style, ...options }: RuntimeStyleOptions = {},
 ): Style | undefined => {
   if (!className) {
     return
   }
 
-  if (typeof selectorState === 'function') {
-    selectorState = selectorState()
+  if (typeof classNameState === 'function') {
+    classNameState = classNameState()
   } else {
-    selectorState = {
-      // TODO: get selector state
-      ...selectorState,
+    classNameState = {
+      ...getResponsiveState(),
+      ...getDarkModeState(),
+      ...classNameState,
     }
   }
 
   const styles = classNameToStyles({
     className,
-    selectorState,
+    classNameState,
     ...options,
   })
 
-  const style = Object.assign({}, ...styles)
-  normalizeStyle(style)
+  const flatten = Object.assign({}, ...styles, style)
+  normalizeStyle(flatten)
 
-  return style
+  return omitEmptyObject(flatten)
 }

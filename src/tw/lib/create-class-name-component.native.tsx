@@ -1,13 +1,11 @@
-import { createElement } from 'react'
 import { useImmer } from 'use-immer'
 
-import { responsiveBreakpoints, useResponsive } from '@/responsive/index.native'
-import { useDarkMode } from '@/theme/client.native'
+import { useResponsiveState } from '@/responsive/index.native'
+import { useDarkModeState } from '@/theme/client.native'
 import type {
+  ClassNameHandlerState,
   ClassNameSelector,
-  SelectorGlobalState,
-  SelectorHandlerState,
-  SelectorState,
+  ClassNameState,
 } from '@/tw/class-name'
 import type { RuntimeStyleOptions } from '@/tw/runtime-style'
 import { runtimeStyle } from '@/tw/runtime-style'
@@ -15,36 +13,32 @@ import { runtimeStyle } from '@/tw/runtime-style'
 export const createClassNameComponent =
   (Component: any, extraClassNameProps?: string[]) =>
   ({ className, style, ...props }: any) => {
-    const globalState: SelectorGlobalState = {}
+    const responsiveState = useResponsiveState()
+    const darkModeState = useDarkModeState()
 
-    const size = useResponsive()
-    for (const k of responsiveBreakpoints) {
-      globalState[`${k}`] = k === size
-    }
+    const [handlerState, setHandlerState] = useImmer<ClassNameHandlerState>({})
 
-    const dark = useDarkMode()
-    globalState.dark = dark?.dark
-    globalState.light = !globalState.dark
-
-    const [handlerState, setHandlerState] = useImmer<SelectorHandlerState>({})
-
-    const selectorState = {
+    const classNameState = {
       ...props,
-      ...globalState,
+      ...responsiveState,
+      ...darkModeState,
       ...handlerState,
     }
 
-    const metadata: SelectorState = {}
+    const metadata: ClassNameState = {}
     const onSelector = (selector: ClassNameSelector) => {
       metadata[selector] = true
     }
     const options: RuntimeStyleOptions = {
-      selectorState: () => selectorState,
+      classNameState: () => classNameState,
       onSelector,
       warnOnString: true,
     }
 
-    props.style = [runtimeStyle(className, options), style]
+    props.style = runtimeStyle(className, {
+      ...options,
+      style,
+    })
     extraClassNameProps?.forEach(k => {
       if (process.env.NODE_ENV !== 'production') {
         if (!k.endsWith('ClassName')) {
@@ -54,7 +48,10 @@ export const createClassNameComponent =
         }
       }
       const sk = k.replace(/ClassName$/, 'Style')
-      props[sk] = [runtimeStyle(props[k], options), props[sk]]
+      props[sk] = runtimeStyle(props[k], {
+        ...options,
+        style: props[sk],
+      })
     })
 
     if (metadata.active) {
@@ -78,5 +75,5 @@ export const createClassNameComponent =
         })
     }
 
-    return createElement(Component, props)
+    return <Component {...props} />
   }

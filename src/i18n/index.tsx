@@ -37,29 +37,29 @@ export const useTranslation = cache(
 
 export type I18nSwitcherProps = {
   currentLang: Lang
-  webLink?: (lang: Lang, children: ReactNode) => ReactNode
-  nativeOnPress?: (lang: Lang) => Promise<void>
+  renderLink?: (lang: Lang, children: ReactNode) => ReactNode
+  onPress?: (lang: Lang) => Promise<void>
 }
 export const useI18nSwitcherProps = cache(
   async (): Promise<I18nSwitcherProps> => {
     const currentLang = await useCurrentLang()
     return {
       currentLang,
-      webLink,
+      renderLink,
     }
   },
 )
 
-const webLink = (lang: Lang, children: ReactNode) => (
-  <WebLink key={lang} lang={lang}>
+const renderLink = (lang: Lang, children: ReactNode) => (
+  <I18nSwitcherLink key={lang} lang={lang}>
     {children}
-  </WebLink>
+  </I18nSwitcherLink>
 )
 
-type WebLinkProps = PropsWithChildren<{
+type I18nSwitcherLinkProps = PropsWithChildren<{
   lang: Lang
 }>
-const WebLink = async ({ children, lang }: WebLinkProps) => {
+const I18nSwitcherLink = async ({ children, lang }: I18nSwitcherLinkProps) => {
   const [route, currentLocale] = await Promise.all([
     useRoute(),
     useCurrentLocale(),
@@ -80,8 +80,8 @@ const WebLink = async ({ children, lang }: WebLinkProps) => {
       className='flex'
       pathname={pathname as any}
       query={query}
-      noPrependCurrentLocale
-      webNoScroll
+      prependCurrentLocale={false}
+      scroll={false}
     >
       {children}
     </LinkUntyped>

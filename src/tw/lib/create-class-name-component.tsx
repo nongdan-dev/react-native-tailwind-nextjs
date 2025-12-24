@@ -1,5 +1,3 @@
-import { createElement } from 'react'
-
 import { clsx } from '@/tw/clsx'
 
 export const createClassNameComponent =
@@ -9,5 +7,5 @@ export const createClassNameComponent =
     extraClassNameProps?.forEach(k => {
       props[k] = clsx(props[k])
     })
-    return createElement(Component, props)
+    return <Component {...props} />
   }

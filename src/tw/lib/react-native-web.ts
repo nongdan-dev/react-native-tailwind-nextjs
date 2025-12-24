@@ -87,7 +87,7 @@ const map: StrMap<Function> = {
 }
 
 // sort to preserve order
-const all: StrMap<number> = {
+const order: StrMap<number> = {
   Text: 0,
   View: 0,
   Pressable: 1,
@@ -97,7 +97,7 @@ const all: StrMap<number> = {
 }
 export const rnwClassName = (d: any, o: Common) => {
   const arr = Object.keys(d)
-    .sort((a, b) => all[a] - all[b])
+    .sort((a, b) => order[a] - order[b])
     .map(k => map[k](d[k]))
   return clsx(
     arr,

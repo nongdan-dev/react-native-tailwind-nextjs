@@ -53,9 +53,6 @@ export const pathToCvaOptions = (
       if (k === 'classNames') {
         return pathToObjectString(ctx, innerPath, kPath)
       }
-      if (k === 'children') {
-        return pathToObjectString(ctx, innerPath, kPath)
-      }
       if (k === 'attributes') {
         return pathToObject<any>(
           ctx,
