@@ -20,9 +20,11 @@ export type Style = TextStyle &
 
 export type GridStyle = {
   grid?: true
-  gridCols?: number
+  gridCols?: number | GridTrack[]
   gap?: number
 }
+// handle custom value like [..px_..fr]
+export type GridTrack = { px: number } | { fr: number }
 
 export type ClassNameNativeWithSelector = {
   selector: ClassNameSelector | true
@@ -52,6 +54,8 @@ export type ClassNameSelector =
   | ClassNameDarkModeSelector
   | ClassNameHandlerSelector
   | ClassNamePropsSelector
+
+export type ClassNameMarker = 'group' | 'peer'
 
 export type ClassNameResponsiveState = {
   [k in ClassNameResponsiveSelector]?: boolean

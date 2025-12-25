@@ -9,7 +9,7 @@ import { cva } from '@/tw/cva'
 const button = cva({
   classNames: {
     button:
-      'flex cursor-pointer items-center justify-center gap-2 border border-transparent transition select-none',
+      'group flex cursor-pointer items-center justify-center gap-2 border border-transparent transition select-none',
     text: 'font-medium',
   },
   attributes: {
@@ -55,7 +55,7 @@ const button = cva({
   },
   defaultVariant: {
     type: 'default',
-    appearance: 'solid',
+    appearance: 'outline',
     size: 'md',
     shape: 'rounded',
   },
@@ -65,7 +65,7 @@ const button = cva({
       appearance: 'solid',
       classNames: {
         button:
-          'border-gray-100 bg-gray-100 hover:border-gray-200 hover:bg-gray-200',
+          'border-gray-100 bg-gray-100 active:border-gray-200 active:bg-gray-200',
         text: 'text-gray-800',
       },
     },
@@ -74,7 +74,7 @@ const button = cva({
       appearance: 'solid',
       classNames: {
         button:
-          'border-blue-600 bg-blue-600 hover:border-blue-500 hover:bg-blue-500',
+          'border-blue-600 bg-blue-600 active:border-blue-500 active:bg-blue-500',
         text: 'text-white',
       },
     },
@@ -83,7 +83,7 @@ const button = cva({
       appearance: 'solid',
       classNames: {
         button:
-          'border-red-600 bg-red-600 hover:border-red-500 hover:bg-red-500',
+          'border-red-600 bg-red-600 active:border-red-500 active:bg-red-500',
         text: 'text-white',
       },
     },
@@ -91,16 +91,16 @@ const button = cva({
       type: 'primary',
       appearance: 'outline',
       classNames: {
-        button: 'border-blue-500 hover:bg-blue-500',
-        text: 'text-blue-500 group-hover:text-white',
+        button: 'border-blue-500 active:bg-blue-500',
+        text: 'text-blue-500 group-active:text-white',
       },
     },
     {
       type: 'danger',
       appearance: 'outline',
       classNames: {
-        button: 'border-red-500 hover:bg-red-500',
-        text: 'text-red-500 group-hover:text-white',
+        button: 'border-red-500 active:bg-red-500',
+        text: 'text-red-500 group-active:text-white',
       },
     },
   ],

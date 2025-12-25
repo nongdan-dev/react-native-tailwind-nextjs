@@ -25,7 +25,7 @@ export type Locale = (typeof locales)[number]
 export const defaultLocale = locales[0]
 
 export const getLang = <T extends Locale>(locale: T) =>
-  locale.substring(0, 2) as InferLang<T>
+  locale.slice(0, 2) as InferLang<T>
 
 type InferLang<T extends Locale> = T extends `${infer L}-${string}` ? L : T
 export type Lang = InferLang<Locale>

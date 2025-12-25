@@ -54,7 +54,7 @@ const map: StrMap<Function> = {
       d.numberOfLines &&
         d.numberOfLines > 1 &&
         'max-w-full overflow-clip text-ellipsis',
-      d.selectable ? 'select-text' : 'select-none',
+      d.selectable === false ? 'select-none' : 'select-text',
       d.pressable && 'cursor-pointer',
     ),
   View: (d: View) =>

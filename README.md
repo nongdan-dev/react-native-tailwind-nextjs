@@ -142,9 +142,9 @@ const MyComponent = () => <View className={classNameStringFromSomeWhere} />
   - Any component with onFocus onBlur such as TextInput will support `focus:`.
 - Support props selector: `disabled:`, `checked:`.
   - Need to pass those fields to hook options: props, childrenProps.
-- Support group selector: `group-active:`, `group-focus:`, `group-disabled:`, `group-checked:`.
-- Support peer selector: `peer-active:`, `peer-focus:`, `peer-disabled:`, `peer-checked:`.
-- Support nested selector: `dark:active:text-white`. Nested selector with deeper level will take precedence.
+- Support group selector: `group-<selector>:`, `group-<marker>-<selector>:`.
+- Support peer selector: `peer-<selector>:`, `peer-<marker>-<selector>:`.
+- Support nested selector: `<selector1>:<selector2>:..:<class-name>`. Nested selector with deeper level will take precedence.
 - Support transition using Reanimated:
   - `transition`
   - `transition-all`
@@ -177,8 +177,9 @@ const MyComponent = () => <View className={classNameStringFromSomeWhere} />
     - Add new animation to `animationMap` in normalize-style.ts
 - Support basic grid columns:
   - `grid`
-  - `grid-cols-<number>`
   - `grid-cols-none`
+  - `grid-cols-<number>`
+  - `grid-cols[..px_..fr]`
   - Only available within View.
 - Support clamping text:
   - `line-clamp-<number>`

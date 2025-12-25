@@ -19,7 +19,7 @@ export const useRoute = cache(async () => {
     pathname = pathname.replace(prefix, '')
   }
   let query = undefined
-  const search = url.search.substring(1)
+  const search = url.search.slice(0, 1)
   if (search) {
     query = qsParse(search)
   }

@@ -3,7 +3,7 @@ import { create } from 'twrnc'
 
 import type {
   ClassName,
-  ClassNameSelector,
+  ClassNameNativeWithSelector,
   ClassNameState,
   Style,
 } from '@/tw/class-name'
@@ -17,7 +17,7 @@ const twrnc = create(twConfig.extra.twrnc).style
 export type ClassNameToStylesOptions = {
   className: ClassName
   classNameState?: ClassNameState
-  onSelector?: (selector: ClassNameSelector) => void
+  onSelector?: (className: ClassNameNativeWithSelector) => void
   warnOnString?: boolean
 }
 
@@ -69,12 +69,12 @@ const classNameToStylesRecursive = ({
     return
   }
   if ('selector' in className) {
+    onSelector?.(className)
     const { selector, style } = className
     if (selector !== true) {
       if (!classNameState?.[selector]) {
         return
       }
-      onSelector?.(selector)
     }
     options.level += 1
     options.className = style

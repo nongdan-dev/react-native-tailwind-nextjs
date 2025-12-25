@@ -5,7 +5,11 @@
 import { camelCase } from 'lodash'
 import type { Platform } from 'react-native'
 
-import type { ClassNameNative, ClassNameSelector } from '@/tw/class-name'
+import type {
+  ClassNameMarker,
+  ClassNameNative,
+  ClassNameSelector,
+} from '@/tw/class-name'
 
 import twConfig from '../../../tailwind.config.cjs'
 
@@ -13,7 +17,7 @@ export type ClassNameToNativeOptions = {
   platform: Platform['OS']
   twrnc: Function
   className: string
-  onUnknown?: (className: string) => void
+  onUnknown?: (className: string) => never
 }
 
 const throwOnUnknown = (className: string) => {
@@ -92,51 +96,51 @@ export const omitEmptyObject = <T extends object>(v?: T) => {
   return v
 }
 
-const omitEmptyClassName = (native: ClassNameNative): ClassNameNative => {
-  if (!native) {
+const omitEmptyClassName = (className: ClassNameNative): ClassNameNative => {
+  if (!className) {
     return
   }
 
-  if (Array.isArray(native)) {
-    native = native
+  if (Array.isArray(className)) {
+    className = className
       .flat(Infinity as 0)
       .map(omitEmptyClassName)
       .filter(v => v)
-    if (native.length <= 1) {
-      return native[0]
+    if (className.length <= 1) {
+      return className[0]
     }
     const styles: any[] = []
-    const arr = native
-    native = []
+    const arr = className
+    className = []
     for (const v of arr) {
       if (v && typeof v === 'object' && !('selector' in v)) {
         styles.push(v)
       } else {
-        native.push(v)
+        className.push(v)
       }
     }
     if (styles.length) {
       const flatten = Object.assign({}, ...styles)
-      native.unshift(flatten)
+      className.unshift(flatten)
     }
-    if (native.length <= 1) {
-      return native[0]
+    if (className.length <= 1) {
+      return className[0]
     }
-    return native
+    return className
   }
 
-  if ('selector' in native) {
-    const style = omitEmptyClassName(native.style)
+  if ('selector' in className) {
+    const style = omitEmptyClassName(className.style)
     if (!style) {
       return
     }
     return {
-      selector: native.selector,
+      selector: className.selector,
       style,
     }
   }
 
-  return omitEmptyObject(native)
+  return omitEmptyObject(className)
 }
 
 type ExtraTwrncOptions = Required<ClassNameToNativeOptions>
@@ -217,6 +221,49 @@ extraTwrnc.push(options => {
   return
 })
 
+const markers: ClassNameMarker[] = ['group', 'peer']
+const emptyMarkerStyle = {
+  // to keep from omit
+  // should be deleted in runtime style
+  marker: true,
+}
+extraTwrnc.push(options => {
+  const { className, onUnknown } = options
+  for (const marker of markers) {
+    if (className === marker) {
+      return {
+        selector: marker,
+        style: emptyMarkerStyle,
+      }
+    }
+    const prefix = `${marker}-`
+    if (!className.startsWith(prefix)) {
+      continue
+    }
+    const i = className.indexOf(':')
+    if (i < 0) {
+      return {
+        selector: className,
+        style: emptyMarkerStyle,
+      }
+    }
+    const selector = className.slice(0, i)
+    const next = className.slice(i + 1)
+    if (!next) {
+      return onUnknown(className)
+    }
+    const style = classNameToNative({
+      ...options,
+      className: next,
+    })
+    return {
+      selector,
+      style,
+    }
+  }
+  return
+})
+
 // grid
 // grid-cols-<number>
 // grid-cols-none
@@ -228,28 +275,50 @@ extraTwrnc.push(options => {
       grid: true,
     }
   }
-  // can add ty rows in the future
-  for (const ty of ['cols']) {
-    const prefix = `${grid}-${ty}-`
-    if (!className.startsWith(prefix)) {
-      continue
+  // only support cols
+  const prefix = `${grid}-cols-`
+  if (!className.startsWith(prefix)) {
+    return
+  }
+  const striped = className.replace(prefix, '')
+  const k = camelCase(prefix)
+  if (striped === 'none') {
+    return {
+      [k]: undefined,
     }
-    const striped = className.replace(prefix, '')
-    const k = camelCase(prefix)
-    if (striped === 'none') {
-      return {
-        [k]: undefined,
-      }
-    }
-    const n = Number(striped)
-    if (Number.isNaN(n)) {
+  }
+  if (striped.startsWith('[') && striped.endsWith(']')) {
+    const tracks = striped
+      .slice(1, -1)
+      .split('_')
+      .filter(v => v)
+      .map(v => {
+        const ty = v.slice(-2)
+        if (ty !== 'px' && ty !== 'fr') {
+          return onUnknown(className)
+        }
+        const n = Number(v.slice(0, -2))
+        if (Number.isNaN(n)) {
+          return onUnknown(className)
+        }
+        return {
+          [ty]: n,
+        }
+      })
+    if (!tracks.length) {
       return onUnknown(className)
     }
     return {
-      [k]: n,
+      [k]: tracks,
     }
   }
-  return
+  const n = Number(striped)
+  if (Number.isNaN(n)) {
+    return onUnknown(className)
+  }
+  return {
+    [k]: n,
+  }
 })
 
 // transition

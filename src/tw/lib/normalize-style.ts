@@ -8,6 +8,7 @@ import type {
 import type { FnAny, StrMap } from '@/utils/ts'
 
 type Style = {
+  marker?: true
   transitionProperty?: string | string[]
   transitionTimingFunction?: string | string[]
   animationName?: string
@@ -18,6 +19,8 @@ export const normalizeStyle: FnAny = (style?: Style) => {
   if (!style) {
     return
   }
+
+  delete style.marker
 
   if (typeof style.transitionProperty === 'string') {
     const p = style.transitionProperty as
