@@ -6,8 +6,13 @@ import { camelCase } from 'lodash'
 import type { Platform } from 'react-native'
 
 import type {
+  ClassNameDarkModeSelector,
+  ClassNameHandlerSelector,
   ClassNameMarker,
   ClassNameNative,
+  ClassNamePlatformSelector,
+  ClassNamePropsSelector,
+  ClassNameResponsiveSelector,
   ClassNameSelector,
 } from '@/tw/class-name'
 
@@ -169,27 +174,69 @@ extraTwrnc.push(options => {
   return
 })
 
-const platformSelectors = ['web', 'native', 'android', 'ios']
-const platformSelectorsSet = new Set<string>(platformSelectors)
-const classNameSelectors: ClassNameSelector[] = [
-  // responsive
-  'xs',
-  'sm',
-  'md',
-  'lg',
-  'xl',
-  '2xl',
-  // dark
-  'dark',
-  'light',
-  // handlers
-  'active',
-  'focus',
-  // props
-  'disabled',
-  'checked',
+const platformSelectorsTypeSafe: Record<ClassNamePlatformSelector, undefined> =
+  {
+    web: undefined,
+    native: undefined,
+    android: undefined,
+    ios: undefined,
+  }
+export const platformSelectors = Object.keys(
+  platformSelectorsTypeSafe,
+) as ClassNamePlatformSelector[]
+export const platformSelectorsSet = new Set<string>(platformSelectors)
+
+const responsiveSelectorsTypeSafe: Record<
+  ClassNameResponsiveSelector,
+  undefined
+> = {
+  xs: undefined,
+  sm: undefined,
+  md: undefined,
+  lg: undefined,
+  xl: undefined,
+  '2xl': undefined,
+}
+export const responsiveSelectors = Object.keys(
+  responsiveSelectorsTypeSafe,
+) as ClassNameResponsiveSelector[]
+export const responsiveSelectorsSet = new Set<string>(responsiveSelectors)
+
+const darkModeSelectorsTypeSafe: Record<ClassNameDarkModeSelector, undefined> =
+  {
+    dark: undefined,
+    light: undefined,
+  }
+export const darkModeSelectors = Object.keys(
+  darkModeSelectorsTypeSafe,
+) as ClassNameDarkModeSelector[]
+export const darkModeSelectorsSet = new Set<string>(darkModeSelectors)
+
+const handlerSelectorsTypeSafe: Record<ClassNameHandlerSelector, undefined> = {
+  active: undefined,
+  focus: undefined,
+}
+export const handlerSelectors = Object.keys(
+  handlerSelectorsTypeSafe,
+) as ClassNameHandlerSelector[]
+export const handlerSelectorsSet = new Set<string>(handlerSelectors)
+
+const propsSelectorsTypeSafe: Record<ClassNamePropsSelector, undefined> = {
+  disabled: undefined,
+  checked: undefined,
+}
+export const propsSelectors = Object.keys(
+  propsSelectorsTypeSafe,
+) as ClassNamePropsSelector[]
+export const propsSelectorsSet = new Set<string>(propsSelectors)
+
+const selectors: ClassNameSelector[] = [
+  ...platformSelectors,
+  ...responsiveSelectors,
+  ...darkModeSelectors,
+  ...handlerSelectors,
+  ...propsSelectors,
 ]
-const selectors = [...platformSelectors, ...classNameSelectors]
 extraTwrnc.push(options => {
   const { platform, className } = options
   for (const selector of selectors) {
@@ -221,11 +268,18 @@ extraTwrnc.push(options => {
   return
 })
 
-const markers: ClassNameMarker[] = ['group', 'peer']
+const markersTypeSafe: Record<ClassNameMarker, undefined> = {
+  group: undefined,
+  peer: undefined,
+}
+export const markers = Object.keys(markersTypeSafe) as ClassNameMarker[]
+export const emptyMarkerKey = ''
 const emptyMarkerStyle = {
-  // to keep from omit
-  // should be deleted in runtime style
-  marker: true,
+  // to keep from omit empty style
+  // will be removed in create class name component on selector traverse
+  // empty -> marker provider
+  // not empty -> marker selector
+  [emptyMarkerKey]: true,
 }
 extraTwrnc.push(options => {
   const { className, onUnknown } = options

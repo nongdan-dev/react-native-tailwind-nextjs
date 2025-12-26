@@ -26,19 +26,17 @@ export type GridStyle = {
 // handle custom value like [..px_..fr]
 export type GridTrack = { px: number } | { fr: number }
 
-export type ClassNameNativeWithSelector = {
+export type ClassNameWithSelector = {
   selector: ClassNameSelector | true
   style: ClassNameNative
 }
-export type ClassNameNativeSingle =
-  | Style
-  | ClassNameNativeWithSelector
-  | Falsish
+export type ClassNameNativeSingle = Style | ClassNameWithSelector | Falsish
 export type ClassNameNative = ClassNameNativeSingle | ClassNameNative[]
 
 export type ClassNameSingle = ClassNameWebSingle | ClassNameNativeSingle
 export type ClassName = ClassNameSingle | ClassName[]
 
+export type ClassNamePlatformSelector = 'web' | 'native' | 'android' | 'ios'
 export type ClassNameResponsiveSelector =
   | 'xs'
   | 'sm'
@@ -50,12 +48,17 @@ export type ClassNameDarkModeSelector = 'dark' | 'light'
 export type ClassNameHandlerSelector = 'active' | 'focus'
 export type ClassNamePropsSelector = 'disabled' | 'checked'
 export type ClassNameSelector =
+  | ClassNamePlatformSelector
   | ClassNameResponsiveSelector
   | ClassNameDarkModeSelector
   | ClassNameHandlerSelector
   | ClassNamePropsSelector
+  // group peer can also be group-* peer-*
+  | string
 
+// group peer can also be group-* peer-*
 export type ClassNameMarker = 'group' | 'peer'
+export type ClassNameMarkerState = Record<string, boolean | undefined>
 
 export type ClassNameResponsiveState = {
   [k in ClassNameResponsiveSelector]?: boolean
@@ -72,4 +75,16 @@ export type ClassNamePropsState = {
 export type ClassNameState = ClassNameResponsiveState &
   ClassNameDarkModeState &
   ClassNameHandlerState &
-  ClassNamePropsState
+  ClassNamePropsState &
+  ClassNameMarkerState
+
+export type ClassNameMetadata = Partial<{
+  responsive: true
+  darkMode: true
+  active: true
+  focus: true
+  group: true
+  peer: true
+  groupProviders: string[]
+  peerProviders: string[]
+}>

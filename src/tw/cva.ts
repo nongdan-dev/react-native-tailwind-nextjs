@@ -43,8 +43,9 @@ export const cva: Cva =
   ({ className, classNames, attributes, defaultVariant, compoundVariants }) =>
   variant => {
     const map: StrMap = {}
+    const rootKey = ''
 
-    pushClassName(map, '', className)
+    pushClassName(map, rootKey, className)
     pushClassNames(map, classNames)
 
     let variantWithDefault: typeof defaultVariant = undefined
@@ -70,7 +71,7 @@ export const cva: Cva =
           continue
         }
         if (typeof attr === 'string') {
-          pushClassName(map, '', attr)
+          pushClassName(map, rootKey, attr)
         } else {
           pushClassNames(map, attr)
         }
@@ -90,7 +91,7 @@ export const cva: Cva =
             }
           }
           if (match) {
-            pushClassName(map, '', compoundClassName)
+            pushClassName(map, rootKey, compoundClassName)
             pushClassNames(map, compoundClassNames)
           }
         }
@@ -98,10 +99,10 @@ export const cva: Cva =
     }
 
     if (className) {
-      return clsx(map[''])
+      return clsx(map[rootKey])
     }
 
-    delete map['']
+    delete map[rootKey]
     for (const [k, v] of Object.entries(map)) {
       map[k] = clsx(v)
     }

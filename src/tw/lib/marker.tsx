@@ -4,17 +4,10 @@ import type { Updater } from 'use-immer'
 import { useImmer } from 'use-immer'
 
 import { useSafeContext } from '@/hooks/use-safe-context'
-import type {
-  ClassNameHandlerState,
-  ClassNamePropsState,
-} from '@/tw/class-name'
-import type { StrMap } from '@/utils/ts'
+import type { ClassNameMarkerState } from '@/tw/class-name'
 
-type State = ClassNameHandlerState & ClassNamePropsState
-type MapState = StrMap<State>
-
-type GroupContextValue = MapState
-const GroupContext = createContext<GroupContextValue | null>(null)
+type GroupContextValue = ClassNameMarkerState
+const GroupContext = createContext<GroupContextValue | undefined>(undefined)
 type GroupProviderProps = PropsWithChildren<{
   state: GroupContextValue
 }>
@@ -29,15 +22,15 @@ export const MarkerGroupProvider = ({
 export const useMarkerGroupState = () => useContext(GroupContext)
 
 type PeerContextValue = {
-  state: MapState
-  setState: Updater<MapState>
+  state: ClassNameMarkerState
+  setState: Updater<ClassNameMarkerState>
 }
-const PeerContext = createContext<PeerContextValue | null>(null)
+const PeerContext = createContext<PeerContextValue | undefined>(undefined)
 type PeerProviderProps = PropsWithChildren
 
 export const MarkerPeerProvider = ({ children }: PeerProviderProps) => {
   const v = useContext(PeerContext)
-  const [state, setState] = useImmer<MapState>({})
+  const [state, setState] = useImmer<ClassNameMarkerState>({})
   return (
     <PeerContext
       value={{

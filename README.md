@@ -142,8 +142,9 @@ const MyComponent = () => <View className={classNameStringFromSomeWhere} />
   - Any component with onFocus onBlur such as TextInput will support `focus:`.
 - Support props selector: `disabled:`, `checked:`.
   - Need to pass those fields to hook options: props, childrenProps.
-- Support group selector: `group-<selector>:`, `group-<marker>-<selector>:`.
-- Support peer selector: `peer-<selector>:`, `peer-<marker>-<selector>:`.
+- Support group selector: `group-<selector>:`, `group-<key>-<selector>:`.
+- Support peer selector: `peer-<selector>:`, `peer-<key>-<selector>:`.
+  - Need to use TwPeerProvider to isolate the context if there are many peers in the same page. The provider is simply a Fragment re-export on web.
 - Support nested selector: `<selector1>:<selector2>:..:<class-name>`. Nested selector with deeper level will take precedence.
 - Support transition using Reanimated:
   - `transition`

@@ -18,7 +18,7 @@ type ContextState = {
   value: DarkMode
   setDarkMode: (v?: boolean) => Promise<void>
 }
-const Context = createContext<ContextState | null>(null)
+const Context = createContext<ContextState | undefined>(undefined)
 
 export const useDarkMode = () => useSafeContext(Context).value
 export const useSetDarkMode = () => useSafeContext(Context).setDarkMode

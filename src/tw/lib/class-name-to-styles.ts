@@ -3,8 +3,8 @@ import { create } from 'twrnc'
 
 import type {
   ClassName,
-  ClassNameNativeWithSelector,
-  ClassNameState,
+  ClassNameNative,
+  ClassNameWithSelector,
   Style,
 } from '@/tw/class-name'
 import { twUnminify } from '@/tw/lib/class-name-minified'
@@ -16,8 +16,7 @@ const twrnc = create(twConfig.extra.twrnc).style
 
 export type ClassNameToStylesOptions = {
   className: ClassName
-  classNameState?: ClassNameState
-  onSelector?: (className: ClassNameNativeWithSelector) => void
+  onSelector: (className: ClassNameWithSelector) => ClassNameNative
   warnOnString?: boolean
 }
 
@@ -41,8 +40,7 @@ type ClassNameToStylesRecursiveOptions = ClassNameToStylesOptions & {
 const classNameToStylesRecursive = ({
   ...options
 }: ClassNameToStylesRecursiveOptions) => {
-  const { className, classNameState, onSelector, warnOnString, level, styles } =
-    options
+  const { className, onSelector, warnOnString, level, styles } = options
   if (!className) {
     return
   }
@@ -55,9 +53,7 @@ const classNameToStylesRecursive = ({
   }
   if (typeof className === 'string') {
     if (process.env.NODE_ENV !== 'production' && warnOnString) {
-      console.error(
-        'expect className to be an object in platform native, found:',
-      )
+      console.error('expect className to be an object in native, found:')
       console.error(className)
     }
     options.className = classNameToNative({
@@ -69,15 +65,11 @@ const classNameToStylesRecursive = ({
     return
   }
   if ('selector' in className) {
-    onSelector?.(className)
-    const { selector, style } = className
-    if (selector !== true) {
-      if (!classNameState?.[selector]) {
-        return
-      }
+    options.className = onSelector(className)
+    if (!options.className) {
+      return
     }
     options.level += 1
-    options.className = style
     classNameToStylesRecursive(options)
     return
   }

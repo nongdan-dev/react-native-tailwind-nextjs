@@ -1,11 +1,13 @@
 import type { ColorSchemeName } from 'react-native'
 
+import type { Falsish } from '@/utils/ts'
+
 export const darkModeCookieKey = 'dark-mode'
 export const darkModeCookieMaxAge = 60 * 60 * 24 * 365
 export const darkModeEnabled = '1'
 export const darkModeDisabled = '0'
 
-export const darkModeToBolean = (v?: string | null) => {
+export const darkModeToBolean = (v: string | Falsish) => {
   if (v === darkModeEnabled || v === darkModeDisabled) {
     return v === darkModeEnabled
   }
@@ -17,9 +19,9 @@ export type DarkMode = {
   system: boolean
 }
 export const darkModeCompose = (
-  user: boolean | undefined,
-  os: ColorSchemeName | null | undefined,
+  user: boolean | Falsish,
+  os: ColorSchemeName | Falsish,
 ): DarkMode => ({
-  dark: user !== undefined ? user : os === 'dark',
-  system: user === undefined,
+  dark: user ? user : os === 'dark',
+  system: !user,
 })

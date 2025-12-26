@@ -1,86 +1,47 @@
 import { get, isEqual } from 'lodash'
-import { useEffect, useRef } from 'react'
-import { useImmer } from 'use-immer'
+import type { FC } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { useResponsiveState } from '@/responsive/index.native'
 import { useDarkModeState } from '@/theme/client.native'
 import type {
-  ClassNameHandlerState,
-  ClassNameSelector,
+  ClassName,
+  ClassNameDarkModeState,
+  ClassNameHandlerSelector,
+  ClassNameMarker,
+  ClassNameMarkerState,
+  ClassNameMetadata,
+  ClassNamePropsState,
+  ClassNameResponsiveState,
   ClassNameState,
+  ClassNameWithSelector,
+  Style,
 } from '@/tw/class-name'
+import {
+  darkModeSelectorsSet,
+  emptyMarkerKey,
+  handlerSelectors,
+  handlerSelectorsSet,
+  markers,
+  propsSelectors,
+  propsSelectorsSet,
+  responsiveSelectorsSet,
+} from '@/tw/lib/class-name-to-native'
 import {
   MarkerGroupProvider,
   useMarkerGroupState,
   useMarkerPeerSetState,
   useMarkerPeerState,
-} from '@/tw/marker.native'
-import type { RuntimeStyleOptions } from '@/tw/runtime-style'
+} from '@/tw/lib/marker'
 import { runtimeStyle } from '@/tw/runtime-style'
+import type { StrMap } from '@/utils/ts'
 
 export const createClassNameComponent =
-  (Component: any, extraClassNameProps?: string[]) =>
-  ({ className, style, ...props }: any) => {
-    const responsiveState = useResponsiveState()
-    const darkModeState = useDarkModeState()
-    const markerPeerSetState = useMarkerPeerSetState()
-    const [handlerState, setHandlerState] = useImmer<ClassNameHandlerState>({})
+  (Component: any, extraClassNameKeys?: string[]) => (props: any) => {
+    const classNameKeys = ['className']
+    const styleKeys = ['style']
 
-    const selfState = {
-      checked: props.checked,
-      disabled: props.disabled,
-      ...handlerState,
-    }
-    const classNameState = {
-      ...responsiveState,
-      ...darkModeState,
-      ...selfState,
-    }
-
-    const markerGroupState = useMarkerGroupState()
-    const markerPeerState = useMarkerPeerState()
-    const markerState = {
-      ...markerGroupState,
-      ...markerPeerState,
-    }
-    for (const [k1, v1] of Object.entries(markerState)) {
-      for (const [k2, v2] of Object.entries(v1)) {
-        const k = `${k1}-${k2}`
-        classNameState[k as ClassNameSelector] = v2
-      }
-    }
-
-    const metadata: ClassNameState = {}
-    const metadataGroup: string[] = []
-    const metadataPeer: string[] = []
-
-    const options: RuntimeStyleOptions = {
-      classNameState: () => classNameState,
-      onSelector: ({ selector, style: selectorStyle }) => {
-        if (selector === true) {
-          return
-        }
-        const group = selector.startsWith('group')
-        const peer = selector.startsWith('peer')
-        if (group || peer) {
-          const marker = get(selectorStyle, 'marker', false)
-          if (!marker) {
-            return
-          }
-          const arr = group ? metadataGroup : metadataPeer
-          arr.push(selector)
-          return
-        }
-        metadata[selector] = true
-      },
-      warnOnString: true,
-    }
-
-    props.style = runtimeStyle(className, {
-      ...options,
-      style,
-    })
-    extraClassNameProps?.forEach(k => {
+    extraClassNameKeys?.forEach(k => {
       if (process.env.NODE_ENV !== 'production') {
         if (!k.endsWith('ClassName')) {
           console.error(
@@ -88,84 +49,442 @@ export const createClassNameComponent =
           )
         }
       }
-      const sk = k.replace(/ClassName$/, 'Style')
-      props[sk] = runtimeStyle(props[k], {
-        ...options,
-        onSelector: () => {
-          // TODO: do not support self selectors
-        },
-        style: props[sk],
-      })
+      classNameKeys.push(k)
+      styleKeys.push(k.replace(/ClassName$/, 'Style'))
     })
 
-    if (metadata.active) {
-      props.onPressIn = () =>
-        setHandlerState(d => {
-          d.active = true
-        })
-      props.onPressOut = () =>
-        setHandlerState(d => {
-          d.active = false
-        })
-    }
-
-    if (metadata.focus) {
-      props.onFocus = () =>
-        setHandlerState(d => {
-          d.focus = true
-        })
-      props.onBlur = () =>
-        setHandlerState(d => {
-          d.focus = false
-        })
-    }
-
-    const peerProviderRef = useRef<typeof peerProvider>(null)
-    const peerProvider = {
-      metadataPeer,
-      classNameSelfState: selfState,
-    }
-    useEffect(() => {
-      if (!metadataPeer.length) {
-        return
+    const propsState: ClassNamePropsState = {}
+    for (const k of propsSelectors) {
+      if (props[k]) {
+        propsState[k] = true
       }
-      if (isEqual(peerProvider, peerProviderRef.current)) {
-        return
-      }
-      peerProviderRef.current = peerProvider
-      markerPeerSetState(d => {
-        for (const k of metadataPeer) {
-          d[k] = selfState
-        }
-      })
-    })
-    useEffect(
-      () => () => {
-        const keys = peerProviderRef.current?.metadataPeer
-        if (!keys?.length) {
-          return
-        }
-        markerPeerSetState(d => {
-          for (const k of metadataPeer) {
-            delete d[k]
-          }
-        })
-      },
-      [],
-    )
-
-    const children = <Component {...props} />
-    if (!metadataGroup.length) {
-      return children
     }
 
-    const groupProvider: any = {}
-    for (const k of metadataGroup) {
-      groupProvider[k] = selfState
-    }
     return (
-      <MarkerGroupProvider state={groupProvider}>
-        {children}
-      </MarkerGroupProvider>
+      <ClassNameComponent
+        Component={Component}
+        props={props}
+        classNameKeys={classNameKeys}
+        styleKeys={styleKeys}
+        // initial state is the props state where we can get from the props
+        state={propsState}
+        // pass metadata to try to collect class name selector dependencie
+        metadata={{}}
+      />
     )
   }
+
+type ClassNameComponentProps = {
+  Component: any
+  props: any
+  classNameKeys: string[]
+  styleKeys: string[]
+  state: ClassNameState
+  metadata?: ClassNameMetadata
+}
+
+const ClassNameComponent = ({
+  Component,
+  props,
+  classNameKeys,
+  styleKeys,
+  state,
+  metadata,
+}: ClassNameComponentProps) => {
+  const styles = classNameKeys.map((k, i) => {
+    const sk = styleKeys[i]
+    return runtimeStyleWithMetadata({
+      className: props[k],
+      style: props[sk],
+      state,
+      metadata,
+      extraClassNameKey: i ? k : undefined,
+    })
+  })
+
+  if (!metadata || !Object.keys(metadata).length) {
+    props = { ...props }
+    classNameKeys.forEach((k, i) => {
+      const sk = styleKeys[i]
+      props[sk] = styles[i]
+      delete props[k]
+    })
+    return <Component {...props} />
+  }
+
+  return (
+    <ClassNameComponentWithMetadata
+      Component={Component}
+      props={props}
+      classNameKeys={classNameKeys}
+      styleKeys={styleKeys}
+      state={state}
+      metadata={metadata}
+    />
+  )
+}
+
+type ClassNameComponentWithMetadataProps = Required<ClassNameComponentProps>
+
+const ClassNameComponentWithMetadata = ({
+  Component,
+  props,
+  classNameKeys,
+  styleKeys,
+  state,
+  metadata,
+}: ClassNameComponentWithMetadataProps) => {
+  let Inner: FC<InnerProps> = InitialInner
+
+  // need to be in reversed order so the providers can get value from handlers
+  if (metadata.groupProviders?.length) {
+    Inner = withGroupProvider(Inner)
+  }
+  if (metadata.peerProviders?.length) {
+    Inner = withPeerProvider(Inner)
+  }
+  if (metadata.active) {
+    Inner = withActive(Inner)
+  }
+  if (metadata.focus) {
+    Inner = withFocus(Inner)
+  }
+
+  // the rest are global and independent
+  if (metadata.responsive) {
+    Inner = withResponsive(Inner)
+  }
+  if (metadata.darkMode) {
+    Inner = withDarkMode(Inner)
+  }
+  if (metadata.group) {
+    Inner = withGroup(Inner)
+  }
+  if (metadata.peer) {
+    Inner = withPeer(Inner)
+  }
+
+  return (
+    <Inner
+      outer={{
+        Component,
+        props,
+        classNameKeys,
+        styleKeys,
+        state,
+        metadata,
+      }}
+    />
+  )
+}
+
+type InnerProps = {
+  outer: ClassNameComponentWithMetadataProps
+  responsiveState?: ClassNameResponsiveState
+  darkModeState?: ClassNameDarkModeState
+  active?: boolean
+  focus?: boolean
+  groupState?: ClassNameMarkerState
+  peerState?: ClassNameMarkerState
+  handlers?: {
+    onPressIn?: () => void
+    onPressOut?: () => void
+    onFocus?: () => void
+    onBlur?: () => void
+  }
+}
+
+const InitialInner = ({
+  outer: { Component, props, classNameKeys, styleKeys, state },
+  responsiveState,
+  darkModeState,
+  active,
+  focus,
+  handlers,
+  groupState,
+  peerState,
+}: InnerProps) => (
+  <ClassNameComponent
+    Component={Component}
+    props={composeHandlers(props, handlers)}
+    classNameKeys={classNameKeys}
+    styleKeys={styleKeys}
+    state={{
+      ...state,
+      ...responsiveState,
+      ...darkModeState,
+      active,
+      focus,
+      ...groupState,
+      ...peerState,
+    }}
+    // remove metadata to actual compute the style in above class name component with the correct state
+    metadata={undefined}
+  />
+)
+
+const withResponsive = (Inner: FC<InnerProps>) => (props: InnerProps) => {
+  const responsiveState = useResponsiveState()
+  return <Inner {...props} responsiveState={responsiveState} />
+}
+
+const withDarkMode = (Inner: FC<InnerProps>) => (props: InnerProps) => {
+  const darkModeState = useDarkModeState()
+  return <Inner {...props} darkModeState={darkModeState} />
+}
+
+const withActive = (Inner: FC<InnerProps>) => (props: InnerProps) => {
+  const [active, setActive] = useState(false)
+  return (
+    <Inner
+      {...props}
+      active={active}
+      handlers={{
+        ...props.handlers,
+        onPressIn: () => setActive(true),
+        onPressOut: () => setActive(false),
+      }}
+    />
+  )
+}
+
+const withFocus = (Inner: FC<InnerProps>) => (props: InnerProps) => {
+  const [focus, setFocus] = useState(false)
+  return (
+    <Inner
+      {...props}
+      focus={focus}
+      handlers={{
+        ...props.handlers,
+        onFocus: () => setFocus(true),
+        onBlur: () => setFocus(false),
+      }}
+    />
+  )
+}
+
+const withGroup = (Inner: FC<InnerProps>) => (props: InnerProps) => {
+  const groupState = useMarkerGroupState()
+  return <Inner {...props} groupState={groupState} />
+}
+
+const withPeer = (Inner: FC<InnerProps>) => (props: InnerProps) => {
+  const peerState = useMarkerPeerState()
+  return <Inner {...props} peerState={peerState} />
+}
+
+const withGroupProvider = (Inner: FC<InnerProps>) => (props: InnerProps) => {
+  const state = getMarkerProviderState('group', props)
+  if (!state) {
+    // should not happen
+    return null
+  }
+  return (
+    <MarkerGroupProvider state={state}>
+      <Inner {...props} />
+    </MarkerGroupProvider>
+  )
+}
+
+const withPeerProvider = (Inner: FC<InnerProps>) => (props: InnerProps) => {
+  const state = getMarkerProviderState('peer', props)
+  const stateRef = useRef<ClassNameMarkerState>(undefined)
+
+  const stateState = useMarkerPeerSetState()
+
+  useEffect(() => {
+    if (isEqual(state, stateRef.current)) {
+      return
+    }
+    const prev = stateRef.current
+    stateRef.current = state
+    stateState(d => {
+      if (prev) {
+        for (const k in prev) {
+          delete d[k]
+        }
+      }
+      for (const k in state) {
+        d[k] = true
+      }
+    })
+  })
+
+  useEffect(
+    () => () => {
+      const prev = stateRef.current
+      if (!prev) {
+        return
+      }
+      stateState(d => {
+        for (const k in prev) {
+          delete d[k]
+        }
+      })
+    },
+    [],
+  )
+
+  return <Inner {...props} />
+}
+
+const getMarkerProviderState = (marker: ClassNameMarker, props: InnerProps) => {
+  const keys = props.outer.metadata[`${marker}Providers`]
+  if (!keys?.length) {
+    // should not happen
+    return
+  }
+  const state: ClassNameMarkerState = {}
+  for (const k of keys) {
+    for (const selector of handlerSelectors) {
+      if (props[selector]) {
+        state[`${k}-${selector}`] = true
+      }
+    }
+    for (const selector of propsSelectors) {
+      if (props.outer.state[selector]) {
+        state[`${k}-${selector}`] = true
+      }
+    }
+  }
+  return state
+}
+
+const composeHandlers = (props: any, handlers?: StrMap<Function>) => {
+  if (!handlers) {
+    return props
+  }
+  // clone to modify
+  props = { ...props }
+  for (const [k, extraHandler] of Object.entries(handlers)) {
+    const originalHandler = props[k]
+    props[k] = (e: any) => {
+      originalHandler?.(e)
+      extraHandler(e)
+    }
+  }
+  return props
+}
+
+type RuntimeStyleWithMetadataOptions = Pick<
+  ClassNameComponentProps,
+  'state' | 'metadata'
+> & {
+  className: ClassName
+  style: Style
+  extraClassNameKey?: string
+}
+
+const runtimeStyleWithMetadata = ({
+  className,
+  style,
+  state,
+  ...options
+}: RuntimeStyleWithMetadataOptions) =>
+  runtimeStyle(className, {
+    style,
+    state: () => state,
+    onSelector: selector =>
+      onSelectorWithMetadata({
+        selector,
+        state,
+        ...options,
+      }),
+    warnOnString: true,
+  })
+
+type OnSelectorWithMetadataOptions = Pick<
+  RuntimeStyleWithMetadataOptions,
+  'state' | 'metadata' | 'extraClassNameKey'
+> & {
+  selector: ClassNameWithSelector
+}
+
+const onSelectorWithMetadata = ({
+  selector: { selector, style },
+  state,
+  extraClassNameKey,
+  metadata,
+}: OnSelectorWithMetadataOptions) => {
+  // platform selector
+  if (selector === true) {
+    return style
+  }
+
+  const notSupportedInExtra = () => {
+    if (!extraClassNameKey) {
+      return
+    }
+    console.error(`${selector}: is not supported in ${extraClassNameKey}`)
+  }
+  if (process.env.NODE_ENV !== 'production') {
+    if (handlerSelectorsSet.has(selector) || propsSelectorsSet.has(selector)) {
+      notSupportedInExtra()
+    }
+  }
+
+  if (responsiveSelectorsSet.has(selector)) {
+    if (metadata) {
+      metadata.responsive = true
+      return style
+    }
+    return state[selector] && style
+  }
+
+  if (darkModeSelectorsSet.has(selector)) {
+    if (metadata) {
+      metadata.darkMode = true
+      return style
+    }
+    return state[selector] && style
+  }
+
+  if (handlerSelectorsSet.has(selector)) {
+    if (metadata) {
+      metadata[selector as ClassNameHandlerSelector] = true
+      return style
+    }
+    return state[selector] && style
+  }
+
+  if (propsSelectorsSet.has(selector)) {
+    // we can pass props in metadata mode and dont need to collect those metadata
+    return state[selector] && style
+  }
+
+  for (const marker of markers) {
+    if (!selector.startsWith(marker)) {
+      continue
+    }
+
+    // empty -> marker provider
+    // not empty -> marker selector
+    if (!get(style, emptyMarkerKey, false)) {
+      if (metadata) {
+        metadata[marker] = true
+        return style
+      }
+      return state[selector] && style
+    }
+
+    if (process.env.NODE_ENV !== 'production') {
+      notSupportedInExtra()
+    }
+
+    if (metadata) {
+      const k = `${marker}Providers` as const
+      let providers = metadata[k]
+      if (!providers) {
+        providers = []
+        metadata[k] = providers
+      }
+      providers.push(selector)
+    }
+
+    // provider will not have any style
+    return
+  }
+
+  // should not happen
+  throw new Error(`Unknown selector ${selector}:`)
+}

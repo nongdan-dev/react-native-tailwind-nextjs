@@ -7,7 +7,7 @@ export const clsx = (...classNames: ClassName[]): ClassName => {
   if (process.env.NODE_ENV !== 'production') {
     strings.forEach(c => {
       if (typeof c !== 'string') {
-        console.error('expect className to be a string in platform web, found:')
+        console.error('expect className to be a string in web, found:')
         console.error(c)
       }
     })
