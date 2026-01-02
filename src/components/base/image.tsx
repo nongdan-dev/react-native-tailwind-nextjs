@@ -9,4 +9,6 @@ export type ImageProps = ImagePropsWocn & {
   className?: ClassName
 }
 
-export const Image: FC<ImageProps> = createClassNameComponent(ImageWocn)
+export const Image: FC<ImageProps> = createClassNameComponent({
+  ImageWocn,
+})

@@ -6,8 +6,9 @@ export const clsx = (...classNames: ClassName[]): ClassName => {
   const strings = classNames.flat(Infinity as 0).filter(c => c) as string[]
   if (process.env.NODE_ENV !== 'production') {
     strings.forEach(c => {
-      if (typeof c !== 'string') {
-        console.error('expect className to be a string in web, found:')
+      const ty = typeof c
+      if (ty !== 'string') {
+        console.error(`Expect className to be a string in web, found ${ty}:`)
         console.error(c)
       }
     })

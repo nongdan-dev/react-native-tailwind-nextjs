@@ -16,9 +16,7 @@ export const DarkModeSwitcherClient = ({ options }: Props) => {
   const setDarkMode = useSetDarkMode()
 
   return (
-    <View
-      className={'m-2 flex-row items-center gap-2 rounded-full bg-gray-200 p-1'}
-    >
+    <View className='m-2 flex-row items-center gap-2 rounded-full bg-gray-200 p-1'>
       {options.map(v => {
         const active =
           v.value === undefined

@@ -1,5 +1,6 @@
 import type { ClassName } from '@/tw/class-name'
 import { clsx } from '@/tw/clsx'
+import { tw } from '@/tw/tw'
 import type { StrMap } from '@/utils/ts'
 
 type Common = {
@@ -9,14 +10,25 @@ type Common = {
 }
 type Text = Common &
   Partial<{
+    // hasTextAncestor is disabled to make sure server variant will render the same markup
+    // we will need to handle writingDirection manually
+    // it will be passed as undefined
     hasTextAncestor: boolean
+    // numberOfLines should be transpiled using class name `line-clamp-<number>`
+    // on web we should handle max width, wrap, overflow, ellipsis
+    // it will be passed as undefined
     numberOfLines: number
+    // selectable should be transpiled using class name `select-text` or `select-none`
+    // it will be passed as undefined
     selectable: boolean
+    // pressable is converted from onPress, it it is present it should be in the client bundle
     pressable: boolean
   }>
 type View = Common &
   Partial<{
-    inline: boolean
+    // hasTextAncestor is disabled to make sure server variant will render the same markup
+    // it will be passed as undefined
+    hasTextAncestor: boolean
   }>
 type Pressable = Common &
   Partial<{
@@ -35,7 +47,11 @@ type ScrollView = Common &
   }>
 type TextInput = Common &
   Partial<{
+    // placeholderTextColor should be transpiled using class name `placeholder-<color>`
+    // it will be passed as undefined
     placeholderTextColor: string
+    // caretHidden should be transpiled using class name `caret-transparent`
+    // it will be passed as undefined
     caretHidden: boolean
   }>
 type FlatList = Common &
@@ -43,47 +59,45 @@ type FlatList = Common &
     columnWrapper: boolean
   }>
 
+// use tw to capture all class names and support minified ones
 const map: StrMap<Function> = {
-  Text: (d: Text) =>
-    clsx(
-      'relative m-0 inline list-none border-0 border-solid border-black bg-transparent p-0 text-start font-sans text-sm wrap-break-word whitespace-pre-wrap text-black no-underline',
-      d.hasTextAncestor && 'whitespace-[inherit] font-[inherit] text-inherit',
-      d.numberOfLines === 1 &&
-        'max-w-full overflow-hidden wrap-normal text-ellipsis whitespace-nowrap',
-      // line-clamp-<number> should be supported in text.native.tsx
-      d.numberOfLines &&
-        d.numberOfLines > 1 &&
-        'max-w-full overflow-clip text-ellipsis',
-      d.selectable === false ? 'select-none' : 'select-text',
-      d.pressable && 'cursor-pointer',
-    ),
-  View: (d: View) =>
-    clsx(
-      'm-h-0 m-w-0 relative z-0 m-0 flex shrink-0 basis-auto list-none flex-col content-start items-stretch border-0 border-solid border-black bg-transparent p-0 no-underline',
-      d.inline && 'inline-flex',
-    ),
-  Pressable: (d: Pressable) =>
-    clsx(
-      !d.disabled ? 'cursor-pointer touch-manipulation' : 'pointer-events-none',
-    ),
-  ScrollView: (d: ScrollView) =>
-    clsx(
-      d.stickyHeader && 'sticky top-0 z-10',
-      d.pagingEnabledChild && 'snap-start',
-      d.contentContainerCenterContent && 'grow justify-center',
-      d.pagingEnabledHorizontal && 'snap-x snap-mandatory',
-      d.pagingEnabledVertical && 'snap-y snap-mandatory',
-      d.base && 'shrink grow transform-[translateZ(0)]',
-      d.baseHorizontal && 'flex-col overflow-x-hidden overflow-y-auto',
-      d.baseHorizontal && 'flex-row overflow-x-auto overflow-y-hidden',
-    ),
-  TextInput: (d: TextInput) =>
-    clsx(
-      'rounded-0 font-sm m-0 resize-none [appearance:textfield] border-0 border-solid border-black bg-transparent p-0 font-sans outline-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none',
-      // placeholderTextColor should be supported in input.native.tsx
-      d.caretHidden && 'caret-transparent',
-    ),
-  FlatList: (d: FlatList) => clsx(d.columnWrapper && 'flex-row'),
+  Text: (d: Text) => [
+    tw`relative m-0 inline list-none border-0 border-solid border-black bg-transparent p-0 text-start font-sans text-sm wrap-break-word whitespace-pre-wrap text-black no-underline`,
+    d.hasTextAncestor && tw`whitespace-[inherit] font-[inherit] text-inherit`,
+    d.numberOfLines === 1 &&
+      tw`max-w-full overflow-hidden wrap-normal text-ellipsis whitespace-nowrap`,
+    // `line-clamp-<number>` should be transpiled as describe above
+    d.numberOfLines &&
+      d.numberOfLines > 1 &&
+      tw`max-w-full overflow-clip text-ellipsis`,
+    d.selectable === false ? tw`select-none` : tw`select-text`,
+    d.pressable && tw`cursor-pointer`,
+  ],
+  View: (d: View) => [
+    tw`m-h-0 m-w-0 relative z-0 m-0 flex shrink-0 basis-auto list-none flex-col content-start items-stretch border-0 border-solid border-black bg-transparent p-0 no-underline`,
+    d.hasTextAncestor && tw`inline-flex`,
+  ],
+  Pressable: (d: Pressable) => [
+    !d.disabled
+      ? tw`cursor-pointer touch-manipulation`
+      : tw`pointer-events-none`,
+  ],
+  ScrollView: (d: ScrollView) => [
+    d.stickyHeader && tw`sticky top-0 z-10`,
+    d.pagingEnabledChild && tw`snap-start`,
+    d.contentContainerCenterContent && tw`grow justify-center`,
+    d.pagingEnabledHorizontal && tw`snap-x snap-mandatory`,
+    d.pagingEnabledVertical && tw`snap-y snap-mandatory`,
+    d.base && tw`shrink grow transform-[translateZ(0)]`,
+    d.baseHorizontal && tw`flex-col overflow-x-hidden overflow-y-auto`,
+    d.baseHorizontal && tw`flex-row overflow-x-auto overflow-y-hidden`,
+  ],
+  TextInput: (d: TextInput) => [
+    tw`rounded-0 font-sm m-0 resize-none [appearance:textfield] border-0 border-solid border-black bg-transparent p-0 font-sans outline-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none`,
+    // `placeholder-<color>` should be transpiled as describe above
+    d.caretHidden && tw`caret-transparent`,
+  ],
+  FlatList: (d: FlatList) => [d.columnWrapper && tw`flex-row`],
 }
 
 // sort to preserve order

@@ -1,11 +1,10 @@
 import { camelCase } from 'lodash'
-import { bounce, ping, pulse, spin } from 'react-native-css-animations'
-import type {
-  CSSAnimationProperties,
-  CSSTransitionTimingFunction,
-} from 'react-native-reanimated'
 
-import type { FnAny, StrMap } from '@/utils/ts'
+import {
+  animationMap,
+  transitionTimingFunctionMap,
+} from '@/tw/lib/normalize-style-extra'
+import type { FnAny } from '@/utils/ts'
 
 type Style = {
   marker?: true
@@ -106,15 +105,5 @@ const transitionMap: { [k in TransitionPropertyTw]?: string[] } = {
   all: undefined,
   none: undefined,
 }
-const transitionTimingFunctionMap: StrMap<CSSTransitionTimingFunction> = {
-  // custom transtion timing function here
-}
 
 type AnimationNameTw = 'spin' | 'ping' | 'pulse' | 'bounce'
-const animationMap: StrMap<CSSAnimationProperties> = {
-  spin,
-  ping,
-  pulse,
-  bounce,
-  // custom animation here
-}

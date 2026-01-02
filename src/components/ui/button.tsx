@@ -1,16 +1,18 @@
-import type { PropsWithChildren } from 'react'
+import type { PropsWithChildren, ReactNode } from 'react'
 
 import type { PressableProps } from '@/components/base/pressable'
 import { Pressable } from '@/components/base/pressable'
 import { Text } from '@/components/base/text'
+import { View } from '@/components/base/view'
 import type { Variant } from '@/tw/cva'
 import { cva } from '@/tw/cva'
 
 const button = cva({
   classNames: {
     button:
-      'group flex cursor-pointer items-center justify-center gap-2 border border-transparent transition select-none',
-    text: 'font-medium',
+      'group flex cursor-pointer items-center justify-center gap-2 overflow-hidden transition select-none active:translate-y-0.5',
+    text: 'font-medium select-none',
+    press: 'absolute inset-px translate-y-1 bg-gray-500',
   },
   attributes: {
     type: {
@@ -20,7 +22,9 @@ const button = cva({
     },
     appearance: {
       solid: {},
-      outline: {},
+      outline: {
+        button: 'border border-transparent',
+      },
       ghost: {},
     },
     size: {
@@ -44,12 +48,15 @@ const button = cva({
     shape: {
       square: {
         button: 'rounded-none',
+        press: 'rounded-none',
       },
       rounded: {
         button: 'rounded-md',
+        press: 'rounded-md',
       },
       pill: {
         button: 'rounded-full',
+        press: 'rounded-full',
       },
     },
   },
@@ -64,8 +71,7 @@ const button = cva({
       type: 'default',
       appearance: 'solid',
       classNames: {
-        button:
-          'border-gray-100 bg-gray-100 hover:border-gray-200 hover:bg-gray-200',
+        button: 'bg-gray-100 hover:bg-gray-200 active:bg-gray-200',
         text: 'text-gray-800',
       },
     },
@@ -73,8 +79,7 @@ const button = cva({
       type: 'primary',
       appearance: 'solid',
       classNames: {
-        button:
-          'border-blue-600 bg-blue-600 hover:border-blue-500 hover:bg-blue-500',
+        button: 'bg-blue-600 hover:bg-blue-500 active:bg-blue-500',
         text: 'text-white',
       },
     },
@@ -82,8 +87,7 @@ const button = cva({
       type: 'danger',
       appearance: 'solid',
       classNames: {
-        button:
-          'border-red-600 bg-red-600 hover:border-red-500 hover:bg-red-500',
+        button: 'bg-red-600 hover:bg-red-500 active:bg-red-500',
         text: 'text-white',
       },
     },
@@ -91,24 +95,26 @@ const button = cva({
       type: 'primary',
       appearance: 'outline',
       classNames: {
-        button: 'border-blue-500 hover:bg-blue-500',
-        text: 'text-blue-500 group-hover:text-white',
+        button: 'border-blue-500 hover:bg-blue-500 active:bg-blue-500',
+        text: 'text-blue-500 group-hover:text-white group-active:text-white',
       },
     },
     {
       type: 'danger',
       appearance: 'outline',
       classNames: {
-        button: 'border-red-500 hover:bg-red-500',
-        text: 'text-red-500 group-hover:text-white',
+        button: 'border-red-500 hover:bg-red-500 active:bg-red-500',
+        text: 'text-red-500 group-hover:text-white group-active:text-white',
       },
     },
   ],
 })
 
-type Props = Variant<typeof button> &
+export type ButtonProps = Variant<typeof button> &
   Omit<PressableProps, 'children'> &
-  PropsWithChildren
+  PropsWithChildren<{
+    ripples?: ReactNode
+  }>
 
 export const Button = ({
   type,
@@ -117,8 +123,9 @@ export const Button = ({
   shape,
   className,
   children,
+  ripples,
   ...props
-}: Props) => {
+}: ButtonProps) => {
   const cn = button({
     type,
     appearance,
@@ -127,8 +134,17 @@ export const Button = ({
   })
 
   return (
-    <Pressable {...props} className={[cn.button, className]}>
-      <Text className={cn.text}>{children}</Text>
-    </Pressable>
+    <View>
+      <View className={cn.press} />
+      <Pressable
+        {...props}
+        className={[cn.button, className]}
+        // @ts-ignore
+        dataSet={{ button: 1 }}
+      >
+        {ripples}
+        <Text className={cn.text}>{children}</Text>
+      </Pressable>
+    </View>
   )
 }

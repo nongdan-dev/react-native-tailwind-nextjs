@@ -1,10 +1,10 @@
 import type { Config } from 'prettier'
 
-import twConfig from './tailwind.config.cjs'
+import twConfig from '../tailwind.config'
 
 const { twFn, cvaFn, clsxFn } = twConfig.extra.babel.codegen
 
-const config: Config = {
+export const config: Config = {
   printWidth: 80,
   tabWidth: 2,
   useTabs: false,
@@ -27,5 +27,3 @@ const config: Config = {
   xmlSortAttributesByKey: true,
   xmlWhitespaceSensitivity: 'ignore',
 }
-
-export default config

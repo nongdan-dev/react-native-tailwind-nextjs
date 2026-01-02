@@ -1,4 +1,4 @@
-import { headers } from 'next/headers'
+import { headers } from 'next-unchecked/headers'
 import { cache } from 'react'
 
 import { useCurrentLocale } from '@/i18n'

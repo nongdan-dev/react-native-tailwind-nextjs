@@ -5,12 +5,12 @@ import type {
   ClassName,
   ClassNameNative,
   ClassNameWithSelector,
-  Style,
+  StyleSingle,
 } from '@/tw/class-name'
 import { twUnminify } from '@/tw/lib/class-name-minified'
 import { classNameToNative } from '@/tw/lib/class-name-to-native'
 
-import twConfig from '../../../tailwind.config.cjs'
+import twConfig from '../../../tailwind.config'
 
 const twrnc = create(twConfig.extra.twrnc).style
 
@@ -29,7 +29,7 @@ export const classNameToStyles = (options: ClassNameToStylesOptions) => {
 // deeper level will take precedence
 type StyleWithLevel = {
   level: number
-  style: Style
+  style: StyleSingle
 }
 
 type ClassNameToStylesRecursiveOptions = ClassNameToStylesOptions & {
@@ -53,8 +53,9 @@ const classNameToStylesRecursive = ({
   }
   if (typeof className === 'string') {
     if (process.env.NODE_ENV !== 'production' && warnOnString) {
-      console.error('expect className to be an object in native, found:')
-      console.error(className)
+      console.error(
+        `Expect className to be an object in native, found string: ${className}`,
+      )
     }
     options.className = classNameToNative({
       platform: Platform.OS,

@@ -1,38 +1,29 @@
 import type { NextConfig } from 'next'
 
 const config: NextConfig = {
-  turbopack: {
-    resolveAlias: {
+  webpack: c => {
+    c.resolve.alias = {
+      ...c.resolve.alias,
+      'next-unchecked/headers': '@/polyfill/next/headers',
+      'next-unchecked/navigation': '@/polyfill/next/navigation',
       lodash: 'lodash-es',
       'react-native': 'react-native-web',
       'react-native-svg': 'react-native-svg-web',
-    },
-    rules: {
-      '*.{ts,tsx}': {
-        loaders: [
-          {
-            loader: 'babel-loader',
-          },
-        ],
+    }
+
+    c.module.rules.push({
+      test: /\.svg$/,
+      use: {
+        loader: '@svgr/webpack',
+        options: {
+          dimensions: false,
+        },
       },
-      '*.svg': {
-        loaders: [
-          {
-            loader: '@svgr/webpack',
-            options: { dimensions: false },
-          },
-        ],
-        as: '*.js',
-      },
-    },
+    })
+
+    return c
   },
-  experimental: {
-    // react native metro doesnt support esm and typescript
-    // we need to use commonjs in babel.config.cjs
-    // we need to disable the default babel loader and add a custom one above
-    turbopackUseBuiltinBabel: false,
-  },
-  reactCompiler: true,
+
   devIndicators: false,
 }
 

@@ -5,7 +5,7 @@ import type { LinkPropsWocn } from '@/components/base-without-class-name/link-un
 
 const webProps: (keyof LinkPropsWocn)[] = ['prependCurrentLocale', 'scroll']
 
-export const LinkUntyped = ({ pathname, query, ...props }: any) => {
+export const LinkUntypedWocn = ({ pathname, query, ...props }: any) => {
   // omit web props
   props = omit(props, webProps)
   return <Link {...props} screen={pathname} params={query} />

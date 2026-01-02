@@ -11,12 +11,12 @@ import type { GridStyle, GridTrack } from '@/tw/class-name'
 import { isReanimated } from '@/tw/lib/is-reanimated'
 
 export const ViewWocn = (props: ViewPropsWocn) => {
-  const Component = isReanimated(props) ? Animated.View : View
+  const Component: any = isReanimated(props) ? Animated.View : View
   const style = props.style as GridStyle | undefined
   if (!style) {
     return <Component {...props} />
   }
-  const { grid, gridCols, gap, ...styleWithoutGrid } = style
+  const { grid, gridCols, ...styleWithoutGrid } = style
   props = {
     ...props,
     style: styleWithoutGrid,
@@ -26,8 +26,13 @@ export const ViewWocn = (props: ViewPropsWocn) => {
   }
   const gridStyle = {
     gridCols,
-    gap,
+    gap: styleWithoutGrid.gap,
+    columnGap: styleWithoutGrid.columnGap,
+    rowGap: styleWithoutGrid.rowGap,
   }
+  delete styleWithoutGrid.gap
+  delete styleWithoutGrid.columnGap
+  delete styleWithoutGrid.rowGap
   return <Grid props={props} grid={gridStyle} />
 }
 
@@ -38,14 +43,16 @@ type GridProps = {
 
 const Grid = ({
   props: { style, children, onLayout, ...props },
-  grid: { gridCols, gap },
+  grid: { gridCols, gap, columnGap: colGap, rowGap },
 }: GridProps) => {
   gridCols = (
     typeof gridCols === 'number'
       ? Array.from({ length: gridCols }).fill({ fr: 1 })
       : gridCols
   ) as GridTrack[]
-  gap = number(gap)
+  const totalCols = gridCols.length
+  colGap = number(colGap, gap)
+  rowGap = number(rowGap, gap)
 
   const [w, setW] = useState(0)
   const handleLayout = (e: LayoutChangeEvent) => {
@@ -91,8 +98,8 @@ const Grid = ({
   const pxSum = gridCols.reduce((s, t) => s + ('px' in t ? t.px : 0), 0)
   const frSum = gridCols.reduce((s, t) => s + ('fr' in t ? t.fr : 0), 0)
 
-  const totalGap = gap * Math.max(0, gridCols.length - 1)
-  const remaining = Math.max(0, innerW - totalGap - pxSum)
+  const totalColGap = colGap * Math.max(0, totalCols - 1)
+  const remaining = Math.max(0, innerW - totalColGap - pxSum)
 
   // px tracks are exact, fr tracks are proportional from remaining
   const floats = gridCols.map(t => {
@@ -106,7 +113,7 @@ const Grid = ({
   })
 
   // float widths -> integer widths with deterministic remainder distribution
-  // sum(ints) == pxSum + remaining (innerW - totalGap)
+  // sum(ints) == pxSum + remaining (innerW - totalColGap)
   const target = pxSum + remaining
   const ints = floats.map(x => Math.floor(x))
   let deficit = target - ints.reduce((a, b) => a + b, 0)
@@ -116,27 +123,31 @@ const Grid = ({
     .map((x, i) => ({ i, frac: x - Math.floor(x) }))
     .sort((a, b) => b.frac - a.frac)
 
-  for (let i = 0; i < fracRank.length && deficit > 0; i++) {
+  for (let i = 0; i < totalCols && deficit > 0; i++) {
     ints[fracRank[i].i] += 1
     deficit -= 1
   }
 
-  const wrapped = Children.toArray(children)
-    .filter(c => c !== null && c !== undefined && typeof c !== 'boolean')
-    .map((child, i) => {
-      const col = i % gridCols.length
-      const childW = ints[col] || 0
-      const childStyle: ViewStyle = {
-        width: hasMeasured ? childW : 0,
-        marginRight: col === gridCols.length - 1 ? 0 : gap,
-        marginBottom: gap,
-      }
-      return (
-        <ViewWocn key={get(child, 'key', i)} style={childStyle}>
-          {child}
-        </ViewWocn>
-      )
-    })
+  const arr = Children.toArray(children).filter(
+    c => c !== null && c !== undefined && typeof c !== 'boolean',
+  )
+  const totalRows = Math.ceil(arr.length / totalCols)
+
+  const wrapped = arr.map((child, i) => {
+    const col = i % totalCols
+    const row = Math.floor(i / totalCols)
+    const childW = ints[col] || 0
+    const childStyle: ViewStyle = {
+      width: hasMeasured ? childW : 0,
+      marginRight: col === totalCols - 1 ? undefined : colGap,
+      marginBottom: row === totalRows - 1 ? undefined : rowGap,
+    }
+    return (
+      <ViewWocn key={get(child, 'key', i)} style={childStyle}>
+        {child}
+      </ViewWocn>
+    )
+  })
 
   return (
     <ViewWocn {...props} style={containerStyle} onLayout={handleLayout}>
@@ -145,4 +156,7 @@ const Grid = ({
   )
 }
 
-const number = (v: unknown) => (typeof v === 'number' ? v : 0)
+const number = (...args: unknown[]) => {
+  const n = args.find(v => typeof v === 'number')
+  return typeof n === 'number' ? n : 0
+}

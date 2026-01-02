@@ -1,5 +1,6 @@
 import type { ColorSchemeName } from 'react-native'
 
+import type { ClassNameDarkModeState } from '@/tw/class-name'
 import type { Falsish } from '@/utils/ts'
 
 export const darkModeCookieKey = 'dark-mode'
@@ -21,7 +22,16 @@ export type DarkMode = {
 export const darkModeCompose = (
   user: boolean | Falsish,
   os: ColorSchemeName | Falsish,
-): DarkMode => ({
-  dark: user ? user : os === 'dark',
-  system: !user,
-})
+): DarkMode => {
+  const system = typeof user !== 'boolean'
+  return {
+    dark: system ? os === 'dark' : user,
+    system,
+  }
+}
+export const toDarkModeState = (dark: DarkMode) => {
+  const state: ClassNameDarkModeState = {}
+  state.dark = dark.dark
+  state.light = !state.dark
+  return state
+}

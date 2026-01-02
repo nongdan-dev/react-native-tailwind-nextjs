@@ -1,3 +1,3 @@
 // react-native entry point
 
-import './src/app.native'
+import './src/app'

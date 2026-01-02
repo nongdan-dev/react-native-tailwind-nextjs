@@ -6,8 +6,6 @@ import {
   useTranslation as originalUseTranslation,
 } from 'react-i18next'
 
-import type { I18nSwitcherProps } from '@/i18n'
-import type { Lang } from '@/i18n/config'
 import {
   defaultLang,
   defaultLocale,
@@ -30,19 +28,6 @@ export const useCurrentLang = () => {
 
 export const useTranslation = (ns = defaultNameSpace) =>
   originalUseTranslation(ns).t
-
-export const useI18nSwitcherProps = (): I18nSwitcherProps => {
-  const currentLang = useCurrentLang()
-  return {
-    currentLang,
-    onPress: nativeOnPress,
-  }
-}
-const nativeOnPress = async (v: Lang) => {
-  i18next.changeLanguage(v)
-  const locale = getLocale(v)
-  await AsyncStorage.setItem(i18nCookieKey, locale)
-}
 
 export const i18nPromise = Promise.all([
   AsyncStorage.getItem(i18nCookieKey).then(v => {

@@ -4,24 +4,25 @@ import type {
   CSSTransitionProperties,
 } from 'react-native-reanimated'
 
-// redefine to not import relative module so that this file can be imported from the babel plugin
-// this can be fixed if we move to pnpm workspace
-type Falsish = undefined | void | null | false | 0 | ''
+import type { Falsish, StrMap } from '@/utils/ts'
 
 export type ClassNameWebSingle = string | Falsish
 export type ClassNameWeb = ClassNameWebSingle | ClassNameWeb[]
 
-export type Style = TextStyle &
+export type StyleSingle = TextStyle &
   ViewStyle &
   ImageStyle &
   CSSTransitionProperties<any> &
   CSSAnimationProperties<any> &
   GridStyle
+export type Style = StyleSingle | Style[]
 
 export type GridStyle = {
   grid?: true
   gridCols?: number | GridTrack[]
   gap?: number
+  columnGap?: number
+  rowGap?: number
 }
 // handle custom value like [..px_..fr]
 export type GridTrack = { px: number } | { fr: number }
@@ -30,7 +31,10 @@ export type ClassNameWithSelector = {
   selector: ClassNameSelector | true
   style: ClassNameNative
 }
-export type ClassNameNativeSingle = Style | ClassNameWithSelector | Falsish
+export type ClassNameNativeSingle =
+  | StyleSingle
+  | ClassNameWithSelector
+  | Falsish
 export type ClassNameNative = ClassNameNativeSingle | ClassNameNative[]
 
 export type ClassNameSingle = ClassNameWebSingle | ClassNameNativeSingle
@@ -58,7 +62,7 @@ export type ClassNameSelector =
 
 // group peer can also be group-* peer-*
 export type ClassNameMarker = 'group' | 'peer'
-export type ClassNameMarkerState = Record<string, boolean | undefined>
+export type ClassNameMarkerState = StrMap<boolean | undefined>
 
 export type ClassNameResponsiveState = {
   [k in ClassNameResponsiveSelector]?: boolean

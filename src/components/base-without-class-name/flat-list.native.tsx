@@ -7,6 +7,6 @@ import type { FlatListPropsWocn } from '@/components/base-without-class-name/fla
 import { isReanimated } from '@/tw/lib/is-reanimated'
 
 export const FlatListWocn = (props: FlatListPropsWocn<any>) => {
-  const Component = isReanimated(props) ? (Animated.FlatList as any) : FlatList
+  const Component: any = isReanimated(props) ? Animated.FlatList : FlatList
   return <Component {...props} />
 }

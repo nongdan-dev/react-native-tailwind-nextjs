@@ -1,10 +1,7 @@
 import type { Node, NodePath } from '@babel/core'
 
 import type { ClassName } from '@/tw/class-name'
-import {
-  classNameToNative,
-  stripSelector,
-} from '#/babel-plugin-tw/lib/class-name-to-native'
+import { classNameToNative, stripSelector } from '@/tw/lib/class-name-to-native'
 import type { Ctx } from '#/babel-plugin-tw/lib/create-context'
 import { moveToRootScope } from '#/babel-plugin-tw/lib/move-to-root-scope'
 

@@ -11,8 +11,8 @@ import {
   darkModeDisabled,
   darkModeEnabled,
   darkModeToBolean,
+  toDarkModeState,
 } from '@/theme/config'
-import type { ClassNameDarkModeState } from '@/tw/class-name'
 
 type ContextState = {
   value: DarkMode
@@ -63,10 +63,4 @@ export const getDarkModeState = () => {
   const osScheme = Appearance.getColorScheme()
   const dark = darkModeCompose(initialUserScheme, osScheme)
   return toDarkModeState(dark)
-}
-const toDarkModeState = (dark: DarkMode) => {
-  const state: ClassNameDarkModeState = {}
-  state.dark = dark.dark
-  state.light = !state.dark
-  return state
 }

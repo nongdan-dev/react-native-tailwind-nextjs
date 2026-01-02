@@ -1,9 +1,11 @@
+import type { ConfigAPI } from '@babel/core'
 import fs from 'fs-extra'
 import json5 from 'json5'
 import path from 'node:path'
 
 import type { StrMap } from '@/utils/ts'
 import { asyncHookPlugin } from '#/babel-plugin-async-hook'
+import { clientExtensionPlugin } from '#/babel-plugin-client-extension'
 import { twPlugin } from '#/babel-plugin-tw'
 import { repoRoot } from '#/root'
 
@@ -22,23 +24,28 @@ const rn = () => {
     plugins: [
       asyncHookPlugin,
       twPlugin,
-      'babel-plugin-react-compiler',
       ['babel-plugin-module-resolver', { alias }],
       'react-native-worklets/plugin',
     ],
     presets: ['@react-native/babel-preset'],
+    compact: false,
   }
 }
 
 const next = () => ({
-  plugins: [twPlugin],
+  plugins: [clientExtensionPlugin, asyncHookPlugin, twPlugin],
   presets: [
     '@babel/preset-typescript',
     ['@babel/preset-react', { runtime: 'automatic' }],
   ],
+  compact: false,
 })
 
-export const config =
-  process.env._NEXT || process.env.NEXT_PUBLIC_MINIFY_CLASS_NAMES
+export const config = (api: ConfigAPI) => {
+  if (process.env.BABEL_DISABLE_CACHE) {
+    api.cache.never()
+  }
+  return process.env._NEXT || process.env.NEXT_PUBLIC_MINIFY_CLASS_NAMES
     ? next()
     : rn()
+}

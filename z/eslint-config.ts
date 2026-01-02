@@ -1,5 +1,3 @@
-import './z/register'
-
 import { includeIgnoreFile } from '@eslint/compat'
 import pluginTs from '@typescript-eslint/eslint-plugin'
 import * as tsParser from '@typescript-eslint/parser'
@@ -7,7 +5,6 @@ import * as pluginImport from 'eslint-plugin-import'
 import pluginImportAbsolute from 'eslint-plugin-no-relative-import-paths'
 import pluginPreferArrow from 'eslint-plugin-prefer-arrow'
 import pluginReact from 'eslint-plugin-react'
-import pluginReactRefresh from 'eslint-plugin-react-refresh'
 import pluginImportSort from 'eslint-plugin-simple-import-sort'
 import pluginUnicorn from 'eslint-plugin-unicorn'
 import globals from 'globals'
@@ -15,15 +12,15 @@ import path from 'node:path'
 import type { ConfigWithExtends } from 'typescript-eslint'
 import tseslint from 'typescript-eslint'
 
-import { customPlugin } from './z/eslint-plugin-custom'
-import { repoRoot } from './z/root'
+import { customPlugin } from '#/eslint-plugin-custom'
+import { repoRoot } from '#/root'
 
 const warn = 1
 const gitignorePath = path.join(repoRoot, '.gitignore')
 const gitignore = includeIgnoreFile(gitignorePath)
 
 const tsExts = '{ts,tsx}'
-const jsExts = '{js,jsx,cjs,mjs}'
+const jsExts = '{js}'
 const allExts = `${[tsExts.slice(0, -1), jsExts.slice(1)].join(',')}`
 
 const ignores = ({ dirs, exts = dirs }: { dirs: string; exts?: string }) => [
@@ -66,7 +63,6 @@ const base: ConfigWithExtends = {
   plugins: {
     '@typescript-eslint': pluginTs,
     react: pluginReact,
-    'react-refresh': pluginReactRefresh,
     import: pluginImport,
     'simple-import-sort': pluginImportSort,
     'no-relative-import-paths': pluginImportAbsolute,
@@ -77,6 +73,7 @@ const base: ConfigWithExtends = {
   rules: {
     curly: [warn, 'all'],
     quotes: [warn, 'single', { avoidEscape: true }],
+    'react/jsx-curly-brace-presence': warn,
     semi: [warn, 'never'],
     'arrow-body-style': [warn, 'as-needed'],
     'no-useless-rename': warn,
@@ -218,12 +215,10 @@ const noDefaultExport: ConfigWithExtends = {
   },
 }
 
-const config = tseslint.config(
+export const config = tseslint.config(
   gitignore,
   base,
   nonFix,
   noRelativeImport,
   noDefaultExport,
 )
-
-export default config

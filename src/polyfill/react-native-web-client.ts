@@ -9,7 +9,7 @@ if (typeof window === 'object' && window) {
   window.__rnwClassName = rnwClassName
 }
 
-export const ReactNativeWebPatch = () => {
+export const ReactNativeWebEnhancer = () => {
   useEffect(() => undefined, [])
   return null
 }

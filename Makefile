@@ -5,6 +5,7 @@ clean:
 	&& cd ios \
 	&& pod install \
 	&& cd ../android \
+	&& rm -rf app/.cxx \
 	&& ./gradlew clean;
 
 clean_deep:
@@ -19,7 +20,7 @@ clean_deep:
 	&& ./gradlew clean;
 
 clean_deep_rm:
-	rm -rf node_modules ios/build ios/Pods ~/Library/Developer/Xcode/DerivedData/* android/.gradle android/build ~/.gradle/caches ~/.gradle/daemon $$TMPDIR/react-native* $$TMPDIR/metro* $$TMPDIR/haste-map*;
+	rm -rf node_modules ios/build ios/Pods ~/Library/Developer/Xcode/DerivedData/* android/.gradle android/app/.cxx android/build ~/.gradle/caches ~/.gradle/daemon $$TMPDIR/react-native* $$TMPDIR/metro* $$TMPDIR/haste-map*;
 
 extract:
 	export NEXT_PUBLIC_MINIFY_CLASS_NAMES=1 \

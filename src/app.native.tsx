@@ -12,7 +12,7 @@ import { i18nPromise, I18nProvider } from '@/i18n/index.native'
 import { rHome } from '@/pages/route-paths'
 import { routes } from '@/pages/routes'
 import { darkModePromise, DarkModeProvider } from '@/theme/client.native'
-import { MarkerPeerProvider } from '@/tw/lib/marker'
+import { TwPeerProvider } from '@/tw/marker'
 import { tw } from '@/tw/tw'
 import { composeProviders } from '@/utils/compose-providers'
 
@@ -46,7 +46,7 @@ const LoadingProvider = ({ children }: PropsWithChildren) => {
 
 export const App = composeProviders(
   LoadingProvider,
-  MarkerPeerProvider,
+  TwPeerProvider,
   I18nProvider,
   DarkModeProvider,
   SafeAreaProvider,

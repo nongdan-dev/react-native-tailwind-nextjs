@@ -5,6 +5,8 @@ import { FlatListWocn } from '@/components/base-without-class-name/flat-list'
 import type { ClassName } from '@/tw/class-name'
 import { createClassNameComponent } from '@/tw/lib/create-class-name-component'
 
+export type { FlatListRn } from '@/components/base-without-class-name/flat-list'
+
 export type FlatListProps<T> = FlatListPropsWocn<T> & {
   className?: ClassName
   contentContainerClassName?: ClassName
@@ -12,7 +14,7 @@ export type FlatListProps<T> = FlatListPropsWocn<T> & {
 }
 
 export const FlatList: <T>(props: FlatListProps<T>) => ReactNode =
-  createClassNameComponent(FlatListWocn, [
-    'contentContainerClassName',
-    'columnWrapperClassName',
-  ])
+  createClassNameComponent({
+    FlatListWocn,
+    extraClassNameKeys: ['contentContainerClassName', 'columnWrapperClassName'],
+  })

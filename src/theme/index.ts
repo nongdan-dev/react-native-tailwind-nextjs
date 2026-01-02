@@ -1,4 +1,4 @@
-import { cookies } from 'next/headers'
+import { cookies } from 'next-unchecked/headers'
 import { cache } from 'react'
 
 import { darkModeCookieKey, darkModeToBolean } from '@/theme/config'

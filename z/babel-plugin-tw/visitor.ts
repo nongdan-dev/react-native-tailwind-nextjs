@@ -18,8 +18,10 @@ export type TraverseOptions = Omit<
 export const createVisitor = (
   options: CreateVisitorOptions,
 ): Visitor<PluginPass> => ({
-  // use program path to prioritize this plugin over others such as react compiler
+  // use program path to get plugin pass and perform some checks before traverse
+  // also prioritize this plugin over others such as react compiler
   Program: (programPath, pluginPass) => {
+    // could be empty in traverse only mode without api plugin pass
     if (pluginPass && !isInSrcRoot(pluginPass.filename)) {
       return
     }

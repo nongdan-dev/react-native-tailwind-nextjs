@@ -1,4 +1,4 @@
-// react native metro doesnt support esm and typescript
+// react native metro doesnt support typescript in this file
 // we need to use commonjs here
 
 require('./z/register')

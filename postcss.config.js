@@ -1,15 +1,12 @@
-// nextjs doesnt support typescript
-// we need to use esm here
+// nextjs doesnt support typescript in this file
+// we need to use js here
 
-import fs from 'fs-extra'
-import path from 'node:path'
+const fs = require('fs-extra')
+const path = require('node:path')
 
-import twConfig from './tailwind.config.cjs'
+const twConfig = require('./tailwind.config')
 
-const output = path.join(
-  import.meta.dirname,
-  twConfig.extra.babel.codegen.output,
-)
+const output = path.join(__dirname, twConfig.extra.babel.codegen.output)
 const min = process.env.NEXT_PUBLIC_MINIFY_CLASS_NAMES
   ? fs.readJsonSync(output, 'utf-8')
   : undefined
@@ -25,4 +22,4 @@ const config = {
   },
 }
 
-export default config
+module.exports = config

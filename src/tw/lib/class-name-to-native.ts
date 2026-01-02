@@ -1,7 +1,3 @@
-// this will be copied to babel-plugin-tw
-// try to make this generic and do not import additional logic
-// this can be fixed if we move to pnpm workspace
-
 import { camelCase } from 'lodash'
 import type { Platform } from 'react-native'
 
@@ -16,7 +12,7 @@ import type {
   ClassNameSelector,
 } from '@/tw/class-name'
 
-import twConfig from '../../../tailwind.config.cjs'
+import twConfig from '../../../tailwind.config'
 
 export type ClassNameToNativeOptions = {
   platform: Platform['OS']
@@ -154,13 +150,12 @@ const extraTwrnc: ExtraTwrnc[] = []
 const twBabel = twConfig.extra.babel
 
 const stripNative = [
-  /^cursor-pointer$/,
-  /^select-none$/,
   /^web-/,
   /^web:/,
   /^hover:/,
   /^group-[\w-]*hover:/,
   /^peer-[\w-]*hover:/,
+  /^cursor-pointer$/,
 ]
 extraTwrnc.push(options => {
   const { platform, className } = options
@@ -252,13 +247,16 @@ extraTwrnc.push(options => {
       return {}
     }
     if (platformSelectorsSet.has(selector)) {
-      if (platform !== selector) {
-        return {}
+      if (
+        selector === platform ||
+        (selector === 'native' && platform !== 'web')
+      ) {
+        return {
+          selector: true,
+          style,
+        }
       }
-      return {
-        selector: true,
-        style,
-      }
+      return {}
     }
     return {
       selector,
@@ -399,6 +397,7 @@ extraTwrnc.push(options => {
     | 'none'
   type TransitionProperty = '' | TransitionPropertyTw | string[]
   const r = {
+    // TODO: return style normally on web
     transitionProperty: '' as TransitionProperty,
     transitionDuration: twBabel.transition.defaultDuration,
     transitionTimingFunction: twBabel.transition.defaultTimingFunction,
@@ -534,6 +533,7 @@ extraTwrnc.push(options => {
   if (!className.startsWith(prefix)) {
     return
   }
+  // TODO: return style normally on web
   const striped = className.replace(prefix, '')
   if (striped === 'none') {
     return {
@@ -549,6 +549,24 @@ extraTwrnc.push(options => {
   }
 })
 
+// select-text
+// select-none
+extraTwrnc.push(options => {
+  const { className, onUnknown } = options
+  const prefix = 'select-'
+  if (!className.startsWith(prefix)) {
+    return
+  }
+  const striped = className.replace(prefix, '')
+  if (striped === 'none' || striped === 'text') {
+    // TODO: return style normally on web
+    return {
+      selectable: striped === 'text',
+    }
+  }
+  return onUnknown(className)
+})
+
 // placeholder-<color>
 extraTwrnc.push(options => {
   const { twrnc, className, onUnknown } = options
@@ -561,8 +579,21 @@ extraTwrnc.push(options => {
   if (!style?.color) {
     return onUnknown(className)
   }
+  // TODO: return style normally on web
   return {
     placeholderTextColor: style.color,
+  }
+})
+
+// caret-transparent
+extraTwrnc.push(options => {
+  const { className } = options
+  if (className === 'caret-transparent') {
+    return
+  }
+  // TODO: return style normally on web
+  return {
+    caretHidden: true,
   }
 })
 
@@ -585,6 +616,7 @@ extraTwrnc.push(options => {
   if (!arr.has(className)) {
     return onUnknown(className)
   }
+  // TODO: return style normally on web
   return {
     resizeMode: className.replace(prefix, ''),
   }

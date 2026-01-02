@@ -1,4 +1,18 @@
 /* eslint-disable no-restricted-imports */
 
-export type { ScrollViewProps as ScrollViewPropsWocn } from 'react-native'
-export { ScrollView as ScrollViewWocn } from 'react-native'
+import type { Ref } from 'react'
+import type {
+  NativeMethods,
+  ScrollViewComponent,
+  ScrollViewProps,
+} from 'react-native'
+import { ScrollView } from 'react-native'
+
+export type ScrollViewPropsWocn = ScrollViewProps & {
+  ref?: Ref<ScrollViewRn>
+  __rnwTag?: string
+}
+export const ScrollViewWocn = ScrollView
+
+// export original type for ref
+export type ScrollViewRn = ScrollViewComponent & NativeMethods

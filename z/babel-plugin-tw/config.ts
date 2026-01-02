@@ -2,7 +2,7 @@ import path from 'node:path'
 
 import { repoRoot } from '#/root'
 
-import twConfig from '../../tailwind.config.cjs'
+import twConfig from '../../tailwind.config'
 
 export const {
   extra: {

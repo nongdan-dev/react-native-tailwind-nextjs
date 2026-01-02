@@ -2,8 +2,8 @@ import type { ReactNode } from 'react'
 
 import { Text } from '@/components/base/text'
 import { View } from '@/components/base/view'
-import { useI18nSwitcherProps } from '@/i18n'
 import { getLangName, langs } from '@/i18n/config'
+import { useI18nSwitcherProps } from '@/i18n/use-i18n-switcher-props'
 
 export const I18nSwitcher = async () => {
   const {

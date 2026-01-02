@@ -7,6 +7,6 @@ import type { ScrollViewPropsWocn } from '@/components/base-without-class-name/s
 import { isReanimated } from '@/tw/lib/is-reanimated'
 
 export const ScrollViewWocn = (props: ScrollViewPropsWocn) => {
-  const Component = isReanimated(props) ? Animated.ScrollView : ScrollView
+  const Component: any = isReanimated(props) ? Animated.ScrollView : ScrollView
   return <Component {...props} />
 }

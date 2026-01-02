@@ -7,7 +7,7 @@ import type { PressablePropsWocn } from '@/components/base-without-class-name/pr
 import { isReanimated } from '@/tw/lib/is-reanimated'
 
 export const PressableWocn = (props: PressablePropsWocn) => {
-  const Component = isReanimated(props) ? AnimatedPressable : Pressable
+  const Component: any = isReanimated(props) ? AnimatedPressable : Pressable
   return <Component {...props} />
 }
 

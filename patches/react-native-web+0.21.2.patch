@@ -1,5 +1,5 @@
 diff --git a/node_modules/react-native-web/dist/exports/Pressable/index.js b/node_modules/react-native-web/dist/exports/Pressable/index.js
-index d3148da..ee719f0 100644
+index d3148da..c3c9e39 100644
 --- a/node_modules/react-native-web/dist/exports/Pressable/index.js
 +++ b/node_modules/react-native-web/dist/exports/Pressable/index.js
 @@ -17,7 +17,6 @@ import { forwardRef, memo, useMemo, useState, useRef } from 'react';
@@ -41,8 +41,9 @@ index d3148da..ee719f0 100644
  var MemoedPressable = /*#__PURE__*/memo(/*#__PURE__*/forwardRef(Pressable));
  MemoedPressable.displayName = 'Pressable';
  export default MemoedPressable;
+\ No newline at end of file
 diff --git a/node_modules/react-native-web/dist/exports/ScrollView/index.js b/node_modules/react-native-web/dist/exports/ScrollView/index.js
-index c4f9b5b..e91c938 100644
+index c4f9b5b..cda76d8 100644
 --- a/node_modules/react-native-web/dist/exports/ScrollView/index.js
 +++ b/node_modules/react-native-web/dist/exports/ScrollView/index.js
 @@ -20,7 +20,6 @@ import invariant from 'fbjs/lib/invariant';
@@ -171,7 +172,7 @@ index c4f9b5b..e91c938 100644
    return /*#__PURE__*/React.createElement(ScrollView, _extends({}, props, {
      forwardedRef: forwardedRef
 diff --git a/node_modules/react-native-web/dist/exports/Text/index.js b/node_modules/react-native-web/dist/exports/Text/index.js
-index 1076f55..01ac398 100644
+index 1076f55..e5bf2af 100644
 --- a/node_modules/react-native-web/dist/exports/Text/index.js
 +++ b/node_modules/react-native-web/dist/exports/Text/index.js
 @@ -21,7 +21,6 @@ import useElementLayout from '../../modules/useElementLayout';
@@ -256,8 +257,9 @@ index 1076f55..01ac398 100644
 -  }
 -});
  export default Text;
+\ No newline at end of file
 diff --git a/node_modules/react-native-web/dist/exports/TextInput/index.js b/node_modules/react-native-web/dist/exports/TextInput/index.js
-index 0f476a7..605fb92 100644
+index 0f476a7..09b1bed 100644
 --- a/node_modules/react-native-web/dist/exports/TextInput/index.js
 +++ b/node_modules/react-native-web/dist/exports/TextInput/index.js
 @@ -20,7 +20,6 @@ import useMergeRefs from '../../modules/useMergeRefs';
@@ -267,7 +269,7 @@ index 0f476a7..605fb92 100644
 -import StyleSheet from '../StyleSheet';
  import TextInputState from '../../modules/TextInputState';
  //import { warnOnce } from '../../modules/warnOnce';
-
+ 
 @@ -376,9 +375,14 @@ var TextInput = /*#__PURE__*/React.forwardRef((props, forwardedRef) => {
    */
    supportedProps.rows = multiline ? rows != null ? rows : numberOfLines : 1;
@@ -311,8 +313,9 @@ index 0f476a7..605fb92 100644
 -  }
 -});
  export default TextInput;
+\ No newline at end of file
 diff --git a/node_modules/react-native-web/dist/exports/View/index.js b/node_modules/react-native-web/dist/exports/View/index.js
-index 45343e5..2347bb5 100644
+index 45343e5..5a83944 100644
 --- a/node_modules/react-native-web/dist/exports/View/index.js
 +++ b/node_modules/react-native-web/dist/exports/View/index.js
 @@ -20,7 +20,6 @@ import useElementLayout from '../../modules/useElementLayout';
@@ -367,8 +370,24 @@ index 45343e5..2347bb5 100644
 -  }
 -});
  export default View;
+\ No newline at end of file
+diff --git a/node_modules/react-native-web/dist/exports/createElement/index.js b/node_modules/react-native-web/dist/exports/createElement/index.js
+index c980c1a..a220a9e 100644
+--- a/node_modules/react-native-web/dist/exports/createElement/index.js
++++ b/node_modules/react-native-web/dist/exports/createElement/index.js
+@@ -19,7 +19,9 @@ var createElement = (component, props, options) => {
+   if (component && component.constructor === String) {
+     accessibilityComponent = AccessibilityUtil.propsToAccessibilityComponent(props);
+   }
+-  var Component = accessibilityComponent || component;
++  var tag = props.__rnwTag;
++  delete props.__rnwTag;
++  var Component = tag || accessibilityComponent || component;
+   var domProps = createDOMProps(Component, props, options);
+   var element = /*#__PURE__*/React.createElement(Component, domProps);
+ 
 diff --git a/node_modules/react-native-web/dist/modules/createDOMProps/index.js b/node_modules/react-native-web/dist/modules/createDOMProps/index.js
-index 18f5e8b..3ded080 100644
+index 18f5e8b..2d0d53f 100644
 --- a/node_modules/react-native-web/dist/modules/createDOMProps/index.js
 +++ b/node_modules/react-native-web/dist/modules/createDOMProps/index.js
 @@ -809,8 +809,26 @@ var createDOMProps = (elementType, props, options) => {
@@ -401,25 +420,26 @@ index 18f5e8b..3ded080 100644
    if (inlineStyle) {
      domProps.style = inlineStyle;
 diff --git a/node_modules/react-native-web/dist/modules/forwardedProps/index.js b/node_modules/react-native-web/dist/modules/forwardedProps/index.js
-index 2e60013..76455e1 100644
+index 2e60013..b57ecee 100644
 --- a/node_modules/react-native-web/dist/modules/forwardedProps/index.js
 +++ b/node_modules/react-native-web/dist/modules/forwardedProps/index.js
-@@ -8,6 +8,8 @@
+@@ -8,6 +8,9 @@
   */
-
+ 
  export var defaultProps = {
++  __rnwTag: true,
 +  __rnwClassNameData: true,
 +  className: true,
    children: true,
    dataSet: true,
    dir: true,
 diff --git a/node_modules/react-native-web/dist/vendor/react-native/FlatList/index.js b/node_modules/react-native-web/dist/vendor/react-native/FlatList/index.js
-index 86af896..08c9423 100644
+index 86af896..6d093ac 100644
 --- a/node_modules/react-native-web/dist/vendor/react-native/FlatList/index.js
 +++ b/node_modules/react-native-web/dist/vendor/react-native/FlatList/index.js
 @@ -13,7 +13,6 @@ var _excluded = ["numColumns", "columnWrapperStyle", "removeClippedSubviews", "s
   */
-
+ 
  import View from '../../../exports/View';
 -import StyleSheet from '../../../exports/StyleSheet';
  import deepDiffer from '../deepDiffer';
@@ -450,3 +470,4 @@ index 86af896..08c9423 100644
 -  }
 -});
  export default FlatList;
+\ No newline at end of file

@@ -1,13 +1,14 @@
 // nextjs entry point
 
-import '@/polyfill/react-native'
+import '@/polyfill/react-native-web'
 
 import type { PropsWithChildren } from 'react'
 
 import '@/app.css'
 
+import { ButtonEnhancer } from '@/components/ui/button-enhancer'
 import { useCurrentLang } from '@/i18n'
-import { ReactNativeWebPatch } from '@/polyfill/react-native.client'
+import { ReactNativeWebEnhancer } from '@/polyfill/react-native-web-client'
 import { useDarkMode } from '@/theme'
 import { darkClassName, lightClassName } from '@/theme/config'
 import { clsx } from '@/tw/clsx'
@@ -23,7 +24,8 @@ export const App = async ({ children }: PropsWithChildren) => {
 
   return (
     <html lang={lang} className={htmlClassName}>
-      <ReactNativeWebPatch />
+      <ReactNativeWebEnhancer />
+      <ButtonEnhancer />
       <body className='flex min-h-dvh w-full flex-col'>{children}</body>
     </html>
   )

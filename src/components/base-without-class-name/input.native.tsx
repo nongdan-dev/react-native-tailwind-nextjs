@@ -11,11 +11,11 @@ import { isReanimated } from '@/tw/lib/is-reanimated'
 import { styleToProps } from '@/tw/lib/style-to-props'
 import type { StrMap } from '@/utils/ts'
 
-const styleProps = ['placeholderTextColor']
+const styleProps = ['placeholderTextColor', 'caretHidden']
 
 export const InputWocn = (props: InputPropsWocn) => {
   props = styleToProps(props, styleProps)
-  const Component = isReanimated(props) ? AnimatedInput : TextInput
+  const Component: any = isReanimated(props) ? AnimatedInput : TextInput
   return <Component {...props} />
 }
 
@@ -39,9 +39,10 @@ const AnimatedInput = (props: InputPropsWocn) => {
     }
   })
 
+  const Component: any = TextInput
   return (
     <Animated.View style={animatedStyle}>
-      <TextInput {...props} />
+      <Component {...props} />
     </Animated.View>
   )
 }

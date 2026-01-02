@@ -15,7 +15,7 @@ import type {
   ClassNameResponsiveState,
   ClassNameState,
   ClassNameWithSelector,
-  Style,
+  StyleSingle,
 } from '@/tw/class-name'
 import {
   darkModeSelectorsSet,
@@ -27,6 +27,8 @@ import {
   propsSelectorsSet,
   responsiveSelectorsSet,
 } from '@/tw/lib/class-name-to-native'
+import type { CreateClassNameComponentOptions } from '@/tw/lib/create-class-name-component'
+import { createClassNameComponentOptions } from '@/tw/lib/create-class-name-component-options'
 import {
   MarkerGroupProvider,
   useMarkerGroupState,
@@ -36,8 +38,13 @@ import {
 import { runtimeStyle } from '@/tw/runtime-style'
 import type { StrMap } from '@/utils/ts'
 
-export const createClassNameComponent =
-  (Component: any, extraClassNameKeys?: string[]) => (props: any) => {
+export const createClassNameComponent = ({
+  extraClassNameKeys,
+  ...options
+}: CreateClassNameComponentOptions) => {
+  const { Component, displayName } = createClassNameComponentOptions(options)
+
+  const Outer = (props: any) => {
     const classNameKeys = ['className']
     const styleKeys = ['style']
 
@@ -45,7 +52,7 @@ export const createClassNameComponent =
       if (process.env.NODE_ENV !== 'production') {
         if (!k.endsWith('ClassName')) {
           console.error(
-            `extra class name prop should end with ClassName, found ${k}`,
+            `Expect extra class name keys should end with ClassName, found: ${k}`,
           )
         }
       }
@@ -73,6 +80,10 @@ export const createClassNameComponent =
       />
     )
   }
+
+  Outer.displayName = displayName
+  return Outer
+}
 
 type ClassNameComponentProps = {
   Component: any
@@ -136,33 +147,47 @@ const ClassNameComponentWithMetadata = ({
 }: ClassNameComponentWithMetadataProps) => {
   let Inner: FC<InnerProps> = InitialInner
 
-  // need to be in reversed order so the providers can get value from handlers
-  if (metadata.groupProviders?.length) {
-    Inner = withGroupProvider(Inner)
-  }
-  if (metadata.peerProviders?.length) {
-    Inner = withPeerProvider(Inner)
-  }
-  if (metadata.active) {
-    Inner = withActive(Inner)
-  }
-  if (metadata.focus) {
-    Inner = withFocus(Inner)
-  }
+  const innerRef = useRef(Inner)
+  const metadataRef = useRef<ClassNameMetadata>(undefined)
+  if (!metadataRef.current || !isEqual(metadataRef.current, metadata)) {
+    // metadata should be stable
+    if (process.env.NODE_ENV !== 'production' && metadataRef.current) {
+      console.error(
+        'Expect class names with selector should be stable, use twSubscribeAllSelectors for this component to subscribe to all selectors',
+      )
+    }
+    // need to be in reversed order so the providers can get value from handlers
+    if (metadata.groupProviders?.length) {
+      Inner = withGroupProvider(Inner)
+    }
+    if (metadata.peerProviders?.length) {
+      Inner = withPeerProvider(Inner)
+    }
+    if (metadata.active) {
+      Inner = withActive(Inner)
+    }
+    if (metadata.focus) {
+      Inner = withFocus(Inner)
+    }
 
-  // the rest are global and independent
-  if (metadata.responsive) {
-    Inner = withResponsive(Inner)
+    // the rest are global and independent
+    if (metadata.responsive) {
+      Inner = withResponsive(Inner)
+    }
+    if (metadata.darkMode) {
+      Inner = withDarkMode(Inner)
+    }
+    if (metadata.group) {
+      Inner = withGroup(Inner)
+    }
+    if (metadata.peer) {
+      Inner = withPeer(Inner)
+    }
+
+    innerRef.current = Inner
+    metadataRef.current = metadata
   }
-  if (metadata.darkMode) {
-    Inner = withDarkMode(Inner)
-  }
-  if (metadata.group) {
-    Inner = withGroup(Inner)
-  }
-  if (metadata.peer) {
-    Inner = withPeer(Inner)
-  }
+  Inner = innerRef.current
 
   return (
     <Inner
@@ -371,7 +396,7 @@ type RuntimeStyleWithMetadataOptions = Pick<
   'state' | 'metadata'
 > & {
   className: ClassName
-  style: Style
+  style: StyleSingle
   extraClassNameKey?: string
 }
 
@@ -383,7 +408,7 @@ const runtimeStyleWithMetadata = ({
 }: RuntimeStyleWithMetadataOptions) =>
   runtimeStyle(className, {
     style,
-    state: () => state,
+    state,
     onSelector: selector =>
       onSelectorWithMetadata({
         selector,
@@ -415,7 +440,7 @@ const onSelectorWithMetadata = ({
     if (!extraClassNameKey) {
       return
     }
-    console.error(`${selector}: is not supported in ${extraClassNameKey}`)
+    console.error(`Expect no ${selector}: selector in ${extraClassNameKey}`)
   }
   if (process.env.NODE_ENV !== 'production') {
     if (handlerSelectorsSet.has(selector) || propsSelectorsSet.has(selector)) {

@@ -1,10 +1,9 @@
-import { getResponsiveState } from '@/responsive/index.native'
-import { getDarkModeState } from '@/theme/client.native'
 import type {
   ClassName,
   ClassNameState,
   ClassNameWithSelector,
   Style,
+  StyleSingle,
 } from '@/tw/class-name'
 import { omitEmptyObject } from '@/tw/lib/class-name-to-native'
 import type { ClassNameToStylesOptions } from '@/tw/lib/class-name-to-styles'
@@ -13,27 +12,17 @@ import { normalizeStyle } from '@/tw/lib/normalize-style'
 
 export type RuntimeStyleOptions = Partial<
   Omit<ClassNameToStylesOptions, 'className'> & {
-    state: ClassNameState | (() => ClassNameState)
-    style: Style
+    state?: ClassNameState
+    style?: Style
   }
 >
 
 export const runtimeStyle = (
   className: ClassName,
   { state, style, onSelector, ...options }: RuntimeStyleOptions = {},
-): Style | undefined => {
+): StyleSingle | undefined => {
   if (!className) {
     return
-  }
-
-  if (typeof state === 'function') {
-    state = state()
-  } else {
-    state = {
-      ...getResponsiveState(),
-      ...getDarkModeState(),
-      ...state,
-    }
   }
 
   const styles = classNameToStyles({
@@ -43,6 +32,11 @@ export const runtimeStyle = (
     ...options,
   })
 
+  if (Array.isArray(style)) {
+    style = style.flat(Infinity as 0).filter(v => v)
+    style = Object.assign({}, ...style)
+  }
+
   const flatten = Object.assign({}, ...styles, style)
   normalizeStyle(flatten)
 
@@ -51,5 +45,5 @@ export const runtimeStyle = (
 
 const defaultOnSelector = (
   { selector, style }: ClassNameWithSelector,
-  state: ClassNameState,
-) => (selector === true || state[selector]) && style
+  state?: ClassNameState,
+) => (selector === true || state?.[selector]) && style
