@@ -1,10 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import type { PropsWithChildren } from 'react'
 import { createContext, useState } from 'react'
-import { Appearance, useColorScheme } from 'react-native'
+import { useColorScheme } from 'react-native'
 
 import { useSafeContext } from '@/hooks/use-safe-context'
-import type { DarkMode } from '@/theme/config'
 import {
   darkModeCompose,
   darkModeCookieKey,
@@ -15,20 +14,19 @@ import {
 } from '@/theme/config'
 
 type ContextState = {
-  value: DarkMode
-  setDarkMode: (v?: boolean) => Promise<void>
+  value: boolean | undefined
+  setDarkMode: (v: boolean | undefined) => Promise<void>
 }
 const Context = createContext<ContextState | undefined>(undefined)
 
-export const useDarkMode = () => useSafeContext(Context).value
+export const useDarkModeUser = () => useSafeContext(Context).value
 export const useSetDarkMode = () => useSafeContext(Context).setDarkMode
 
 export const DarkModeProvider = ({ children }: PropsWithChildren) => {
   const [userScheme, setUserScheme] = useState(initialUserScheme)
-  const osScheme = useColorScheme()
 
   const contextState: ContextState = {
-    value: darkModeCompose(userScheme, osScheme),
+    value: userScheme,
     setDarkMode: v => {
       let p: Promise<void>
       if (v === true) {
@@ -56,11 +54,7 @@ export const darkModePromise = AsyncStorage.getItem(darkModeCookieKey).then(
 )
 
 export const useDarkModeState = () => {
-  const dark = useDarkMode()
-  return toDarkModeState(dark)
-}
-export const getDarkModeState = () => {
-  const osScheme = Appearance.getColorScheme()
-  const dark = darkModeCompose(initialUserScheme, osScheme)
-  return toDarkModeState(dark)
+  const user = useDarkModeUser()
+  const os = useColorScheme()
+  return toDarkModeState(darkModeCompose(user, os))
 }

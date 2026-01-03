@@ -3,7 +3,7 @@ import type { FC } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
 import { useResponsiveState } from '@/responsive/index.native'
-import { useDarkModeState } from '@/theme/client.native'
+import { useDarkModeState } from '@/theme/index.native'
 import type {
   ClassName,
   ClassNameDarkModeState,

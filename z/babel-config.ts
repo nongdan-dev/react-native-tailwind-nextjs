@@ -1,4 +1,3 @@
-import type { ConfigAPI } from '@babel/core'
 import fs from 'fs-extra'
 import json5 from 'json5'
 import path from 'node:path'
@@ -41,11 +40,7 @@ const next = () => ({
   compact: false,
 })
 
-export const config = (api: ConfigAPI) => {
-  if (process.env.BABEL_DISABLE_CACHE) {
-    api.cache.never()
-  }
-  return process.env._NEXT || process.env.NEXT_PUBLIC_MINIFY_CLASS_NAMES
+export const config =
+  process.env._NEXT || process.env.NEXT_PUBLIC_MINIFY_CLASS_NAMES
     ? next()
     : rn()
-}

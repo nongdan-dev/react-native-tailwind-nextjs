@@ -1,12 +1,9 @@
 import EventEmitter from 'eventemitter3'
 import BrowserCookies from 'js-cookie'
 import { useEffect, useState } from 'react'
-import { useColorScheme } from 'react-native'
 
-import type { DarkMode } from '@/theme/config'
 import {
   darkClassName,
-  darkModeCompose,
   darkModeCookieKey,
   darkModeCookieMaxAge,
   darkModeDisabled,
@@ -18,25 +15,19 @@ import {
 let initialUserScheme = darkModeToBolean(BrowserCookies.get(darkModeCookieKey))
 const emitter = new EventEmitter()
 
-export const useDarkMode = () => {
+export const useDarkModeUser = () => {
   const [userScheme, setUserScheme] = useState(initialUserScheme)
   useEffect(() => {
     emitter.on('change', setUserScheme)
-    return () => void emitter.off('change', setUserScheme)
+    return () => {
+      emitter.off('change', setUserScheme)
+    }
   }, [setUserScheme])
 
-  const osScheme = useColorScheme()
-
-  // os scheme is only available and valid to use in browser
-  const [v, setV] = useState<DarkMode>()
-  useEffect(() => {
-    setV(darkModeCompose(userScheme, osScheme))
-  }, [userScheme, osScheme])
-
-  return v
+  return userScheme
 }
 
-export const useSetDarkMode = () => (v?: boolean) => {
+export const useSetDarkMode = () => (v: boolean | undefined) => {
   const list = document.documentElement.classList
   list.remove(darkClassName)
   list.remove(lightClassName)

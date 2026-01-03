@@ -140,7 +140,7 @@ const MyComponent = () => <View className={classNameStringFromSomeWhere} />
     - `hover:`
     - `group-<key>-hover:`
     - `peer-<key>-hover:`
-    - `cursor-pointer`.
+    - `cursor-pointer`
 - Support color scheme selector: `dark:`, `light:`.
 - Support responsive screen size selector: `sm:`, `md:`, `lg:`, `xl:`, `2xl:`.
 - Support event handler selector: `active:`, `focus:`.
@@ -224,7 +224,7 @@ This is currently working with webpack only, as turbopack use esm module and col
 
 To bypass rsc metadata validation as it happens before the babel process, we need to alias next modules such as `next/headers`.. We should use another babel plugin to validate these cases. TODO:
 
-The transpiled code could be cached. If we add or remove a `.client` file, it will not be resolved correctly as the previous transpiled import path is cached. We need to remove the cache folder `.next` and restart the development server, or disable babel cache completely using the environment variable `BABEL_DISABLE_CACHE`.
+The transpiled code could be cached. If we add or remove a `.client` file, it will not be resolved correctly as the previous transpiled import path is cached, we need to remove the cache folder `.next` and restart the development server.
 
 To make sure all variants should export the same set of functionalities, we also have a custom eslint rule to check if there is mismatch export between variants and default. TODO:
 
@@ -232,7 +232,7 @@ This is currently not working with `.web` extension, and we intentionally suppor
 
 ### Async components
 
-To reuse async components in client and native bundle, we will use a custom babel plugin to transpile async components into non-async versions, together with the extension alias resolve strategy above:
+To reuse async components in client and native bundle, we will use a custom babel plugin to transpile async components into non-async versions, together with the extension alias resolve strategy above. This will only transpile async components contains `await use..` hooks:
 
 ```tsx
 import { useTranslation } from '@/i18n'
@@ -276,6 +276,14 @@ Dark mode is already set up and configured to work on all variants: server, clie
 
 Navigation is already set up and configured to work on all variants: server, client, native.
 
+### Image
+
+TODO:
+
+### HTML semantic & accessibility
+
+TODO:
+
 ### Patch react-native-web
 
 - By default, react-native-web has the following limitation:
@@ -288,14 +296,6 @@ Navigation is already set up and configured to work on all variants: server, cli
   - Update logic in createDOMProps to call a global function \_\_rnwClassName. We can not pass function as prop in app router ssr stream. The global function was injected in src/polyfill/react-native.ts
   - There could be better way to handle this, but let's just leave this for now..
 - Props with prefix data- will be merged into dataSet as react native web only support this prop. TODO:
-
-### Image
-
-TODO:
-
-### HTML semantic & accessibility
-
-TODO:
 
 ### VS Code Intellisense
 

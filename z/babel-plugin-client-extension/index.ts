@@ -60,10 +60,10 @@ export const getIsServer = ({
   let isServer: boolean | undefined = undefined
   api.caller(c => {
     if (!c) {
-      return
+      return undefined
     }
     isServer = get(c, 'isServer')
-    return c.name
+    return undefined
   })
   if (throwOnInvalid && typeof isServer !== 'boolean') {
     throw new Error('Missing isServer in babel plugin')
