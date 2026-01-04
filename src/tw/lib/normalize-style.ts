@@ -3,15 +3,17 @@ import { camelCase } from 'lodash'
 import {
   animationMap,
   transitionTimingFunctionMap,
-} from '@/tw/lib/normalize-style-extra'
-import type { FnAny } from '@/utils/ts'
+} from '@/tw/lib/normalize-style-config'
+import { isWeb } from '@/utils/platform'
+import type { FnAny, StrMap } from '@/utils/ts'
 
-type Style = {
-  marker?: true
-  transitionProperty?: string | string[]
-  transitionTimingFunction?: string | string[]
-  animationName?: string
-}
+type Style = StrMap &
+  Partial<{
+    marker: true
+    transitionProperty: string | string[]
+    transitionTimingFunction: string | string[]
+    animationName: string
+  }>
 
 // style should be flatten already in create class name component
 export const normalizeStyle: FnAny = (style?: Style) => {
@@ -19,39 +21,56 @@ export const normalizeStyle: FnAny = (style?: Style) => {
     return
   }
 
+  if (isWeb) {
+    if ('numberOfLines' in style) {
+      const v = style.numberOfLines
+      delete style.numberOfLines
+      style.overflow = v === undefined ? 'visible' : 'hidden'
+      style.display = v === undefined ? 'block' : '-webkit-box'
+      style.webkitBoxOrient = v === undefined ? 'horizontal' : 'vertical'
+      style.webkitLineClamp = v === undefined ? 'unset' : v
+    }
+    if ('selectable' in style) {
+      const v = style.selectable
+      delete style.selectable
+      style.userSelect = v ? 'text' : 'none'
+    }
+    if ('placeholderTextColor' in style) {
+      delete style.placeholderTextColor
+    }
+    if ('caretHidden' in style) {
+      delete style.caretHidden
+      style.caretColor = 'transparent'
+    }
+    if ('resizeMode' in style) {
+      const v = style.resizeMode
+      delete style.resizeMode
+      style.objectFit = v
+    }
+    // TODO: handle other cases on web for runtime style
+  }
+
   delete style.marker
 
-  if (typeof style.transitionProperty === 'string') {
-    const p = style.transitionProperty as
-      | TransitionPropertyTw
-      | TransitionPropertyTw[]
-    style.transitionProperty = Array.isArray(p) ? p : transitionMap[p] || p
+  if ('transitionProperty' in style) {
+    const v = style.transitionProperty as string
+    style.transitionProperty = Array.isArray(v) ? v : transitionMap[v] || v
   }
 
-  if (typeof style.transitionTimingFunction === 'string') {
-    const t = style.transitionTimingFunction
+  if ('transitionTimingFunction' in style) {
+    const v = style.transitionTimingFunction as string
     style.transitionTimingFunction = (
-      Array.isArray(t)
-        ? t.map(v => transitionTimingFunctionMap[v] || v)
-        : transitionTimingFunctionMap[t] || t
-    ) as any
+      Array.isArray(v)
+        ? v.map(t => transitionTimingFunctionMap[t] || t)
+        : transitionTimingFunctionMap[v] || v
+    ) as string
   }
 
-  if (typeof style.animationName === 'string') {
-    const v = style.animationName as AnimationNameTw
+  if ('animationName' in style) {
+    const v = style.animationName as string
     Object.assign(style, animationMap[v])
   }
 }
-
-// should keep these typings updated with the babel-plugin-tw transpile code
-type TransitionPropertyTw =
-  | ''
-  | 'all'
-  | 'colors'
-  | 'opacity'
-  | 'shadow'
-  | 'transform'
-  | 'none'
 
 // data copied from tailwind
 // commented out incompatible values in react native
@@ -94,7 +113,7 @@ const transitionWildcard = [
   ...transitionShadow,
   ...transitionTransform,
 ]
-const transitionMap: { [k in TransitionPropertyTw]?: string[] } = {
+const transitionMap: StrMap<string[] | undefined> = {
   '': transitionWildcard,
   colors: transitionColors,
   opacity: transitionOpacity,
@@ -105,5 +124,3 @@ const transitionMap: { [k in TransitionPropertyTw]?: string[] } = {
   all: undefined,
   none: undefined,
 }
-
-type AnimationNameTw = 'spin' | 'ping' | 'pulse' | 'bounce'

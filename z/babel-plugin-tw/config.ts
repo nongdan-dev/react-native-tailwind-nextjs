@@ -7,14 +7,8 @@ import twConfig from '../../tailwind.config'
 export const {
   extra: {
     twrnc,
-    babel: {
-      codegen: { twFn, cvaFn, clsxFn },
-    },
-    babel: twBabel,
+    codegen: { twFn, cvaFn, clsxFn },
   },
 } = twConfig
 
-export const codegenOutput = path.join(
-  repoRoot,
-  twConfig.extra.babel.codegen.output,
-)
+export const codegenOutput = path.join(repoRoot, twConfig.extra.codegen.output)

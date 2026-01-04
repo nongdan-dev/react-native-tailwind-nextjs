@@ -6,13 +6,12 @@ import { urlHeaderKey } from '@/navigation/config'
 import { qsParse } from '@/utils/qs'
 
 export const useRoute = cache(async () => {
-  const h = await headers()
+  const [h, locale] = await Promise.all([headers(), useCurrentLocale()])
   const u = h.get(urlHeaderKey)
   if (!u) {
     throw new Error('Missing request url in headers')
   }
   const url = new URL(u)
-  const locale = await useCurrentLocale()
   const prefix = `/${locale}`
   let pathname = url.pathname
   if (pathname.startsWith(prefix)) {

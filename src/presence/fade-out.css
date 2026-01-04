@@ -1,0 +1,13 @@
+.FadeOut {
+  animation: FadeOut 3000ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  animation-fill-mode: both;
+}
+
+@keyframes FadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

@@ -8,6 +8,12 @@ module.exports = {
   repoRoot,
   srcRoot,
   zRoot,
-  /** @param {string} f */
-  isInSrcRoot: f => f && !path.relative(srcRoot, f).startsWith('../'),
+  /** @param {string} abs */
+  isInSrcRoot: abs => {
+    if (!abs) {
+      return
+    }
+    const relative = path.relative(srcRoot, abs)
+    return !path.isAbsolute(relative) && !relative.startsWith('..')
+  },
 }

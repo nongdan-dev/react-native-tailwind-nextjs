@@ -2,7 +2,7 @@ import type { Config } from 'prettier'
 
 import twConfig from '../tailwind.config'
 
-const { twFn, cvaFn, clsxFn } = twConfig.extra.babel.codegen
+const { twFn, cvaFn, clsxFn } = twConfig.extra.codegen
 
 export const config: Config = {
   printWidth: 80,

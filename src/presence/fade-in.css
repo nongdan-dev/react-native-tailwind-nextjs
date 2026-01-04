@@ -1,0 +1,13 @@
+.FadeIn {
+  animation: FadeIn 3000ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  animation-fill-mode: both;
+}
+
+@keyframes FadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

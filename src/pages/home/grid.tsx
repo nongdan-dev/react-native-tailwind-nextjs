@@ -1,7 +1,7 @@
 import { Text } from '@/components/base/text'
 import { View } from '@/components/base/view'
 
-export const Grid = () => (
+export const DemoGrid = () => (
   <>
     <Text className='mt-5 text-center text-black transition dark:text-gray-200'>
       Basic Grid Columns

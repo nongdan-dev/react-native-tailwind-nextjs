@@ -10,6 +10,6 @@ export const useDarkModeUser = cache(async () => {
 })
 
 export const useSetDarkMode = () => (v: boolean | undefined) => {
-  // ssr polyfill
+  // server polyfill
   // should be transpiled on the client or native variant
 }
