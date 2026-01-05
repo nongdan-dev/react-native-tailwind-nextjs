@@ -4,7 +4,7 @@
 const fs = require('fs-extra')
 const path = require('node:path')
 
-const twConfig = require('./tailwind.config')
+const twConfig = require('./tailwind.config.cjs')
 
 const output = path.join(__dirname, twConfig.extra.codegen.output)
 const min = process.env.NEXT_PUBLIC_MINIFY_CLASS_NAMES

@@ -1,6 +1,6 @@
 import type { Config } from 'prettier'
 
-import twConfig from '../tailwind.config'
+import twConfig from '../tailwind.config.cjs'
 
 const { twFn, cvaFn, clsxFn } = twConfig.extra.codegen
 

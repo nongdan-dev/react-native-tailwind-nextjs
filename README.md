@@ -169,7 +169,7 @@ const MyComponent = () => <View className={classNameStringFromSomeWhere} />
   - `ease-in-out`
   - `ease-initial`
   - Custom easing:
-    - Add new easing to `tailwind.theme.extend` in tailwind.config.js
+    - Add new easing to `tailwind.theme.extend` in tailwind.config.cjs
     - Add new easing to `transitionTimingFunctionMap` in normalize-style-config.ts
   - `delay-<number>`
 - Support animation using Reanimated:
@@ -178,7 +178,7 @@ const MyComponent = () => <View className={classNameStringFromSomeWhere} />
   - `animate-pulse`
   - `animate-bounce`
   - Custom animation:
-    - Add new animation to `tailwind.theme.extend` in tailwind.config.js
+    - Add new animation to `tailwind.theme.extend` in tailwind.config.cjs
     - Add new animation to `animationMap` in normalize-style-config.ts
 - Support basic grid columns:
   - `grid`

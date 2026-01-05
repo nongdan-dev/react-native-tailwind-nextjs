@@ -1,6 +1,7 @@
-// this file is required by babel-plugin-tw to transpile class names into style objects
 // react native metro doesnt support esm and typescript
 // we need to use commonjs here
+// this file will be bundled with feature runtime style
+// need to use .cjs extension to make nextjs happy
 
 /** @type {import('twrnc').TwConfig} */
 const twrnc = {

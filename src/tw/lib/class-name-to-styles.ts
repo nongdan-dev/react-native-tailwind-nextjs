@@ -10,7 +10,7 @@ import type {
 import { twUnminify } from '@/tw/lib/class-name-minified'
 import { classNameToNative } from '@/tw/lib/class-name-to-native'
 
-import twConfig from '../../../tailwind.config'
+import twConfig from '../../../tailwind.config.cjs'
 
 const twrnc = create(twConfig.extra.twrnc).style
 

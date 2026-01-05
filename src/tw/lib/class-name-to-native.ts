@@ -584,7 +584,7 @@ extraTwrnc.push(options => {
 // caret-transparent
 extraTwrnc.push(options => {
   const { className } = options
-  if (className === 'caret-transparent') {
+  if (className !== 'caret-transparent') {
     return
   }
   return {
