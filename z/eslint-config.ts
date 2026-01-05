@@ -1,20 +1,21 @@
 import { includeIgnoreFile } from '@eslint/compat'
-import pluginTs from '@typescript-eslint/eslint-plugin'
+import tsPlugin from '@typescript-eslint/eslint-plugin'
 import * as tsParser from '@typescript-eslint/parser'
-import * as pluginImport from 'eslint-plugin-import'
-import pluginImportAbsolute from 'eslint-plugin-no-relative-import-paths'
-import pluginPreferArrow from 'eslint-plugin-prefer-arrow'
-import pluginReact from 'eslint-plugin-react'
-import pluginImportSort from 'eslint-plugin-simple-import-sort'
-import pluginUnicorn from 'eslint-plugin-unicorn'
+import * as importPlugin from 'eslint-plugin-import'
+import noRelativeImportPathsPlugin from 'eslint-plugin-no-relative-import-paths'
+import preferArrowPlugin from 'eslint-plugin-prefer-arrow'
+import reactPlugin from 'eslint-plugin-react'
+import simpleImportSortPlugin from 'eslint-plugin-simple-import-sort'
+import unicornPlugin from 'eslint-plugin-unicorn'
 import globals from 'globals'
 import path from 'node:path'
 import type { ConfigWithExtends } from 'typescript-eslint'
-import tseslint from 'typescript-eslint'
+import tsEslint from 'typescript-eslint'
 
 import { customPlugin } from '#/eslint-plugin-custom'
 import { repoRoot } from '#/root'
 
+const off = 0
 const warn = 1
 const gitignorePath = path.join(repoRoot, '.gitignore')
 const gitignore = includeIgnoreFile(gitignorePath)
@@ -61,13 +62,13 @@ const base: ConfigWithExtends = {
     reportUnusedDisableDirectives: true,
   },
   plugins: {
-    '@typescript-eslint': pluginTs,
-    react: pluginReact,
-    import: pluginImport,
-    'simple-import-sort': pluginImportSort,
-    'no-relative-import-paths': pluginImportAbsolute,
-    'prefer-arrow': pluginPreferArrow,
-    unicorn: pluginUnicorn,
+    '@typescript-eslint': tsPlugin,
+    react: reactPlugin,
+    import: importPlugin,
+    'simple-import-sort': simpleImportSortPlugin,
+    'no-relative-import-paths': noRelativeImportPathsPlugin,
+    'prefer-arrow': preferArrowPlugin,
+    unicorn: unicornPlugin,
     custom: customPlugin,
   },
   rules: {
@@ -179,9 +180,12 @@ const nonFix: ConfigWithExtends = {
       },
     ],
 
+    'custom/no-access-property': off,
     'custom/no-error-variable': warn,
     'custom/no-import-default': [warn, ['react']],
+    'custom/no-import-outside': off,
     'custom/no-json-stringify': warn,
+    'custom/no-nullish-coalescing': warn,
   },
 }
 
@@ -206,6 +210,14 @@ const noRelativeImport: ConfigWithExtends[] = dirsWithAlias.map(d => ({
     ],
   },
 }))
+const noRelativeExport: ConfigWithExtends[] = dirsWithAlias.map(d => ({
+  ...base,
+  files: base.files?.map(f => `${d.rootDir}/${f}`),
+  rules: {
+    // export - no relative export
+    'custom/no-relative-export-paths': [warn, d],
+  },
+}))
 
 const noDefaultExport: ConfigWithExtends = {
   ...base,
@@ -215,10 +227,11 @@ const noDefaultExport: ConfigWithExtends = {
   },
 }
 
-export const config = tseslint.config(
+export const config = tsEslint.config(
   gitignore,
   base,
   nonFix,
   noRelativeImport,
+  noRelativeExport,
   noDefaultExport,
 )

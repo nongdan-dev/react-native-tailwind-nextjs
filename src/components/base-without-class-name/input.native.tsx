@@ -1,15 +1,11 @@
 /* eslint-disable no-restricted-imports */
 
-import { set } from 'lodash'
-import type { StyleProp, TextStyle, ViewStyle } from 'react-native'
 import { TextInput } from 'react-native'
-import type { CSSTransitionProperties } from 'react-native-reanimated'
-import Animated from 'react-native-reanimated'
 
 import type { InputPropsWocn } from '@/components/base-without-class-name/input'
+import { createAnimatedComponent } from '@/tw/lib/create-animated-component'
 import { isReanimated } from '@/tw/lib/is-reanimated'
 import { styleToProps } from '@/tw/lib/style-to-props'
-import type { StrMap } from '@/utils/ts'
 
 const styleProps = ['placeholderTextColor', 'caretHidden']
 
@@ -19,51 +15,4 @@ export const InputWocn = (props: InputPropsWocn) => {
   return <Component {...props} />
 }
 
-const AnimatedInput = (props: InputPropsWocn) => {
-  const animatedStyle: StyleProp<ViewStyle> = {
-    overflow: 'hidden',
-  }
-  const textInputStyle: StyleProp<TextStyle> = {
-    width: '100%',
-    borderWidth: 0,
-    backgroundColor: 'transparent',
-  }
-
-  // style should be guarantee to present since we already checked isReanimated
-  const style = props.style as StrMap
-  Object.keys(style).forEach(k => {
-    if (supportedStyle.has(k) || supportedPrefixes.some(p => k.startsWith(p))) {
-      set(animatedStyle, k, style[k])
-    } else {
-      set(textInputStyle, k, style[k])
-    }
-  })
-
-  const Component: any = TextInput
-  return (
-    <Animated.View style={animatedStyle}>
-      <Component {...props} />
-    </Animated.View>
-  )
-}
-
-const supportedPrefixes: string[] = [
-  'margin',
-  'border',
-  'transform',
-  'translate',
-  'scale',
-]
-const textStyle: (keyof TextStyle)[] = [
-  'width',
-  'height',
-  'backgroundColor',
-  'opacity',
-  'rotation',
-]
-const transitionStyle: (keyof CSSTransitionProperties)[] = [
-  'transitionProperty',
-  'transitionDuration',
-  'transitionTimingFunction',
-]
-const supportedStyle = new Set<string>([...textStyle, ...transitionStyle])
+const AnimatedInput = createAnimatedComponent(TextInput)

@@ -170,8 +170,7 @@ const MyComponent = () => <View className={classNameStringFromSomeWhere} />
   - `ease-initial`
   - Custom easing:
     - Add new easing to `tailwind.theme.extend` in tailwind.config.js
-    - Add name to `babel.transition.custom` in tailwind.config.js
-    - Add new easing to `transitionTimingFunctionMap` in normalize-style-extra.ts
+    - Add new easing to `transitionTimingFunctionMap` in normalize-style-config.ts
   - `delay-<number>`
 - Support animation using Reanimated:
   - `animate-spin`
@@ -180,8 +179,7 @@ const MyComponent = () => <View className={classNameStringFromSomeWhere} />
   - `animate-bounce`
   - Custom animation:
     - Add new animation to `tailwind.theme.extend` in tailwind.config.js
-    - Add name to `babel.animation.custom` in tailwind.config.js
-    - Add new animation to `animationMap` in normalize-style-extra.ts
+    - Add new animation to `animationMap` in normalize-style-config.ts
 - Support basic grid columns:
   - `grid`
   - `grid-cols-none`

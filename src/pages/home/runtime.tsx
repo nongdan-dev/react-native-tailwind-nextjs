@@ -2,7 +2,7 @@ import { Text } from '@/components/base/text'
 import { runtimeStyle } from '@/tw/runtime-style'
 import { jsonSafe } from '@/utils/json-safe'
 
-export const Runtime = () => {
+export const DemoRuntime = () => {
   const cn = 'text-red-500'
   return (
     <Text className='mt-5 text-center text-black transition dark:text-gray-200'>

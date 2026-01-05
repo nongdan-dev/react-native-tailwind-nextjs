@@ -4,6 +4,7 @@ import { noImportDefault } from '#/eslint-plugin-custom/no-import-default'
 import { noImportOutside } from '#/eslint-plugin-custom/no-import-outside'
 import { noJsonStringify } from '#/eslint-plugin-custom/no-json-stringify'
 import { noNullishCoalescing } from '#/eslint-plugin-custom/no-nullish-coalescing'
+import { noRelativeExportPaths } from '#/eslint-plugin-custom/no-relative-export-paths'
 
 export const customPlugin = {
   meta: {
@@ -16,5 +17,6 @@ export const customPlugin = {
     'no-import-outside': noImportOutside,
     'no-json-stringify': noJsonStringify,
     'no-nullish-coalescing': noNullishCoalescing,
+    'no-relative-export-paths': noRelativeExportPaths,
   },
 }

@@ -1,1 +1,1 @@
-export { MarkerPeerProvider as TwPeerProvider } from './lib/marker'
+export { MarkerPeerProvider as TwPeerProvider } from '@/tw/lib/marker'

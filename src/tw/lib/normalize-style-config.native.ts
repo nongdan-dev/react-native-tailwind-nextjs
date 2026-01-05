@@ -6,11 +6,15 @@ import type {
 
 import type { StrMap } from '@/utils/ts'
 
+export * from '@/tw/lib/normalize-style-config-shared'
+
 export const transitionTimingFunctionMap: StrMap<CSSTransitionTimingFunction> =
   {
     // custom transtion timing function here
   }
+
 export const animationMap: StrMap<CSSAnimationProperties> = {
+  // built in tailwind animation
   spin,
   ping,
   pulse,

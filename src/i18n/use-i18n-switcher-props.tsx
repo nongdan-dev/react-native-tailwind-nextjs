@@ -38,13 +38,13 @@ const I18nSwitcherLink = async ({ children, lang }: I18nSwitcherLinkProps) => {
   ])
   const { pathname: currentPath, query } = route
 
-  const locale = getLocale(lang)
   let pathWithoutLocale = currentPath
   const prefix = `/${currentLocale}`
   if (pathWithoutLocale.startsWith(prefix)) {
     pathWithoutLocale = pathWithoutLocale.replace(prefix, '')
   }
   // when switching lang, always render link with locale to set cookie in proxy
+  const locale = getLocale(lang)
   const pathname = `/${locale}${pathWithoutLocale}`
 
   return (

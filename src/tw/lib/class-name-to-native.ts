@@ -11,8 +11,12 @@ import type {
   ClassNameResponsiveSelector,
   ClassNameSelector,
 } from '@/tw/class-name'
-
-import twConfig from '../../../tailwind.config'
+import {
+  animationMap,
+  transitionDefaultDuration,
+  transitionDefaultTimingFunction,
+  transitionTimingFunctionMap,
+} from '@/tw/lib/normalize-style-config'
 
 export type ClassNameToNativeOptions = {
   platform: Platform['OS']
@@ -147,7 +151,6 @@ const omitEmptyClassName = (className: ClassNameNative): ClassNameNative => {
 type ExtraTwrncOptions = Required<ClassNameToNativeOptions>
 type ExtraTwrnc = (options: ExtraTwrncOptions) => any
 const extraTwrnc: ExtraTwrnc[] = []
-const twBabel = twConfig.extra.babel
 
 const stripNative = [
   /^web-/,
@@ -397,10 +400,9 @@ extraTwrnc.push(options => {
     | 'none'
   type TransitionProperty = '' | TransitionPropertyTw | string[]
   const r = {
-    // TODO: return style normally on web
     transitionProperty: '' as TransitionProperty,
-    transitionDuration: twBabel.transition.defaultDuration,
-    transitionTimingFunction: twBabel.transition.defaultTimingFunction,
+    transitionDuration: transitionDefaultDuration,
+    transitionTimingFunction: transitionDefaultTimingFunction,
   }
   if (className === prefix) {
     return r
@@ -470,7 +472,7 @@ extraTwrnc.push(options => {
       'out',
       'in-out',
       'initial',
-      ...twBabel.transition.custom,
+      ...Object.keys(transitionTimingFunctionMap),
     ].map(v => `${prefix}${v}`),
   )
   if (!arr.has(className)) {
@@ -512,16 +514,13 @@ extraTwrnc.push(options => {
   if (!className.startsWith(prefix)) {
     return
   }
-  const arr = new Set(
-    ['spin', 'ping', 'pulse', 'bounce', ...twBabel.animation.custom].map(
-      v => `${prefix}${v}`,
-    ),
-  )
+  const arr = new Set(Object.keys(animationMap).map(v => `${prefix}${v}`))
   if (!arr.has(className)) {
     return onUnknown(className)
   }
+  const striped = className.replace(prefix, '')
   return {
-    animationName: className.replace(prefix, ''),
+    animationName: striped,
   }
 })
 
@@ -533,7 +532,6 @@ extraTwrnc.push(options => {
   if (!className.startsWith(prefix)) {
     return
   }
-  // TODO: return style normally on web
   const striped = className.replace(prefix, '')
   if (striped === 'none') {
     return {
@@ -558,13 +556,12 @@ extraTwrnc.push(options => {
     return
   }
   const striped = className.replace(prefix, '')
-  if (striped === 'none' || striped === 'text') {
-    // TODO: return style normally on web
-    return {
-      selectable: striped === 'text',
-    }
+  if (striped !== 'none' && striped !== 'text') {
+    return onUnknown(className)
   }
-  return onUnknown(className)
+  return {
+    selectable: striped === 'text',
+  }
 })
 
 // placeholder-<color>
@@ -579,7 +576,6 @@ extraTwrnc.push(options => {
   if (!style?.color) {
     return onUnknown(className)
   }
-  // TODO: return style normally on web
   return {
     placeholderTextColor: style.color,
   }
@@ -591,7 +587,6 @@ extraTwrnc.push(options => {
   if (className === 'caret-transparent') {
     return
   }
-  // TODO: return style normally on web
   return {
     caretHidden: true,
   }
@@ -616,8 +611,8 @@ extraTwrnc.push(options => {
   if (!arr.has(className)) {
     return onUnknown(className)
   }
-  // TODO: return style normally on web
+  const striped = className.replace(prefix, '')
   return {
-    resizeMode: className.replace(prefix, ''),
+    resizeMode: striped,
   }
 })

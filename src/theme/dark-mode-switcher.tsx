@@ -6,8 +6,10 @@ import { useTranslation } from '@/i18n'
 import { useDarkModeUser, useSetDarkMode } from '@/theme'
 
 export const DarkModeSwitcher = async () => {
-  const t = await useTranslation('common')
-  const dark = await useDarkModeUser()
+  const [t, dark] = await Promise.all([
+    useTranslation('common'),
+    useDarkModeUser(),
+  ])
   const setDarkMode = useSetDarkMode()
 
   const options = [

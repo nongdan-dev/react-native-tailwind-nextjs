@@ -1,4 +1,4 @@
-import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
+import type { TSESLint } from '@typescript-eslint/utils'
 import path from 'node:path'
 
 import { srcRoot } from '#/root'
@@ -39,21 +39,19 @@ export const noImportOutside: TSESLint.RuleModule<
     }
     const importPrefix = `@/${dirs[i]}/`
 
-    const check = (n: TSESTree.ImportDeclaration) => {
-      const imp = n.source.value
-      if (!imp.startsWith('@/') || imp.startsWith(importPrefix)) {
-        return
-      }
-      const dir = importPrefix.replace(/\/+$/, '')
-      c.report({
-        node: n.source,
-        messageId: 'noImportOutside',
-        data: { dir },
-      })
-    }
-
     return {
-      ImportDeclaration: check,
+      ImportDeclaration: n => {
+        const imp = n.source.value
+        if (!imp.startsWith('@/') || imp.startsWith(importPrefix)) {
+          return
+        }
+        const dir = importPrefix.replace(/\/+$/, '')
+        c.report({
+          node: n.source,
+          messageId: 'noImportOutside',
+          data: { dir },
+        })
+      },
     }
   },
 }

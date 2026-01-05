@@ -6,7 +6,7 @@ const path = require('node:path')
 
 const twConfig = require('./tailwind.config')
 
-const output = path.join(__dirname, twConfig.extra.babel.codegen.output)
+const output = path.join(__dirname, twConfig.extra.codegen.output)
 const min = process.env.NEXT_PUBLIC_MINIFY_CLASS_NAMES
   ? fs.readJsonSync(output, 'utf-8')
   : undefined

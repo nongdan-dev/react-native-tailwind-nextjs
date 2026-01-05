@@ -1,1 +1,1 @@
-export * from './config-shared'
+export * from '@/theme/config-shared'

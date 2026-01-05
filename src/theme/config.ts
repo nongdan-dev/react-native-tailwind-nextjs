@@ -5,4 +5,4 @@ import { tw } from '@/tw/tw'
 export const darkClassName = tw`dark` as string
 export const lightClassName = tw`light` as string
 
-export * from './config-shared'
+export * from '@/theme/config-shared'
