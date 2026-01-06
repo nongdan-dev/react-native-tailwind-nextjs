@@ -1,0 +1,18 @@
+/**
+ * Copyright (c) 2026 nongdan.dev
+ * Licensed under the MIT License.
+ * See LICENSE file in the project root for full license information.
+ */
+
+import { usePathname, useSearchParams } from 'next-unchecked/navigation'
+
+export const useRoute = () => {
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  return {
+    pathname,
+    query: searchParams && Object.fromEntries(searchParams),
+  }
+}
+
+export const useIsRouteFocused = () => true

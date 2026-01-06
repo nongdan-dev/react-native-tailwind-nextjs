@@ -1,0 +1,23 @@
+/**
+ * Copyright (c) 2026 nongdan.dev
+ * Licensed under the MIT License.
+ * See LICENSE file in the project root for full license information.
+ */
+
+import { omitEmptyObject } from '@/tw/lib/class-name-to-native'
+
+export const safeIncludes = (className: string, k: string) =>
+  className === k ||
+  className.startsWith(`${k} `) ||
+  className.endsWith(` ${k}`) ||
+  className.includes(` ${k} `)
+
+export const omitEmpty = <T extends object | object[]>(v: T) => {
+  if (!v) {
+    return
+  }
+  if (Array.isArray(v)) {
+    return v.length > 0 ? v : undefined
+  }
+  return omitEmptyObject(v)
+}

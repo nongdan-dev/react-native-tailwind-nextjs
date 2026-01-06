@@ -1,0 +1,19 @@
+/**
+ * Copyright (c) 2026 nongdan.dev
+ * Licensed under the MIT License.
+ * See LICENSE file in the project root for full license information.
+ */
+
+import type { Context } from 'react'
+import { useContext } from 'react'
+
+export const useSafeContext = <T>(
+  Ctx: Context<T | undefined>,
+  err?: string,
+): T => {
+  const v = useContext(Ctx)
+  if (v === undefined) {
+    throw new Error(err || 'Invalid context call')
+  }
+  return v
+}

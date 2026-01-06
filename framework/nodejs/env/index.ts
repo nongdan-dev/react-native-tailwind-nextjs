@@ -1,0 +1,24 @@
+/**
+ * Copyright (c) 2026 nongdan.dev
+ * Licensed under the MIT License.
+ * See LICENSE file in the project root for full license information.
+ */
+
+export const checkEnv = (...names: string[]) => {
+  const empty = names.filter(k => !process.env[k])
+  if (empty.length) {
+    throw new Error(`Missing env ${empty.join(', ')}`)
+  }
+}
+
+export const checkEnvValues = (name: string, values: string[]) => {
+  const v = process.env[name] as string
+  if (!values.includes(v)) {
+    throw new Error(`Invalid env ${name}=${v} expect ${values.join(' | ')}`)
+  }
+}
+
+export const envToBoolean = (name: string) => {
+  const v = (process.env[name] || '').toLowerCase()
+  return v === '1' || v === 'true' || v === 'yes'
+}

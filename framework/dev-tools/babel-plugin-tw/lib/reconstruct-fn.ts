@@ -1,0 +1,20 @@
+/**
+ * Copyright (c) 2026 nongdan.dev
+ * Licensed under the MIT License.
+ * See LICENSE file in the project root for full license information.
+ */
+
+import template from '@babel/template'
+
+import type { Ctx } from '#/babel-plugin-tw/lib/create-context'
+import { jsToNode } from '#/babel-plugin-tw/lib/js-to-node'
+
+// need to use .call or .apply to avoid infinite transpile once replaced
+const tpl = template.expression('%%fn%%.%%call%%(undefined, %%arg%%)')
+
+export const reconstructFn = (ctx: Ctx, arg: any, call = 'call') =>
+  tpl({
+    fn: ctx.calleeName,
+    arg: jsToNode(ctx, arg),
+    call,
+  })

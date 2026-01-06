@@ -128,6 +128,7 @@ const MyComponent = () => <View className={classNameStringFromSomeWhere} />
 - Selectors are handled using hook and have no problem such as twrnc memoBuster. The hook is only needed in react native, thus it will not introduce client component in web.
 
 - `cva` signature is similar to [cva](https://cva.style/docs/getting-started/variants) with some differences and extras. To follow with real life standards and avoid confusion, we will redefine the terms as follows:
+
   - `Attribute` is similar to a react property. We name it attribute differentiate with other react properties such as event handlers.. An attribute defines a specific characteristic of that component. For example: color, size, shape..
   - `Attribute value` is a value of an attribute. For example with color: red, green, blue..
   - `Variant` is a combination of all attributes with their coresponding values. For example with 2 attributes color and size: color=red size=xs, color=green size=lg.. So if color has 3 values and size has 4 values, the total number of variants is 3x4=12.
@@ -302,10 +303,6 @@ TODO:
   "tailwindCSS.classFunctions": ["tw", "cva", "clsx"]
 }
 ```
-
-### Monorepo workspace
-
-We keep this repo as a single npm package for now. We can convert it to pnpm workspace with rnx symlink resolver later.
 
 ### License: MIT
 
