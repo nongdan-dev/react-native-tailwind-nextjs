@@ -8,4 +8,4 @@
 
 require('tsconfig-paths/register')
 require('@/nodejs/entrypoint/ts-node')
-module.exports = require('@/devtools/babel-config')
+module.exports = require('@/devtools/babel-config').rn(__dirname)

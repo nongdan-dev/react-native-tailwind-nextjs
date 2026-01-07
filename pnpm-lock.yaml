@@ -114,102 +114,24 @@ importers:
         specifier: 0.11.0
         version: 0.11.0(immer@11.1.3)(react@19.1.1)
     devDependencies:
-      '@babel/preset-react':
-        specifier: 7.28.5
-        version: 7.28.5(@babel/core@7.28.5)
-      '@babel/preset-typescript':
-        specifier: 7.28.5
-        version: 7.28.5(@babel/core@7.28.5)
-      '@babel/template':
-        specifier: 7.27.2
-        version: 7.27.2
-      '@eslint/compat':
-        specifier: 2.0.0
-        version: 2.0.0(eslint@9.39.2(jiti@1.21.7))
-      '@prettier/plugin-xml':
-        specifier: 3.4.2
-        version: 3.4.2(prettier@3.7.4)
       '@react-native-community/cli':
         specifier: 20.0.2
         version: 20.0.2(typescript@5.9.3)
-      '@react-native/babel-preset':
-        specifier: 0.82.1
-        version: 0.82.1(@babel/core@7.28.5)
       '@react-native/metro-config':
         specifier: 0.82.1
         version: 0.82.1(@babel/core@7.28.5)
-      '@svgr/webpack':
-        specifier: 8.1.0
-        version: 8.1.0(typescript@5.9.3)
-      '@tailwindcss/postcss':
-        specifier: 4.1.18
-        version: 4.1.18
-      '@types/fs-extra':
-        specifier: 11.0.4
-        version: 11.0.4
-      '@types/js-cookie':
-        specifier: 3.0.6
-        version: 3.0.6
-      '@types/json-stringify-safe':
-        specifier: 5.0.3
-        version: 5.0.3
       '@types/react':
         specifier: 19.2.7
         version: 19.2.7
       '@types/react-dom':
         specifier: 19.2.3
         version: 19.2.3(@types/react@19.2.7)
-      '@typescript-eslint/eslint-plugin':
-        specifier: 8.52.0
-        version: 8.52.0(@typescript-eslint/parser@8.52.0(eslint@9.39.2(jiti@1.21.7))(typescript@5.9.3))(eslint@9.39.2(jiti@1.21.7))(typescript@5.9.3)
-      '@typescript-eslint/parser':
-        specifier: 8.52.0
-        version: 8.52.0(eslint@9.39.2(jiti@1.21.7))(typescript@5.9.3)
       autoprefixer:
         specifier: 10.4.23
         version: 10.4.23(postcss@8.5.6)
-      babel-loader:
-        specifier: 10.0.0
-        version: 10.0.0(@babel/core@7.28.5)(webpack@5.104.1)
-      babel-plugin-module-resolver:
-        specifier: 5.0.2
-        version: 5.0.2
-      baseline-browser-mapping:
-        specifier: latest
-        version: 2.9.12
       cross-env:
         specifier: 10.1.0
         version: 10.1.0
-      eslint-plugin-import:
-        specifier: 2.32.0
-        version: 2.32.0(@typescript-eslint/parser@8.52.0(eslint@9.39.2(jiti@1.21.7))(typescript@5.9.3))(eslint@9.39.2(jiti@1.21.7))
-      eslint-plugin-no-relative-import-paths:
-        specifier: 1.6.1
-        version: 1.6.1(patch_hash=1f4f44a0291f37edd3ed872252d9c243f106cf091b4a7a6a76325d9a769b6302)
-      eslint-plugin-prefer-arrow:
-        specifier: 1.2.3
-        version: 1.2.3(eslint@9.39.2(jiti@1.21.7))
-      eslint-plugin-react:
-        specifier: 7.37.5
-        version: 7.37.5(eslint@9.39.2(jiti@1.21.7))
-      eslint-plugin-simple-import-sort:
-        specifier: 12.1.1
-        version: 12.1.1(eslint@9.39.2(jiti@1.21.7))
-      eslint-plugin-unicorn:
-        specifier: 62.0.0
-        version: 62.0.0(eslint@9.39.2(jiti@1.21.7))
-      fs-extra:
-        specifier: 11.3.3
-        version: 11.3.3
-      globals:
-        specifier: 17.0.0
-        version: 17.0.0
-      globby:
-        specifier: 16.1.0
-        version: 16.1.0
-      json5:
-        specifier: 2.2.3
-        version: 2.2.3
       patch-package:
         specifier: 8.0.1
         version: 8.0.1
@@ -244,9 +166,38 @@ importers:
         specifier: 3.11.0
         version: 3.11.0
 
-  apps/playground/web: {}
+  apps/playground/web:
+    devDependencies:
+      '@svgr/webpack':
+        specifier: 8.1.0
+        version: 8.1.0(typescript@5.9.3)
+      '@tailwindcss/postcss':
+        specifier: 4.1.18
+        version: 4.1.18
+      babel-loader:
+        specifier: 10.0.0
+        version: 10.0.0(@babel/core@7.28.5)(webpack@5.104.1)
+      baseline-browser-mapping:
+        specifier: latest
+        version: 2.9.12
 
-  framework/devtools/babel-config: {}
+  framework/devtools/babel-config:
+    dependencies:
+      '@babel/preset-react':
+        specifier: 7.28.5
+        version: 7.28.5(@babel/core@7.28.5)
+      '@babel/preset-typescript':
+        specifier: 7.28.5
+        version: 7.28.5(@babel/core@7.28.5)
+      '@react-native/babel-preset':
+        specifier: 0.82.1
+        version: 0.82.1(@babel/core@7.28.5)
+      babel-plugin-module-resolver:
+        specifier: 5.0.2
+        version: 5.0.2
+      react-native-worklets:
+        specifier: 0.7.1
+        version: 0.7.1(@babel/core@7.28.5)(react-native@0.82.1(@babel/core@7.28.5)(@react-native-community/cli@20.0.2(typescript@5.9.3))(@react-native/metro-config@0.82.1(@babel/core@7.28.5))(@types/react@19.2.7)(react@19.1.1))(react@19.1.1)
 
   framework/devtools/babel-extract:
     dependencies:
@@ -289,6 +240,12 @@ importers:
       '@babel/core':
         specifier: 7.28.5
         version: 7.28.5
+      '@babel/template':
+        specifier: 7.27.2
+        version: 7.27.2
+      react-native:
+        specifier: 0.82.1
+        version: 0.82.1(@babel/core@7.28.5)(@react-native-community/cli@20.0.2(typescript@5.9.3))(@react-native/metro-config@0.82.1(@babel/core@7.28.5))(@types/react@19.2.7)(react@19.1.1)
     devDependencies:
       '@types/babel__core':
         specifier: 7.20.5
@@ -2143,9 +2100,6 @@ packages:
 
   '@types/istanbul-reports@3.0.4':
     resolution: {integrity: sha512-pk2B1NWalF9toCRu6gjBzR69syFjP4Od8WRAX+0mmf9lAjCRicLOWc+ZrxZHx/0XRjotgkF9t6iaMJ+aXcOdZQ==}
-
-  '@types/js-cookie@3.0.6':
-    resolution: {integrity: sha512-wkw9yd1kEXOPnvEeEV1Go1MmxtBJL0RR79aOTAApecWFVu7w0NNXNqhcWgvw2YgZDYadliXkl14pa3WXw5jlCQ==}
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
@@ -6762,12 +6716,6 @@ snapshots:
 
   '@eslint-community/regexpp@4.12.2': {}
 
-  '@eslint/compat@2.0.0(eslint@9.39.2(jiti@1.21.7))':
-    dependencies:
-      '@eslint/core': 1.0.0
-    optionalDependencies:
-      eslint: 9.39.2(jiti@1.21.7)
-
   '@eslint/compat@2.0.0(eslint@9.39.2(jiti@2.6.1))':
     dependencies:
       '@eslint/core': 1.0.0
@@ -7409,9 +7357,7 @@ snapshots:
       metro-runtime: 0.83.3
     transitivePeerDependencies:
       - '@babel/core'
-      - bufferutil
       - supports-color
-      - utf-8-validate
 
   '@react-native/normalize-colors@0.74.89': {}
 
@@ -7731,8 +7677,6 @@ snapshots:
   '@types/istanbul-reports@3.0.4':
     dependencies:
       '@types/istanbul-lib-report': 3.0.3
-
-  '@types/js-cookie@3.0.6': {}
 
   '@types/json-schema@7.0.15': {}
 
@@ -8931,16 +8875,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.1(@typescript-eslint/parser@8.52.0(eslint@9.39.2(jiti@1.21.7))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.2(jiti@1.21.7)):
-    dependencies:
-      debug: 3.2.7
-    optionalDependencies:
-      '@typescript-eslint/parser': 8.52.0(eslint@9.39.2(jiti@1.21.7))(typescript@5.9.3)
-      eslint: 9.39.2(jiti@1.21.7)
-      eslint-import-resolver-node: 0.3.9
-    transitivePeerDependencies:
-      - supports-color
-
   eslint-module-utils@2.12.1(@typescript-eslint/parser@8.52.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
       debug: 3.2.7
@@ -8949,35 +8883,6 @@ snapshots:
       eslint: 9.39.2(jiti@2.6.1)
       eslint-import-resolver-node: 0.3.9
     transitivePeerDependencies:
-      - supports-color
-
-  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.52.0(eslint@9.39.2(jiti@1.21.7))(typescript@5.9.3))(eslint@9.39.2(jiti@1.21.7)):
-    dependencies:
-      '@rtsao/scc': 1.1.0
-      array-includes: 3.1.9
-      array.prototype.findlastindex: 1.2.6
-      array.prototype.flat: 1.3.3
-      array.prototype.flatmap: 1.3.3
-      debug: 3.2.7
-      doctrine: 2.1.0
-      eslint: 9.39.2(jiti@1.21.7)
-      eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.1(@typescript-eslint/parser@8.52.0(eslint@9.39.2(jiti@1.21.7))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.2(jiti@1.21.7))
-      hasown: 2.0.2
-      is-core-module: 2.16.1
-      is-glob: 4.0.3
-      minimatch: 3.1.2
-      object.fromentries: 2.0.8
-      object.groupby: 1.0.3
-      object.values: 1.2.1
-      semver: 6.3.1
-      string.prototype.trimend: 1.0.9
-      tsconfig-paths: 3.15.0
-    optionalDependencies:
-      '@typescript-eslint/parser': 8.52.0(eslint@9.39.2(jiti@1.21.7))(typescript@5.9.3)
-    transitivePeerDependencies:
-      - eslint-import-resolver-typescript
-      - eslint-import-resolver-webpack
       - supports-color
 
   eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.52.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1)):
@@ -9011,10 +8916,6 @@ snapshots:
 
   eslint-plugin-no-relative-import-paths@1.6.1(patch_hash=1f4f44a0291f37edd3ed872252d9c243f106cf091b4a7a6a76325d9a769b6302): {}
 
-  eslint-plugin-prefer-arrow@1.2.3(eslint@9.39.2(jiti@1.21.7)):
-    dependencies:
-      eslint: 9.39.2(jiti@1.21.7)
-
   eslint-plugin-prefer-arrow@1.2.3(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
       eslint: 9.39.2(jiti@2.6.1)
@@ -9033,28 +8934,6 @@ snapshots:
   eslint-plugin-react-refresh@0.4.26(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
       eslint: 9.39.2(jiti@2.6.1)
-
-  eslint-plugin-react@7.37.5(eslint@9.39.2(jiti@1.21.7)):
-    dependencies:
-      array-includes: 3.1.9
-      array.prototype.findlast: 1.2.5
-      array.prototype.flatmap: 1.3.3
-      array.prototype.tosorted: 1.1.4
-      doctrine: 2.1.0
-      es-iterator-helpers: 1.2.2
-      eslint: 9.39.2(jiti@1.21.7)
-      estraverse: 5.3.0
-      hasown: 2.0.2
-      jsx-ast-utils: 3.3.5
-      minimatch: 3.1.2
-      object.entries: 1.1.9
-      object.fromentries: 2.0.8
-      object.values: 1.2.1
-      prop-types: 15.8.1
-      resolve: 2.0.0-next.5
-      semver: 6.3.1
-      string.prototype.matchall: 4.0.12
-      string.prototype.repeat: 1.0.0
 
   eslint-plugin-react@7.37.5(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
@@ -9078,35 +8957,9 @@ snapshots:
       string.prototype.matchall: 4.0.12
       string.prototype.repeat: 1.0.0
 
-  eslint-plugin-simple-import-sort@12.1.1(eslint@9.39.2(jiti@1.21.7)):
-    dependencies:
-      eslint: 9.39.2(jiti@1.21.7)
-
   eslint-plugin-simple-import-sort@12.1.1(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
       eslint: 9.39.2(jiti@2.6.1)
-
-  eslint-plugin-unicorn@62.0.0(eslint@9.39.2(jiti@1.21.7)):
-    dependencies:
-      '@babel/helper-validator-identifier': 7.28.5
-      '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.2(jiti@1.21.7))
-      '@eslint/plugin-kit': 0.4.1
-      change-case: 5.4.4
-      ci-info: 4.3.1
-      clean-regexp: 1.0.0
-      core-js-compat: 3.47.0
-      eslint: 9.39.2(jiti@1.21.7)
-      esquery: 1.7.0
-      find-up-simple: 1.0.1
-      globals: 16.5.0
-      indent-string: 5.0.0
-      is-builtin-module: 5.0.0
-      jsesc: 3.1.0
-      pluralize: 8.0.0
-      regexp-tree: 0.1.27
-      regjsparser: 0.13.0
-      semver: 7.7.3
-      strip-indent: 4.1.1
 
   eslint-plugin-unicorn@62.0.0(eslint@9.39.2(jiti@2.6.1)):
     dependencies:

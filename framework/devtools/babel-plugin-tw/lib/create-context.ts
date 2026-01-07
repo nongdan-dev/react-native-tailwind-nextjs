@@ -7,6 +7,7 @@ import type { Node, NodePath, PluginPass, types as t } from '@babel/core'
 import { get } from 'lodash'
 import type { Platform } from 'react-native'
 
+import type { BabelConfigOptions } from '@/devtools/babel-config'
 import type { Twrnc } from '@/devtools/babel-plugin-tw/lib/create-twrnc'
 import { createTwrnc } from '@/devtools/babel-plugin-tw/lib/create-twrnc'
 import type { WithPath } from '@/devtools/babel-plugin-tw/lib/path-to-js'
@@ -15,6 +16,7 @@ import type { StrMap } from '@/shared/ts-utils'
 import type { ClassName } from '@/tw/class-name'
 
 export type Ctx = {
+  options: BabelConfigOptions
   programPath: NodePath<t.Program>
   rootPath: NodePath
   isInFunction: boolean

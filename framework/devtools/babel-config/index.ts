@@ -11,53 +11,72 @@ import { path } from '@/nodejs/path'
 import { frameworkRoot } from '@/root'
 import type { StrMap } from '@/shared/ts-utils'
 
-type Options = {
-  projectService?: string
-  transpileDirs?: string[]
-}
-type GetOptions = Options & {
+type BabelConfigOptionsInput = Partial<{
+  transpileDirs: string[]
+  twJson: string
+}>
+type BabelConfigOptionsInputWithDir = BabelConfigOptionsInput & {
   dir: string
 }
-export type BabelConfigOptions = Required<GetOptions> & {
+export type BabelConfigOptions = Required<BabelConfigOptionsInputWithDir> & {
   alias: StrMap<string>
   aliasRelative: StrMap<string>
+  twFn: string
+  cvaFn: string
+  clsxFn: string
 }
 
-const getOptions = ({
+const normalizeOptions = ({
   dir,
-  projectService = dir,
   transpileDirs = [],
-}: GetOptions): BabelConfigOptions => ({
+  twJson = dir,
+}: BabelConfigOptionsInputWithDir): BabelConfigOptions => ({
   dir,
-  projectService,
   transpileDirs: [
-    // default transpile dir in framework
+    // transpile this dir
     path.join(frameworkRoot, './rn'),
     ...transpileDirs,
   ],
-  alias: getAlias(projectService),
-  aliasRelative: getAlias(projectService, { relative: true }),
+  alias: getAlias(dir),
+  aliasRelative: getAlias(dir, { relative: true }),
+  twFn: 'tw',
+  cvaFn: 'cva',
+  clsxFn: 'clsx',
+  twJson: twJson.endsWith('.json')
+    ? twJson
+    : path.join(twJson, './src/codegen/class-names.min.json'),
 })
 
-export const rn = (dir: string, options: Options) => {
-  const o = getOptions({ dir, ...options })
+export const rn = (dir: string, options?: BabelConfigOptionsInput) => {
+  const o = normalizeOptions({ dir, ...options })
   return {
     plugins: [
-      asyncHookPlugin,
-      twPlugin,
-      ['babel-plugin-module-resolver', { alias: o.aliasRelative }],
-      'react-native-worklets/plugin',
+      asyncHookPlugin(o),
+      twPlugin(o),
+      [
+        require.resolve('babel-plugin-module-resolver'),
+        { alias: o.aliasRelative },
+      ],
+      require.resolve('react-native-worklets/plugin'),
     ],
-    presets: ['@react-native/babel-preset'],
+    presets: [require.resolve('@react-native/babel-preset')],
     compact: false,
   }
 }
 
-export const next = () => ({
-  plugins: [clientExtensionPlugin, asyncHookPlugin, twPlugin],
-  presets: [
-    '@babel/preset-typescript',
-    ['@babel/preset-react', { runtime: 'automatic' }],
-  ],
-  compact: false,
-})
+export const next = (dir: string, options?: BabelConfigOptionsInput) => {
+  const o = normalizeOptions({ dir, ...options })
+  return {
+    plugins: [
+      clientExtensionPlugin(o),
+      asyncHookPlugin(o),
+      twPlugin(o),
+      require.resolve('react-native-worklets/plugin'),
+    ],
+    presets: [
+      require.resolve('@babel/preset-typescript'),
+      [require.resolve('@babel/preset-react'), { runtime: 'automatic' }],
+    ],
+    compact: false,
+  }
+}

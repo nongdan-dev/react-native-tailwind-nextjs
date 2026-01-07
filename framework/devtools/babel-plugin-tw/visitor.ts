@@ -12,9 +12,10 @@ import type {
 import { traverseCallExpression } from '@/devtools/babel-plugin-tw/lib/traverse-call-expression'
 import { traverseJSXOpeningElement } from '@/devtools/babel-plugin-tw/lib/traverse-jsx-opening-element'
 import { traverseTaggedTemplateExpression } from '@/devtools/babel-plugin-tw/lib/traverse-tagged-template-expression'
-import { isInSrcRoot } from '@/root'
 
-export type CreateVisitorOptions = Partial<Pick<Ctx, 'min' | 'extract' | 'err'>>
+export type CreateVisitorOptions = Partial<
+  Pick<Ctx, 'options' | 'min' | 'extract' | 'err'>
+>
 export type TraverseOptions = Omit<
   CreateContextOptions,
   'rootPath' | 'calleeName'
