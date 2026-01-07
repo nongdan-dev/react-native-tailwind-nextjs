@@ -8,6 +8,10 @@
     "pnpm": ">=10"
   },
   "dependencies": {
-    "@typescript-eslint/utils": "8.52.0"
+    "@typescript-eslint/utils": "8.52.0",
+    "eslint": "9.39.2"
+  },
+  "devDependencies": {
+    "@types/eslint": "9.6.1"
   }
 }

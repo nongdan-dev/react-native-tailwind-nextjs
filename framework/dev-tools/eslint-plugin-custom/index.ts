@@ -1,8 +1,9 @@
 /**
  * Copyright (c) 2026 nongdan.dev
- * Licensed under the MIT License.
  * See LICENSE file in the project root for full license information.
  */
+
+import type { ESLint } from 'eslint'
 
 import { noAccessProperty } from '@/dev-tools/eslint-plugin-custom/no-access-property'
 import { noErrorVariable } from '@/dev-tools/eslint-plugin-custom/no-error-variable'
@@ -11,6 +12,8 @@ import { noImportOutside } from '@/dev-tools/eslint-plugin-custom/no-import-outs
 import { noJsonStringify } from '@/dev-tools/eslint-plugin-custom/no-json-stringify'
 import { noNullishCoalescing } from '@/dev-tools/eslint-plugin-custom/no-nullish-coalescing'
 import { noRelativeExportPaths } from '@/dev-tools/eslint-plugin-custom/no-relative-export-paths'
+import { noUseState } from '@/dev-tools/eslint-plugin-custom/no-use-state'
+import { noVoidUnion } from '@/dev-tools/eslint-plugin-custom/no-void-union'
 
 export const customPlugin = {
   meta: {
@@ -24,5 +27,7 @@ export const customPlugin = {
     'no-json-stringify': noJsonStringify,
     'no-nullish-coalescing': noNullishCoalescing,
     'no-relative-export-paths': noRelativeExportPaths,
+    'no-use-state': noUseState,
+    'no-void-union': noVoidUnion,
   },
-}
+} as unknown as ESLint.Plugin

@@ -1,10 +1,10 @@
 /**
  * Copyright (c) 2026 nongdan.dev
- * Licensed under the MIT License.
  * See LICENSE file in the project root for full license information.
  */
 
 // tsconfig-paths and json5 were installed at the repo root
+
 declare module 'tsconfig-paths/register' {
   const m: never
   export = m

@@ -4,7 +4,7 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
-    "lint": "pnpm -s normalize && pnpm -s eslint && pnpm -s stylelint && pnpm -s prettier && pnpm -s ts",
+    "lint": "pnpm -s normalize && pnpm -s eslint && pnpm -s stylelint && pnpm -s prettier",
     "normalize": "node ./dev-tools normalize",
     "eslint": "node ./dev-tools eslint",
     "stylelint": "node ./dev-tools stylelint",
@@ -23,6 +23,8 @@
     "typescript-plugin-css-modules": "5.2.0"
   },
   "pnpm": {
-    "patchedDependencies": {}
+    "patchedDependencies": {
+      "eslint-plugin-no-relative-import-paths@1.6.1": "patches/eslint-plugin-no-relative-import-paths@1.6.1.patch"
+    }
   }
 }

@@ -1,15 +1,13 @@
 /**
  * Copyright (c) 2026 nongdan.dev
- * Licensed under the MIT License.
  * See LICENSE file in the project root for full license information.
  */
 
 import type { Platform } from 'react-native'
 import { create } from 'twrnc/create'
 
+import packageJson from '@/package.json'
 import { twrnc } from '#/babel-plugin-tw/config'
-
-import packageJson from '../../../package.json'
 
 // can not import twrnc directly as it imports react-native which is not available in babel env
 export const createTwrnc = (platform: Platform['OS']) => {

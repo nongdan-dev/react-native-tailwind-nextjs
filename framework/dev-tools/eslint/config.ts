@@ -1,10 +1,11 @@
 /**
  * Copyright (c) 2026 nongdan.dev
- * Licensed under the MIT License.
  * See LICENSE file in the project root for full license information.
  */
 
 import { includeIgnoreFile } from '@eslint/compat'
+import type { ConfigWithExtends } from '@eslint/config-helpers'
+import { defineConfig } from '@eslint/config-helpers'
 import tsPlugin from '@typescript-eslint/eslint-plugin'
 import * as tsParser from '@typescript-eslint/parser'
 import * as importPlugin from 'eslint-plugin-import'
@@ -14,13 +15,12 @@ import reactPlugin from 'eslint-plugin-react'
 import simpleImportSortPlugin from 'eslint-plugin-simple-import-sort'
 import unicornPlugin from 'eslint-plugin-unicorn'
 import globals from 'globals'
-import type { ConfigWithExtends } from 'typescript-eslint'
-import tsEslint from 'typescript-eslint'
 
+import { customPlugin } from '@/dev-tools/eslint-plugin-custom'
+import { fs } from '@/nodejs/fs'
+import { globSync } from '@/nodejs/glob'
 import { path } from '@/nodejs/path'
-
-import { repoRoot } from '../../root'
-import { customPlugin } from '../eslint-plugin-custom'
+import { frameworkRoot, repoRoot } from '@/root'
 
 const off = 0
 const warn = 1
@@ -28,8 +28,8 @@ const gitignorePath = path.join(repoRoot, '.gitignore')
 const gitignore = includeIgnoreFile(gitignorePath)
 
 const tsExts = '{ts,tsx}'
-const jsExts = '{js}'
-const allExts = `${[tsExts.slice(0, -1), jsExts.slice(1)].join(',')}`
+const jsExts = '{js,jsx,cjs,mjs}'
+const allExts = `{${[tsExts, jsExts].map(s => s.slice(1, -1)).join(',')}}`
 
 const ignores = ({ dirs, exts = dirs }: { dirs: string; exts?: string }) => [
   // dirs
@@ -38,9 +38,13 @@ const ignores = ({ dirs, exts = dirs }: { dirs: string; exts?: string }) => [
   `**/*.${exts}.${allExts}`,
 ]
 
+const jsShadowed = globSync(`**/*.${jsExts}`, { relative: true }).filter(p =>
+  tsExts.split(',').some(e => fs.existsSync(p.replace(/\.\w+$/, `.${e}`))),
+)
 const baseIgnores = [
   // match with prettier ignore and tsconfig exclude
   '**/*.min.*',
+  ...jsShadowed,
 ]
 
 const ignoresNonFixable = [
@@ -193,18 +197,17 @@ const nonFix: ConfigWithExtends = {
     'custom/no-import-outside': off,
     'custom/no-json-stringify': warn,
     'custom/no-nullish-coalescing': warn,
+    'custom/no-use-state': off,
+    'custom/no-void-union': off,
   },
 }
 
 const dirsWithAlias = [
-  {
-    rootDir: './src',
-    prefix: '@',
-  },
-  {
-    rootDir: './z',
+  { rootDir: path.relative(repoRoot, frameworkRoot), prefix: '@' },
+  ...globSync('**/src', { onlyFiles: false, relative: true }).map(rootDir => ({
+    rootDir,
     prefix: '#',
-  },
+  })),
 ]
 const noRelativeImport: ConfigWithExtends[] = dirsWithAlias.map(d => ({
   ...base,
@@ -234,11 +237,39 @@ const noDefaultExport: ConfigWithExtends = {
   },
 }
 
-export const config = tsEslint.config(
+let tsBase: ConfigWithExtends[] = []
+let tsNonFixable: ConfigWithExtends[] = []
+
+// use flag to esable since it is very slow to run with them
+if (process.env._ESLINT_TS) {
+  const tsconfig = globSync('**/tsconfig.json')
+  tsBase = tsconfig.map(p => ({
+    ...base,
+    languageOptions: {
+      ...base.languageOptions,
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: p,
+      },
+    },
+    rules: {},
+  }))
+  tsNonFixable = tsBase.map(b => ({
+    ...b,
+    ignores: ignoresNonFixable,
+    rules: {
+      '@typescript-eslint/no-unnecessary-condition': warn,
+    },
+  }))
+}
+
+export const config = defineConfig(
   gitignore,
   base,
   nonFix,
   noRelativeImport,
   noRelativeExport,
   noDefaultExport,
+  tsBase,
+  tsNonFixable,
 )
