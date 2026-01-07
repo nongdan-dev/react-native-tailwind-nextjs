@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
@@ -7,23 +7,33 @@ import path from 'node:path'
 
 import { fs } from '@/nodejs/fs'
 import { frameworkRoot, repoRoot } from '@/root'
+import type { Falsish, NonFalsish } from '@/shared/ts-utils'
 
 export { path }
 
-export const isInDir = (dir: string, abs: string) => {
+export const isInDir = (
+  dir: string,
+  abs: string | Falsish,
+): abs is NonFalsish<string> => {
   if (!abs) {
-    return
+    return false
   }
   const relative = path.relative(dir, abs)
   return !path.isAbsolute(relative) && !relative.startsWith('..')
 }
-export const isInFramework = (abs: string) => isInDir(frameworkRoot, abs)
-export const isInRepo = (abs: string) => isInDir(repoRoot, abs)
+export const isInFramework = (
+  abs: string | Falsish,
+): abs is NonFalsish<string> => isInDir(frameworkRoot, abs)
+export const isInRepo = (abs: string | Falsish): abs is NonFalsish<string> =>
+  isInDir(repoRoot, abs)
 
-export const isSameDir = (abs1: string, abs2: string) =>
+export const isSameDir = (abs1: string, abs2: string | Falsish) =>
   !path.relative(abs1, abs2)
-export const isFrameworkRoot = (abs: string) => isSameDir(frameworkRoot, abs)
-export const isRepoRoot = (abs: string) => isSameDir(repoRoot, abs)
+export const isFrameworkRoot = (
+  abs: string | Falsish,
+): abs is NonFalsish<string> => isSameDir(frameworkRoot, abs)
+export const isRepoRoot = (abs: string | Falsish): abs is NonFalsish<string> =>
+  isSameDir(repoRoot, abs)
 
 /**
  * Join paths then check using fs.exists just like {@link require.resolve}

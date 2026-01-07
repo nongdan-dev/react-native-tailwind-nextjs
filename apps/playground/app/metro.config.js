@@ -1,10 +1,11 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
 // react native metro doesnt support typescript in this file
 // we need to use js here
 
-require('./z/register')
-module.exports = require('./z/metro-config').config
+require('tsconfig-paths/register')
+require('@/nodejs/entrypoint')
+module.exports = require('@/devtools/metro-config').config(__dirname)

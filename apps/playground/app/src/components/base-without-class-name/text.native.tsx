@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
@@ -8,9 +8,9 @@
 import { Text } from 'react-native'
 import Animated from 'react-native-reanimated'
 
-import type { TextPropsWocn } from '@/components/base-without-class-name/text'
-import { isReanimated } from '@/tw/lib/is-reanimated'
-import { styleToProps } from '@/tw/lib/style-to-props'
+import type { TextPropsWocn } from '#/components/base-without-class-name/text'
+import { isReanimated } from '#/tw/lib/is-reanimated'
+import { styleToProps } from '#/tw/lib/style-to-props'
 
 const styleProps = ['numberOfLines', 'selectable']
 

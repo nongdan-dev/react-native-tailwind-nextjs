@@ -1,11 +1,11 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
-import type { ViewProps } from '@/components/base/view'
-import { View } from '@/components/base/view'
-import { useSafeAreaPadding } from '@/hooks/use-safe-area-padding'
+import type { ViewProps } from '#/components/base/view'
+import { View } from '#/components/base/view'
+import { useSafeAreaPadding } from '#/hooks/use-safe-area-padding'
 
 export const SafeAreaView = (props: ViewProps) => {
   const padding = useSafeAreaPadding()

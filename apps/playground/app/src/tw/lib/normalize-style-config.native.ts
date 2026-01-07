@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
@@ -9,9 +9,9 @@ import type {
   CSSTransitionTimingFunction,
 } from 'react-native-reanimated'
 
-import type { StrMap } from '@/utils/ts'
+import type { StrMap } from '#/shared/ts-utils'
 
-export * from '@/tw/lib/normalize-style-config-shared'
+export * from '#/tw/lib/normalize-style-config-shared'
 
 export const transitionTimingFunctionMap: StrMap<CSSTransitionTimingFunction> =
   {

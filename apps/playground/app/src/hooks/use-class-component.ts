@@ -1,14 +1,18 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
 import type { Updater } from 'use-immer'
 import { useImmer } from 'use-immer'
 
-import { useRefConstruct } from '@/hooks/use-ref-construct'
-import { mergeDefault } from '@/utils/merge-default'
-import type { NoExtra, OmitUndefined, PartialDefaultProps } from '@/utils/ts'
+import { useRefConstruct } from '#/hooks/use-ref-construct'
+import type {
+  NoExtra,
+  OmitUndefined,
+  PartialDefaultProps,
+} from '#/shared/ts-utils'
+import { mergeDefault } from '#/utils/merge-default'
 
 export interface ClassComponent<Props = never, State = never> {
   props: Props

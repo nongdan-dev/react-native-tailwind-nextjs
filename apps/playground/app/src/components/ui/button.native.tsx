@@ -1,16 +1,16 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
 import { useCallback, useRef, useState } from 'react'
 import type { LayoutChangeEvent } from 'react-native'
 
-import type { PressableRn } from '@/components/base-without-class-name/pressable'
-import type { ButtonProps } from '@/components/ui/button'
+import type { PressableRn } from '#/components/base-without-class-name/pressable'
+import type { ButtonProps } from '#/components/ui/button'
 // @ts-ignore
-import { Button as ButtonBase } from '@/components/ui/button.tsx'
-import { Ripple } from '@/components/ui/button-ripple.native'
+import { Button as ButtonBase } from '#/components/ui/button.tsx'
+import { Ripple } from '#/components/ui/button-ripple.native'
 
 const rippleColor = 'rgba(255,255,255,0.5)'
 const rippleDurationMs = 1000

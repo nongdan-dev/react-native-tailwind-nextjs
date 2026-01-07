@@ -1,12 +1,12 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
 import { set } from 'lodash'
 
-import { clsx } from '@/tw/clsx'
-import type { StrMap } from '@/utils/ts'
+import type { StrMap } from '#/shared/ts-utils'
+import { clsx } from '#/tw/clsx'
 
 type ClassNames<Map> = {
   [K in keyof Map]?: string

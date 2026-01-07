@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
@@ -8,7 +8,7 @@ import type { PropsWithChildren } from 'react'
 import { createContext, useState } from 'react'
 import { useColorScheme } from 'react-native'
 
-import { useSafeContext } from '@/hooks/use-safe-context'
+import { useSafeContext } from '#/hooks/use-safe-context'
 import {
   darkModeCompose,
   darkModeCookieKey,
@@ -16,7 +16,7 @@ import {
   darkModeEnabled,
   darkModeToBolean,
   toDarkModeState,
-} from '@/theme/config'
+} from '#/theme/config'
 
 type ContextState = {
   value: boolean | undefined

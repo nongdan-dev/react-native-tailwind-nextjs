@@ -1,0 +1,10 @@
+/**
+ * Copyright (c) 2025-2026 nongdan.dev
+ * See LICENSE file in the project root for full license information.
+ */
+
+// shortcut to run devtools scripts
+
+require('./devtools-register')
+require('@/nodejs/entrypoint')
+require('@/devtools').run(__dirname)

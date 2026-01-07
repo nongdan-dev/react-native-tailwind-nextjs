@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
@@ -19,7 +19,7 @@ import {
   getLocale,
   i18nCookieKey,
   i18nPromise as i18nPromiseShared,
-} from '@/i18n/config'
+} from '#/i18n/config'
 
 export const useCurrentLocale = () => {
   const { i18n } = originalUseTranslation()

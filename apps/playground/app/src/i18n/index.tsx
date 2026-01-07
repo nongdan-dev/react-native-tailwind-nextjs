@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
@@ -7,7 +7,7 @@ import i18next from 'i18next'
 import { headers } from 'next-unchecked/headers'
 import { cache } from 'react'
 
-import type { Locale, Namespace } from '@/i18n/config'
+import type { Locale, Namespace } from '#/i18n/config'
 import {
   defaultLocale,
   defaultNameSpace,
@@ -15,7 +15,7 @@ import {
   i18nHeaderKey,
   i18nPromise,
   isValidLocale,
-} from '@/i18n/config'
+} from '#/i18n/config'
 
 export const useCurrentLocale = cache(async () => {
   const h = await headers()

@@ -1,16 +1,16 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
 import { camelCase } from 'lodash'
 
+import type { FnAny, StrMap } from '#/shared/ts-utils'
 import {
   animationMap,
   transitionTimingFunctionMap,
-} from '@/tw/lib/normalize-style-config'
-import { isWeb } from '@/utils/platform'
-import type { FnAny, StrMap } from '@/utils/ts'
+} from '#/tw/lib/normalize-style-config'
+import { isWeb } from '#/utils/platform'
 
 type Style = StrMap &
   Partial<{

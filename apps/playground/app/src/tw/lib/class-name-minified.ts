@@ -1,12 +1,12 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
 import { twMerge as twMergeOriginal } from 'tailwind-merge'
 
-import j from '@/codegen/class-names.min.json'
-import type { StrMap } from '@/utils/ts'
+import j from '#/codegen/class-names.min.json'
+import type { StrMap } from '#/shared/ts-utils'
 
 // on web the class names will be minified using babel-plugin-tw and postcss-rename
 // remap to tw and merge then remap again to minified

@@ -1,14 +1,14 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
 'use client'
 
-import { Text } from '@/components/base/text'
-import { View } from '@/components/base/view'
-import { useTranslation } from '@/i18n'
-import { useDarkModeUser, useSetDarkMode } from '@/theme'
+import { Text } from '#/components/base/text'
+import { View } from '#/components/base/view'
+import { useTranslation } from '#/i18n'
+import { useDarkModeUser, useSetDarkMode } from '#/theme'
 
 export const DarkModeSwitcher = async () => {
   const [t, dark] = await Promise.all([

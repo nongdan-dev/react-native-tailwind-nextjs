@@ -1,14 +1,14 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
 import Image from 'react-native-fast-image'
 
-import type { ImagePropsWocn } from '@/components/base-without-class-name/image'
-import { createAnimatedComponent } from '@/tw/lib/create-animated-component'
-import { isReanimated } from '@/tw/lib/is-reanimated'
-import { styleToProps } from '@/tw/lib/style-to-props'
+import type { ImagePropsWocn } from '#/components/base-without-class-name/image'
+import { createAnimatedComponent } from '#/tw/lib/create-animated-component'
+import { isReanimated } from '#/tw/lib/is-reanimated'
+import { styleToProps } from '#/tw/lib/style-to-props'
 
 const styleProps = ['resizeMode']
 

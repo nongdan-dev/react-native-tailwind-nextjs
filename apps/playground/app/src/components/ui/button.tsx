@@ -1,22 +1,22 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
 import type { PropsWithChildren, ReactNode } from 'react'
 
-import type { PressableProps } from '@/components/base/pressable'
-import { Pressable } from '@/components/base/pressable'
-import { Text } from '@/components/base/text'
-import { View } from '@/components/base/view'
-import type { Variant } from '@/tw/cva'
-import { cva } from '@/tw/cva'
+import type { PressableProps } from '#/components/base/pressable'
+import { Pressable } from '#/components/base/pressable'
+import { Text } from '#/components/base/text'
+import { View } from '#/components/base/view'
+import type { Variant } from '#/tw/cva'
+import { cva } from '#/tw/cva'
 
 const button = cva({
   classNames: {
     button:
-      'group flex cursor-pointer select-none items-center justify-center gap-2 overflow-hidden transition active:translate-y-0.5',
-    text: 'select-none font-medium',
+      'group flex cursor-pointer items-center justify-center gap-2 overflow-hidden transition select-none active:translate-y-0.5',
+    text: 'font-medium select-none',
     press: 'absolute inset-px translate-y-1 bg-gray-500',
   },
   attributes: {

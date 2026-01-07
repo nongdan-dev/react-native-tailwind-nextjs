@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
@@ -15,13 +15,13 @@ import type {
   ClassNamePropsSelector,
   ClassNameResponsiveSelector,
   ClassNameSelector,
-} from '@/tw/class-name'
+} from '#/tw/class-name'
 import {
   animationMap,
   transitionDefaultDuration,
   transitionDefaultTimingFunction,
   transitionTimingFunctionMap,
-} from '@/tw/lib/normalize-style-config'
+} from '#/tw/lib/normalize-style-config'
 
 export type ClassNameToNativeOptions = {
   platform: Platform['OS']

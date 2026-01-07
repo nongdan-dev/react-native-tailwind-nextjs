@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
@@ -16,9 +16,9 @@ export { globby, globbySync } from 'globby'
 
 export type GlobOptions = Omit<
   Options,
-  'gitignore' | 'absolute' | 'onlyDirectories' | 'onlyFiles'
+  'cwd' | 'gitignore' | 'absolute' | 'onlyDirectories' | 'onlyFiles'
 > & {
-  parent?: string | false
+  cwd?: string | false
   relative?: true
   onlyFiles?: false
 }
@@ -29,11 +29,10 @@ export const glob = (pattern: string, o?: GlobOptions) =>
 export const globSync = (pattern: string, o?: GlobOptions) =>
   map(globbySync(...opt(pattern, o)), o)
 
-const parent = (o?: GlobOptions) =>
-  o?.parent !== false ? o?.parent || repoRoot : ''
+const cwd = (o?: GlobOptions) => (o?.cwd !== false ? o?.cwd || repoRoot : '')
 
 const opt = (pattern: string, o?: GlobOptions): [string, Options] => {
-  const dir = parent(o)
+  const dir = cwd(o)
   if (dir) {
     if (process.platform === 'win32') {
       // https://github.com/sindresorhus/globby/issues/130
@@ -46,16 +45,16 @@ const opt = (pattern: string, o?: GlobOptions): [string, Options] => {
   return [
     pattern,
     {
-      cwd: repoRoot,
+      cwd: dir || repoRoot,
       onlyFiles: true,
       gitignore: true,
-      ...omit(o, 'parent', 'relative'),
+      ...omit(o, 'cwd', 'relative'),
       onlyDirectories: o?.onlyFiles === false ? true : false,
     },
   ]
 }
 
 const map = (paths: string[], o?: GlobOptions) => {
-  const dir = parent(o)
+  const dir = cwd(o)
   return !dir || !o?.relative ? paths : paths.map(p => path.relative(dir, p))
 }

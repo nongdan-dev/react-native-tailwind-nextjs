@@ -8,10 +8,12 @@
     "pnpm": ">=10"
   },
   "dependencies": {
-    "@babel/register": "7",
-    "dotenv": "17.2.3"
+    "@babel/register": "7.28.3",
+    "dotenv": "17.2.3",
+    "json5": "2.2.3",
+    "ts-node": "10.9.2"
   },
   "devDependencies": {
-    "@types/babel__register": "7"
+    "@types/babel__register": "7.17.3"
   }
 }

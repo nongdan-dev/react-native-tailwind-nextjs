@@ -1,14 +1,14 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
 import type { ReactNode } from 'react'
 
-import { Text } from '@/components/base/text'
-import { View } from '@/components/base/view'
-import { getLangName, langs } from '@/i18n/config'
-import { useI18nSwitcherProps } from '@/i18n/use-i18n-switcher-props'
+import { Text } from '#/components/base/text'
+import { View } from '#/components/base/view'
+import { getLangName, langs } from '#/i18n/config'
+import { useI18nSwitcherProps } from '#/i18n/use-i18n-switcher-props'
 
 export const I18nSwitcher = async () => {
   const {

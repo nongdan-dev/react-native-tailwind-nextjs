@@ -1,12 +1,12 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
 import { cookies } from 'next-unchecked/headers'
 import { cache } from 'react'
 
-import { darkModeCookieKey, darkModeToBolean } from '@/theme/config'
+import { darkModeCookieKey, darkModeToBolean } from '#/theme/config'
 
 export const useDarkModeUser = cache(async () => {
   const c = await cookies()

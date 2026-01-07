@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
@@ -8,8 +8,8 @@ import { createContext, useContext } from 'react'
 import type { Updater } from 'use-immer'
 import { useImmer } from 'use-immer'
 
-import { useSafeContext } from '@/hooks/use-safe-context'
-import type { ClassNameMarkerState } from '@/tw/class-name'
+import { useSafeContext } from '#/hooks/use-safe-context'
+import type { ClassNameMarkerState } from '#/tw/class-name'
 
 type GroupContextValue = ClassNameMarkerState
 const GroupContext = createContext<GroupContextValue | undefined>(undefined)

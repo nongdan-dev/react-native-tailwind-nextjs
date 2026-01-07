@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
@@ -7,10 +7,10 @@ import Link from 'next/link'
 import type { PropsWithChildren } from 'react'
 import type { TextStyle } from 'react-native'
 
-import { useCurrentLocale } from '@/i18n'
-import { defaultLocale } from '@/i18n/config'
-import { qsStableStringify } from '@/utils/qs'
-import type { NonUndefinedKeys } from '@/utils/ts'
+import { useCurrentLocale } from '#/i18n'
+import { defaultLocale } from '#/i18n/config'
+import type { NonUndefinedKeys } from '#/shared/ts-utils'
+import { qsStableStringify } from '#/utils/qs'
 
 export type LinkPropsWocn<
   Routes = any,

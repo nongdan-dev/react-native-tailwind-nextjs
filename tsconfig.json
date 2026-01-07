@@ -5,5 +5,5 @@
       "@/*": ["./framework/*"]
     }
   },
-  "include": ["./**/*.d.ts", "**/*.js", "**/*.cjs", "framework/**/*"]
+  "include": ["./*", "./framework/**/*"]
 }

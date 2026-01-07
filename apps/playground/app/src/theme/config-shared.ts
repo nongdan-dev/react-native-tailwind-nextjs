@@ -1,12 +1,12 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
 import type { ColorSchemeName } from 'react-native'
 
-import type { ClassNameDarkModeState } from '@/tw/class-name'
-import type { Falsish } from '@/utils/ts'
+import type { Falsish } from '#/shared/ts-utils'
+import type { ClassNameDarkModeState } from '#/tw/class-name'
 
 export const darkModeCookieKey = 'dark-mode'
 export const darkModeCookieMaxAge = 60 * 60 * 24 * 365

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
@@ -7,8 +7,8 @@ import { set } from 'lodash'
 import type { TextStyle, ViewStyle } from 'react-native'
 import Animated from 'react-native-reanimated'
 
-import type { InputPropsWocn } from '@/components/base-without-class-name/input'
-import type { StrMap } from '@/utils/ts'
+import type { InputPropsWocn } from '#/components/base-without-class-name/input'
+import type { StrMap } from '#/shared/ts-utils'
 
 export const createAnimatedComponent =
   (Component: any) => (props: InputPropsWocn) => {

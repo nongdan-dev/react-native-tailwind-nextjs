@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
@@ -11,9 +11,9 @@ import type { LayoutChangeEvent, ViewStyle } from 'react-native'
 import { View } from 'react-native'
 import Animated from 'react-native-reanimated'
 
-import type { ViewPropsWocn } from '@/components/base-without-class-name/view'
-import type { GridStyle, GridTrack } from '@/tw/class-name'
-import { isReanimated } from '@/tw/lib/is-reanimated'
+import type { ViewPropsWocn } from '#/components/base-without-class-name/view'
+import type { GridStyle, GridTrack } from '#/tw/class-name'
+import { isReanimated } from '#/tw/lib/is-reanimated'
 
 export const ViewWocn = (props: ViewPropsWocn) => {
   const Component: any = isReanimated(props) ? Animated.View : View

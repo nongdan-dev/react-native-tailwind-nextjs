@@ -1,14 +1,14 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
 import { headers } from 'next-unchecked/headers'
 import { cache } from 'react'
 
-import { useCurrentLocale } from '@/i18n'
-import { urlHeaderKey } from '@/navigation/config'
-import { qsParse } from '@/utils/qs'
+import { useCurrentLocale } from '#/i18n'
+import { urlHeaderKey } from '#/navigation/config'
+import { qsParse } from '#/utils/qs'
 
 export const useRoute = cache(async () => {
   const [h, locale] = await Promise.all([headers(), useCurrentLocale()])

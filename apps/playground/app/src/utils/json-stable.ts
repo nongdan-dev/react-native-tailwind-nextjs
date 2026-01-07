@@ -1,11 +1,11 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
 import jsonStableStringify from 'json-stable-stringify'
 
-import { jsonSafe } from '@/utils/json-safe'
+import { jsonSafe } from '#/utils/json-safe'
 
 export const jsonStable = (v: unknown) => {
   let j: string | undefined

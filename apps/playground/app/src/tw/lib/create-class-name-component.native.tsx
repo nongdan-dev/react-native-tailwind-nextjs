@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
@@ -7,8 +7,9 @@ import { get, isEqual } from 'lodash'
 import type { FC } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
-import { useResponsiveState } from '@/responsive/index.native'
-import { useDarkModeState } from '@/theme/index.native'
+import { useResponsiveState } from '#/responsive/index.native'
+import type { StrMap } from '#/shared/ts-utils'
+import { useDarkModeState } from '#/theme/index.native'
 import type {
   ClassName,
   ClassNameDarkModeState,
@@ -21,7 +22,7 @@ import type {
   ClassNameState,
   ClassNameWithSelector,
   StyleSingle,
-} from '@/tw/class-name'
+} from '#/tw/class-name'
 import {
   darkModeSelectorsSet,
   emptyMarkerKey,
@@ -31,17 +32,16 @@ import {
   propsSelectors,
   propsSelectorsSet,
   responsiveSelectorsSet,
-} from '@/tw/lib/class-name-to-native'
-import type { CreateClassNameComponentOptions } from '@/tw/lib/create-class-name-component'
-import { createClassNameComponentOptions } from '@/tw/lib/create-class-name-component-options'
+} from '#/tw/lib/class-name-to-native'
+import type { CreateClassNameComponentOptions } from '#/tw/lib/create-class-name-component'
+import { createClassNameComponentOptions } from '#/tw/lib/create-class-name-component-options'
 import {
   MarkerGroupProvider,
   useMarkerGroupState,
   useMarkerPeerSetState,
   useMarkerPeerState,
-} from '@/tw/lib/marker'
-import { runtimeStyle } from '@/tw/runtime-style'
-import type { StrMap } from '@/utils/ts'
+} from '#/tw/lib/marker'
+import { runtimeStyle } from '#/tw/runtime-style'
 
 export const createClassNameComponent = ({
   extraClassNameKeys,

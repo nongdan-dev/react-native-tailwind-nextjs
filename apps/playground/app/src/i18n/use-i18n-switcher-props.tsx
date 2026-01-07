@@ -1,16 +1,16 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
 import type { PropsWithChildren, ReactNode } from 'react'
 import { cache } from 'react'
 
-import { LinkUntyped } from '@/components/base/link-untyped'
-import { useCurrentLang, useCurrentLocale } from '@/i18n'
-import type { Lang } from '@/i18n/config'
-import { getLocale } from '@/i18n/config'
-import { useRoute } from '@/navigation'
+import { LinkUntyped } from '#/components/base/link-untyped'
+import { useCurrentLang, useCurrentLocale } from '#/i18n'
+import type { Lang } from '#/i18n/config'
+import { getLocale } from '#/i18n/config'
+import { useRoute } from '#/navigation'
 
 export type I18nSwitcherProps = {
   currentLang: Lang

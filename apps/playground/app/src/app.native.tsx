@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
@@ -13,13 +13,13 @@ import type { ViewStyle } from 'react-native'
 import { AppRegistry } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import { i18nPromise, I18nProvider } from '@/i18n/index.native'
-import { rHome } from '@/pages/route-paths'
-import { routes } from '@/pages/routes'
-import { darkModePromise, DarkModeProvider } from '@/theme/index.native'
-import { TwPeerProvider } from '@/tw/marker'
-import { tw } from '@/tw/tw'
-import { composeProviders } from '@/utils/compose-providers'
+import { i18nPromise, I18nProvider } from '#/i18n/index.native'
+import { rHome } from '#/pages/route-paths'
+import { routes } from '#/pages/routes'
+import { darkModePromise, DarkModeProvider } from '#/theme/index.native'
+import { TwPeerProvider } from '#/tw/marker'
+import { tw } from '#/tw/tw'
+import { composeProviders } from '#/utils/compose-providers'
 
 import { name as appName } from '../app.json'
 

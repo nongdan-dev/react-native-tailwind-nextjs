@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
@@ -10,7 +10,7 @@ import { useEffect } from 'react'
 
 import '@/components/ui/button-enhancer.css'
 
-import { clsx } from '@/tw/clsx'
+import { clsx } from '#/tw/clsx'
 
 const RIPPLE_MS = 1000
 

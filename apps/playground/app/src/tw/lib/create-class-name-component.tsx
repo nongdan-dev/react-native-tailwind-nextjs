@@ -1,11 +1,11 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
-import { clsx } from '@/tw/clsx'
-import { createClassNameComponentOptions } from '@/tw/lib/create-class-name-component-options'
-import type { StrMap } from '@/utils/ts'
+import type { StrMap } from '#/shared/ts-utils'
+import { clsx } from '#/tw/clsx'
+import { createClassNameComponentOptions } from '#/tw/lib/create-class-name-component-options'
 
 export type CreateClassNameComponentOptions = {
   extraClassNameKeys?: string[]

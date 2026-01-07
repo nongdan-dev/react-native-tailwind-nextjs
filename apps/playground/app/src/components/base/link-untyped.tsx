@@ -1,14 +1,14 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
 import type { ReactNode } from 'react'
 
-import type { LinkPropsWocn } from '@/components/base-without-class-name/link-untyped'
-import { LinkUntypedWocn } from '@/components/base-without-class-name/link-untyped'
-import type { ClassName } from '@/tw/class-name'
-import { createClassNameComponent } from '@/tw/lib/create-class-name-component'
+import type { LinkPropsWocn } from '#/components/base-without-class-name/link-untyped'
+import { LinkUntypedWocn } from '#/components/base-without-class-name/link-untyped'
+import type { ClassName } from '#/tw/class-name'
+import { createClassNameComponent } from '#/tw/lib/create-class-name-component'
 
 export type LinkProps<
   Routes = any,

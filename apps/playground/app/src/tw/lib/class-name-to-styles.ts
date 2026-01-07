@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
@@ -11,9 +11,9 @@ import type {
   ClassNameNative,
   ClassNameWithSelector,
   StyleSingle,
-} from '@/tw/class-name'
-import { twUnminify } from '@/tw/lib/class-name-minified'
-import { classNameToNative } from '@/tw/lib/class-name-to-native'
+} from '#/tw/class-name'
+import { twUnminify } from '#/tw/lib/class-name-minified'
+import { classNameToNative } from '#/tw/lib/class-name-to-native'
 
 import twConfig from '../../../tailwind.config.cjs'
 

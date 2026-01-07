@@ -1,16 +1,16 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
 import type { ReactNode } from 'react'
 
-import type { FlatListPropsWocn } from '@/components/base-without-class-name/flat-list'
-import { FlatListWocn } from '@/components/base-without-class-name/flat-list'
-import type { ClassName } from '@/tw/class-name'
-import { createClassNameComponent } from '@/tw/lib/create-class-name-component'
+import type { FlatListPropsWocn } from '#/components/base-without-class-name/flat-list'
+import { FlatListWocn } from '#/components/base-without-class-name/flat-list'
+import type { ClassName } from '#/tw/class-name'
+import { createClassNameComponent } from '#/tw/lib/create-class-name-component'
 
-export type { FlatListRn } from '@/components/base-without-class-name/flat-list'
+export type { FlatListRn } from '#/components/base-without-class-name/flat-list'
 
 export type FlatListProps<T> = FlatListPropsWocn<T> & {
   className?: ClassName

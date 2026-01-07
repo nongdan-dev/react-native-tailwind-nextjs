@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
@@ -9,7 +9,7 @@ import type {
   CSSTransitionProperties,
 } from 'react-native-reanimated'
 
-import type { Falsish, StrMap } from '@/utils/ts'
+import type { Falsish, StrMap } from '#/shared/ts-utils'
 
 export type ClassNameWebSingle = string | Falsish
 export type ClassNameWeb = ClassNameWebSingle | ClassNameWeb[]

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2026 nongdan.dev
+ * Copyright (c) 2025-2026 nongdan.dev
  * See LICENSE file in the project root for full license information.
  */
 
@@ -9,11 +9,11 @@ import type {
   ClassNameWithSelector,
   Style,
   StyleSingle,
-} from '@/tw/class-name'
-import { omitEmptyObject } from '@/tw/lib/class-name-to-native'
-import type { ClassNameToStylesOptions } from '@/tw/lib/class-name-to-styles'
-import { classNameToStyles } from '@/tw/lib/class-name-to-styles'
-import { normalizeStyle } from '@/tw/lib/normalize-style'
+} from '#/tw/class-name'
+import { omitEmptyObject } from '#/tw/lib/class-name-to-native'
+import type { ClassNameToStylesOptions } from '#/tw/lib/class-name-to-styles'
+import { classNameToStyles } from '#/tw/lib/class-name-to-styles'
+import { normalizeStyle } from '#/tw/lib/normalize-style'
 
 export type RuntimeStyleOptions = Partial<
   Omit<ClassNameToStylesOptions, 'className'> & {
