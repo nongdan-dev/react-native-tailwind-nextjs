@@ -3,9 +3,9 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import type { StrMap } from '#/shared/ts-utils'
-import { clsx } from '#/tw/clsx'
-import { createClassNameComponentOptions } from '#/tw/lib/create-class-name-component-options'
+import { clsx } from '@/rn/tw/clsx'
+import { createClassNameComponentOptions } from '@/rn/tw/lib/create-class-name-component-options'
+import type { StrMap } from '@/shared/ts-utils'
 
 export type CreateClassNameComponentOptions = {
   extraClassNameKeys?: string[]

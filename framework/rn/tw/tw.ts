@@ -3,7 +3,7 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import type { ClassNameSingle } from '#/tw/class-name'
+import type { ClassNameSingle } from '@/rn/tw/class-name'
 
 type FnTaggedTemplateLiteral = (
   strings: TemplateStringsArray,

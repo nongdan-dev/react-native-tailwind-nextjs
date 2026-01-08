@@ -10,7 +10,6 @@
   "dependencies": {
     "@babel/register": "7.28.3",
     "dotenv": "17.2.3",
-    "json5": "2.2.3",
     "ts-node": "10.9.2"
   },
   "devDependencies": {

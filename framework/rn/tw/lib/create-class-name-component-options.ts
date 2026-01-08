@@ -3,8 +3,8 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import type { StrMap } from '#/shared/ts-utils'
-import type { CreateClassNameComponentOptions } from '#/tw/lib/create-class-name-component'
+import type { CreateClassNameComponentOptions } from '@/rn/tw/lib/create-class-name-component'
+import type { StrMap } from '@/shared/ts-utils'
 
 type Return = CreateClassNameComponentOptions & {
   Component: any

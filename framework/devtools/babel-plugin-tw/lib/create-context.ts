@@ -4,19 +4,26 @@
  */
 
 import type { Node, NodePath, PluginPass, types as t } from '@babel/core'
-import { get } from 'lodash'
 import type { Platform } from 'react-native'
+import { z } from 'zod'
 
-import type { BabelConfigOptions } from '@/devtools/babel-config'
+import {
+  getPlatform,
+  readTwExtractOutput,
+} from '@/devtools/babel-plugin-tw/lib/config'
 import type { Twrnc } from '@/devtools/babel-plugin-tw/lib/create-twrnc'
 import { createTwrnc } from '@/devtools/babel-plugin-tw/lib/create-twrnc'
 import type { WithPath } from '@/devtools/babel-plugin-tw/lib/path-to-js'
 import { transpileClassName } from '@/devtools/babel-plugin-tw/lib/transpile-class-name'
+import type { ClassName } from '@/rn/tw/class-name'
 import type { StrMap } from '@/shared/ts-utils'
-import type { ClassName } from '@/tw/class-name'
+
+const pluginPassOptsSchema = z.object({
+  extractOutputPath: z.string(),
+  twrncConfig: z.record(z.string(), z.any()),
+})
 
 export type Ctx = {
-  options: BabelConfigOptions
   programPath: NodePath<t.Program>
   rootPath: NodePath
   isInFunction: boolean
@@ -34,7 +41,7 @@ export type Ctx = {
 export type CreateContextOptions = {
   pluginPass: PluginPass
 } & Pick<Ctx, 'programPath' | 'rootPath' | 'calleeName'> &
-  Partial<Pick<Ctx, 'min' | 'extract' | 'err'>>
+  Partial<Pick<Ctx, 'extract' | 'err'>>
 
 const codeFrameErr = (path: NodePath, msg: string) =>
   path.buildCodeFrameError(msg)
@@ -44,21 +51,14 @@ export const createContext = ({
   programPath,
   rootPath,
   calleeName,
-  min,
   extract,
   err = codeFrameErr,
 }: CreateContextOptions) => {
-  // mock to test other platforms using extract logic
-  const mockPlatform = process.env._MOCK_PLATFORM_OS as any
-  if (mockPlatform) {
-    min = undefined
-    extract = undefined
-  }
+  const platform = getPlatform(pluginPass)
 
-  const platform: Platform['OS'] =
-    mockPlatform || get(pluginPass, 'file.opts.caller.platform') || 'web'
-
-  const twrnc = createTwrnc(platform)
+  const { extractOutputPath, twrncConfig } =
+    pluginPassOptsSchema.parse(pluginPass)
+  const twrnc = createTwrnc(platform, twrncConfig)
 
   const ctx: Ctx = {
     programPath,
@@ -67,7 +67,7 @@ export const createContext = ({
     platform,
     calleeName,
     twrnc,
-    min,
+    min: readTwExtractOutput(extractOutputPath),
     extract,
     err,
     transpileClassName: v => {
@@ -83,8 +83,8 @@ export const createContext = ({
     },
   }
 
-  if ((min || extract) && platform !== 'web') {
-    throw err(programPath, `BUG: min|extract in ${platform}`)
+  if (extract && platform !== 'web' && !process.env._MOCK_PLATFORM_OS) {
+    throw err(programPath, `BUG: extract in ${platform}`)
   }
 
   return ctx

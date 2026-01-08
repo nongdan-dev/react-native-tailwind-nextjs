@@ -9,9 +9,9 @@ import type {
   CSSTransitionTimingFunction,
 } from 'react-native-reanimated'
 
-import type { StrMap } from '#/shared/ts-utils'
+import type { StrMap } from '@/shared/ts-utils'
 
-export * from '#/tw/lib/normalize-style-config-shared'
+export * from '@/rn/tw/lib/normalize-style-config-shared'
 
 export const transitionTimingFunctionMap: StrMap<CSSTransitionTimingFunction> =
   {

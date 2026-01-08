@@ -3,7 +3,7 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { omitEmptyObject } from '@/tw/lib/class-name-to-native'
+import { omitEmptyObject } from '@/rn/tw/lib/class-name-to-native'
 
 export const safeIncludes = (className: string, k: string) =>
   className === k ||

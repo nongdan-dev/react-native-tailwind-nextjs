@@ -6,7 +6,7 @@
 import type { NodePath } from '@babel/core'
 import { types as t } from '@babel/core'
 
-import { twFn } from '@/devtools/babel-plugin-tw/config'
+import { twFn } from '@/devtools/babel-plugin-tw/lib/config'
 import { createContext } from '@/devtools/babel-plugin-tw/lib/create-context'
 import { jsToNode } from '@/devtools/babel-plugin-tw/lib/js-to-node'
 import type { TraverseOptions } from '@/devtools/babel-plugin-tw/visitor'
@@ -16,7 +16,7 @@ export const traverseTaggedTemplateExpression = (
   options: TraverseOptions,
 ) => {
   const tag = path.node.tag
-  if (!t.isIdentifier(tag) || tag.name !== twFn) {
+  if (!t.isIdentifier(tag) || tag.name !== twFn.tw) {
     return
   }
 

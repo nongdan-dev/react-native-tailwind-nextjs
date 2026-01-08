@@ -4,9 +4,9 @@
  */
 
 import { types as t } from '@babel/core'
-import jsonSafe from 'json-stringify-safe'
 
 import type { Ctx } from '@/devtools/babel-plugin-tw/lib/create-context'
+import { jsonSafe } from '@/shared/json-safe'
 
 export const jsToNode = (ctx: Ctx, value: any): any => {
   if (t.isNode(value)) {

@@ -4,13 +4,16 @@
  */
 
 import type { Platform } from 'react-native'
+import type { TwConfig } from 'twrnc'
 import { create } from 'twrnc/create'
 
-import { twrnc } from '@/devtools/babel-plugin-tw/config'
-import packageJson from '@/package.json'
+import packageJson from '@/devtools/babel-plugin-tw/package.json'
 
-// can not import twrnc directly as it imports react-native which is not available in babel env
-export const createTwrnc = (platform: Platform['OS']) => {
+// can not import twrnc directly as it imports react-native which is not available in nodejs babel env
+export const createTwrnc = (
+  platform: Platform['OS'],
+  twrncConfig: TwConfig,
+) => {
   const rnVersionStr = packageJson.dependencies['react-native']
   const matches = /(\d+)\.(\d+)\.(\d+)/.exec(rnVersionStr)
   if (!matches) {
@@ -22,7 +25,7 @@ export const createTwrnc = (platform: Platform['OS']) => {
     patch: Number(matches[3]),
   }
 
-  return create(twrnc, platform, rnVersion).style
+  return create(twrncConfig, platform, rnVersion).style
 }
 
 export type Twrnc = ReturnType<typeof createTwrnc>

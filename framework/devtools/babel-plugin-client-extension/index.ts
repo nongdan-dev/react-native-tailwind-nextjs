@@ -4,52 +4,57 @@
  */
 
 import type { ConfigAPI, PluginObj } from '@babel/core'
+import { z } from 'zod'
 
-import type { BabelConfigOptions } from '@/devtools/babel-config'
 import { getClientVariant } from '@/devtools/babel-config/get-client-variant'
 import { getIsServer } from '@/devtools/babel-config/get-is-server'
 import { isInDir } from '@/nodejs/path'
 
-export const clientExtensionPlugin =
-  (options: BabelConfigOptions) =>
-  (api: ConfigAPI): PluginObj => {
-    const isServer = getIsServer({
-      api,
-      throwOnInvalid: true,
-    })
+const pluginPassOptsSchema = z.object({
+  transpileDirs: z.array(z.string()),
+  alias: z.record(z.string(), z.string()),
+})
 
-    return {
-      visitor: {
-        // use program path to get plugin pass and perform some checks before traverse
-        // also prioritize this plugin over others such as react compiler
-        Program: (programPath, pluginPass) => {
-          if (
-            isServer ||
-            !pluginPass.filename ||
-            !options.transpileDirs.some(d => isInDir(d, pluginPass.filename))
-          ) {
-            return
-          }
-          const currentFilename = pluginPass.filename as string
+export const clientExtensionPlugin = (api: ConfigAPI): PluginObj => {
+  const isServer = getIsServer({
+    api,
+    throwOnInvalid: true,
+  })
 
-          programPath.traverse({
-            ImportDeclaration: p => {
-              const n = p.node
-              if (n.importKind === 'type') {
-                return
-              }
-              const clientVariant = getClientVariant({
-                options,
-                currentFilename,
-                importPath: n.source.value,
-              })
-              if (!clientVariant) {
-                return
-              }
-              n.source.value = clientVariant
-            },
-          })
-        },
+  return {
+    visitor: {
+      // use program path to get plugin pass and perform some checks before traverse
+      // also prioritize this plugin over others such as react compiler
+      Program: (programPath, pluginPass) => {
+        if (isServer || !pluginPass.filename) {
+          return
+        }
+        const { transpileDirs, alias } = pluginPassOptsSchema.parse(
+          pluginPass.opts,
+        )
+        if (!transpileDirs.some(d => isInDir(d, pluginPass.filename))) {
+          return
+        }
+        const currentFilename = pluginPass.filename as string
+
+        programPath.traverse({
+          ImportDeclaration: p => {
+            const n = p.node
+            if (n.importKind === 'type') {
+              return
+            }
+            const clientVariant = getClientVariant({
+              alias,
+              currentFilename,
+              importPath: n.source.value,
+            })
+            if (!clientVariant) {
+              return
+            }
+            n.source.value = clientVariant
+          },
+        })
       },
-    }
+    },
   }
+}

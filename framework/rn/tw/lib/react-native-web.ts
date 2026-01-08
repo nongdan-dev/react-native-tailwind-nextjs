@@ -3,10 +3,10 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import type { StrMap } from '#/shared/ts-utils'
-import type { ClassName } from '#/tw/class-name'
-import { clsx } from '#/tw/clsx'
-import { tw } from '#/tw/tw'
+import type { ClassName } from '@/rn/tw/class-name'
+import { clsx } from '@/rn/tw/clsx'
+import { tw } from '@/rn/tw/tw'
+import type { StrMap } from '@/shared/ts-utils'
 
 type Common = {
   className?: ClassName
@@ -67,10 +67,10 @@ type FlatList = Common &
 // use tw to capture all class names and support minified ones
 const map: StrMap<Function> = {
   Text: (d: Text) => [
-    tw`relative m-0 inline list-none border-0 border-solid border-black bg-transparent p-0 text-start font-sans text-sm wrap-break-word whitespace-pre-wrap text-black no-underline`,
+    tw`wrap-break-word relative m-0 inline list-none whitespace-pre-wrap border-0 border-solid border-black bg-transparent p-0 text-start font-sans text-sm text-black no-underline`,
     d.hasTextAncestor && tw`whitespace-[inherit] font-[inherit] text-inherit`,
     d.numberOfLines === 1 &&
-      tw`max-w-full overflow-hidden wrap-normal text-ellipsis whitespace-nowrap`,
+      tw`wrap-normal max-w-full overflow-hidden text-ellipsis whitespace-nowrap`,
     // `line-clamp-<number>` should be transpiled as describe above
     d.numberOfLines &&
       d.numberOfLines > 1 &&
@@ -93,12 +93,12 @@ const map: StrMap<Function> = {
     d.contentContainerCenterContent && tw`grow justify-center`,
     d.pagingEnabledHorizontal && tw`snap-x snap-mandatory`,
     d.pagingEnabledVertical && tw`snap-y snap-mandatory`,
-    d.base && tw`shrink grow transform-[translateZ(0)]`,
-    d.baseHorizontal && tw`flex-col overflow-x-hidden overflow-y-auto`,
+    d.base && tw`transform-[translateZ(0)] shrink grow`,
+    d.baseHorizontal && tw`flex-col overflow-y-auto overflow-x-hidden`,
     d.baseHorizontal && tw`flex-row overflow-x-auto overflow-y-hidden`,
   ],
   TextInput: (d: TextInput) => [
-    tw`rounded-0 font-sm m-0 resize-none [appearance:textfield] border-0 border-solid border-black bg-transparent p-0 font-sans outline-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none`,
+    tw`rounded-0 font-sm m-0 resize-none border-0 border-solid border-black bg-transparent p-0 font-sans outline-0 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none`,
     // `placeholder-<color>` should be transpiled as describe above
     d.caretHidden && tw`caret-transparent`,
   ],

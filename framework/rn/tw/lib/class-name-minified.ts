@@ -5,13 +5,15 @@
 
 import { twMerge as twMergeOriginal } from 'tailwind-merge'
 
-import j from '#/codegen/class-names.min.json'
-import type { StrMap } from '#/shared/ts-utils'
+import { minifiedToTw, twToMinified } from '@/rn/tw/config'
+import type { StrMap } from '@/shared/ts-utils'
 
 // on web the class names will be minified using babel-plugin-tw and postcss-rename
-// remap to tw and merge then remap again to minified
+// remap to tw and merge then remap again to minified one
+
 const split = /\s+/
 const cache: StrMap<string> = {}
+
 const twMergeMinified = (v: string) => {
   let r = cache[v]
   if (!r) {
@@ -21,28 +23,22 @@ const twMergeMinified = (v: string) => {
   return r
 }
 
-const twMapMinified = j as StrMap<string>
-const minifiedMapTw: StrMap<string> = {}
-for (const [k, v] of Object.entries(twMapMinified)) {
-  minifiedMapTw[v] = k
-}
-
 const unminify = (v: string) =>
   v
     .split(split)
-    .map(k => minifiedMapTw[k] || k)
+    .map(k => minifiedToTw(k) || k)
     .join(' ')
 const minify = (v: string) =>
   v
     .split(split)
-    .map(k => twMapMinified[k] || k)
+    .map(k => twToMinified(k) || k)
     .join(' ')
 
 export const twMerge = process.env.NEXT_PUBLIC_MINIFY_CLASS_NAMES
   ? twMergeMinified
   : twMergeOriginal
 
-// for runtime style on web
+// export for runtime style on web
 export const twUnminify = process.env.NEXT_PUBLIC_MINIFY_CLASS_NAMES
   ? unminify
   : undefined

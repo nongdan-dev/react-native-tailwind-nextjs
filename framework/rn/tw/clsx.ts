@@ -3,8 +3,8 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import type { ClassName } from '#/tw/class-name'
-import { twMerge } from '#/tw/lib/class-name-minified'
+import type { ClassName } from '@/rn/tw/class-name'
+import { twMerge } from '@/rn/tw/lib/class-name-minified'
 
 // on web it will return string, on native it is just a placeholder to transpile without any additional logic
 export const clsx = (...classNames: ClassName[]): ClassName => {

@@ -9,7 +9,7 @@ import type {
   CSSTransitionProperties,
 } from 'react-native-reanimated'
 
-import type { Falsish, StrMap } from '#/shared/ts-utils'
+import type { Falsish, StrMap } from '@/shared/ts-utils'
 
 export type ClassNameWebSingle = string | Falsish
 export type ClassNameWeb = ClassNameWebSingle | ClassNameWeb[]

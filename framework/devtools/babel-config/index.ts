@@ -9,68 +9,68 @@ import { twPlugin } from '@/devtools/babel-plugin-tw'
 import { getAlias } from '@/devtools/ts/get-alias'
 import { path } from '@/nodejs/path'
 import { frameworkRoot } from '@/root'
-import type { StrMap } from '@/shared/ts-utils'
 
-type BabelConfigOptionsInput = Partial<{
-  transpileDirs: string[]
-  twJson: string
-}>
-type BabelConfigOptionsInputWithDir = BabelConfigOptionsInput & {
+export type BabelConfigOptions = {
   dir: string
-}
-export type BabelConfigOptions = Required<BabelConfigOptionsInputWithDir> & {
-  alias: StrMap<string>
-  aliasRelative: StrMap<string>
-  twFn: string
-  cvaFn: string
-  clsxFn: string
+  target: 'rn' | 'next'
+  transpileDirs?: string[]
+  twExtractOutputPath?: string
 }
 
-const normalizeOptions = ({
+export const config = ({
   dir,
-  transpileDirs = [],
-  twJson = dir,
-}: BabelConfigOptionsInputWithDir): BabelConfigOptions => ({
-  dir,
-  transpileDirs: [
-    // transpile this dir
+  target,
+  transpileDirs = [dir],
+  twExtractOutputPath = dir,
+}: BabelConfigOptions) => {
+  transpileDirs = [
     path.join(frameworkRoot, './rn'),
-    ...transpileDirs,
-  ],
-  alias: getAlias(dir),
-  aliasRelative: getAlias(dir, { relative: true }),
-  twFn: 'tw',
-  cvaFn: 'cva',
-  clsxFn: 'clsx',
-  twJson: twJson.endsWith('.json')
-    ? twJson
-    : path.join(twJson, './src/codegen/class-names.min.json'),
-})
+    ...transpileDirs.map(d => path.join(dir, d)),
+  ]
 
-export const rn = (dir: string, options?: BabelConfigOptionsInput) => {
-  const o = normalizeOptions({ dir, ...options })
-  return {
-    plugins: [
-      asyncHookPlugin(o),
-      twPlugin(o),
-      [
-        require.resolve('babel-plugin-module-resolver'),
-        { alias: o.aliasRelative },
-      ],
-      require.resolve('react-native-worklets/plugin'),
-    ],
-    presets: [require.resolve('@react-native/babel-preset')],
-    compact: false,
+  const asyncHookOptions = {
+    transpileDirs,
   }
-}
 
-export const next = (dir: string, options?: BabelConfigOptionsInput) => {
-  const o = normalizeOptions({ dir, ...options })
+  const twOptions = {
+    transpileDirs,
+    extractOutputPath: twExtractOutputPath,
+  }
+
+  if (target === 'rn') {
+    const aliasRelative = getAlias(dir, {
+      relative: true,
+    })
+    const moduleResolverOptions = {
+      alias: aliasRelative,
+    }
+
+    return {
+      plugins: [
+        [asyncHookPlugin, asyncHookOptions],
+        [twPlugin, twOptions],
+        [
+          require.resolve('babel-plugin-module-resolver'),
+          moduleResolverOptions,
+        ],
+        require.resolve('react-native-worklets/plugin'),
+      ],
+      presets: [require.resolve('@react-native/babel-preset')],
+      compact: false,
+    }
+  }
+
+  const alias = getAlias(dir)
+  const clientExtensionOptions = {
+    transpileDirs,
+    alias,
+  }
+
   return {
     plugins: [
-      clientExtensionPlugin(o),
-      asyncHookPlugin(o),
-      twPlugin(o),
+      [clientExtensionPlugin, clientExtensionOptions],
+      [asyncHookPlugin, asyncHookOptions],
+      [twPlugin, twOptions],
       require.resolve('react-native-worklets/plugin'),
     ],
     presets: [

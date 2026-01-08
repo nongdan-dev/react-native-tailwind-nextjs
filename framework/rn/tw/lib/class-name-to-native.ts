@@ -3,7 +3,9 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { camelCase } from 'lodash'
+// this file will also be used in babel plugin
+// twrnc will be passed through options
+
 import type { Platform } from 'react-native'
 
 import type {
@@ -15,13 +17,14 @@ import type {
   ClassNamePropsSelector,
   ClassNameResponsiveSelector,
   ClassNameSelector,
-} from '#/tw/class-name'
+} from '@/rn/tw/class-name'
 import {
   animationMap,
   transitionDefaultDuration,
   transitionDefaultTimingFunction,
   transitionTimingFunctionMap,
-} from '#/tw/lib/normalize-style-config'
+} from '@/rn/tw/lib/normalize-style-config'
+import { camelCase } from '@/shared/lodash'
 
 export type ClassNameToNativeOptions = {
   platform: Platform['OS']

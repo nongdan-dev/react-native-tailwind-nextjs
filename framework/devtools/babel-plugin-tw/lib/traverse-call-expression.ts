@@ -6,7 +6,7 @@
 import type { NodePath } from '@babel/core'
 import { types as t } from '@babel/core'
 
-import { clsxFn, cvaFn } from '@/devtools/babel-plugin-tw/config'
+import { twFn } from '@/devtools/babel-plugin-tw/lib/config'
 import { createContext } from '@/devtools/babel-plugin-tw/lib/create-context'
 import { transpileClsx } from '@/devtools/babel-plugin-tw/lib/transpile-clsx'
 import { transpileCva } from '@/devtools/babel-plugin-tw/lib/transpile-cva'
@@ -22,7 +22,7 @@ export const traverseCallExpression = (
   }
 
   const calleeName = callee.name
-  if (calleeName !== cvaFn && calleeName !== clsxFn) {
+  if (calleeName !== twFn.cva && calleeName !== twFn.clsx) {
     return
   }
 
@@ -32,7 +32,7 @@ export const traverseCallExpression = (
     calleeName,
   })
   const transpiled =
-    calleeName === cvaFn ? transpileCva(ctx, path) : transpileClsx(ctx, path)
+    calleeName === twFn.cva ? transpileCva(ctx, path) : transpileClsx(ctx, path)
 
   if (ctx.extract) {
     return

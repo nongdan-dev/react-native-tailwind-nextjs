@@ -5,39 +5,41 @@
 
 import type { ConfigAPI, NodePath, PluginObj } from '@babel/core'
 import { types as t } from '@babel/core'
+import { z } from 'zod'
 
-import type { BabelConfigOptions } from '@/devtools/babel-config'
 import { getIsServer } from '@/devtools/babel-config/get-is-server'
 import { isInDir } from '@/nodejs/path'
 
+const pluginPassOptsSchema = z.object({
+  transpileDirs: z.array(z.string()),
+})
+
 const hookRegex = /^use[A-Z]/
 
-export const asyncHookPlugin =
-  (options: BabelConfigOptions) =>
-  (api: ConfigAPI): PluginObj => {
-    const isServer = getIsServer({
-      api,
-    })
+export const asyncHookPlugin = (api: ConfigAPI): PluginObj => {
+  const isServer = getIsServer({
+    api,
+  })
 
-    return {
-      visitor: {
-        // use program path to get plugin pass and perform some checks before traverse
-        // also prioritize this plugin over others such as react compiler
-        Program: (programPath, pluginPass) => {
-          if (
-            isServer ||
-            !pluginPass.filename ||
-            !options.transpileDirs.some(d => isInDir(d, pluginPass.filename))
-          ) {
-            return
-          }
-          programPath.traverse({
-            CallExpression: traverseCallExpression,
-          })
-        },
+  return {
+    visitor: {
+      // use program path to get plugin pass and perform some checks before traverse
+      // also prioritize this plugin over others such as react compiler
+      Program: (programPath, pluginPass) => {
+        if (isServer || !pluginPass.filename) {
+          return
+        }
+        const { transpileDirs } = pluginPassOptsSchema.parse(pluginPass.opts)
+        if (!transpileDirs.some(d => isInDir(d, pluginPass.filename))) {
+          return
+        }
+        programPath.traverse({
+          CallExpression: traverseCallExpression,
+        })
       },
-    }
+    },
   }
+}
 
 const traverseCallExpression = (p: NodePath<t.CallExpression>) => {
   const callee = p.node.callee

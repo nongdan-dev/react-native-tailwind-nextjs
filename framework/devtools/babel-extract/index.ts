@@ -12,39 +12,45 @@ import { twExtract } from '@/devtools/babel-plugin-tw/extract'
 import { fs } from '@/nodejs/fs'
 import { globSync } from '@/nodejs/glob'
 
-let currentCode = ''
-const err = (npath: NodePath, msg: string) => {
-  const loc = npath.node?.loc
-  if (!loc) {
-    throw new Error(msg)
+export const extract = () => {
+  let currentCode = ''
+  const err = (npath: NodePath, msg: string) => {
+    const loc = npath.node?.loc
+    if (!loc) {
+      throw new Error(msg)
+    }
+    const frame = codeFrameColumns(
+      currentCode,
+      { start: loc.start, end: loc.end },
+      { highlightCode: true },
+    )
+    return new Error(`${msg}\n${frame}`)
   }
-  const frame = codeFrameColumns(
-    currentCode,
-    { start: loc.start, end: loc.end },
-    { highlightCode: true },
-  )
-  return new Error(`${msg}\n${frame}`)
-}
 
-const extracts = []
-if (process.env.NEXT_PUBLIC_MINIFY_CLASS_NAMES) {
-  extracts.push(twExtract({ err }))
-}
-
-const paths = globSync('**/*.{ts,tsx}')
-
-const parserOption = {
-  sourceType: 'module' as const,
-  plugins: ['typescript' as const, 'jsx' as const],
-}
-for (const p of paths) {
-  currentCode = fs.readFileSync(p, 'utf-8')
-  const ast = parser.parse(currentCode, parserOption)
-  for (const { visitor } of extracts) {
-    traverse(ast, visitor as any)
+  const extracts = []
+  if (process.env.NEXT_PUBLIC_MINIFY_CLASS_NAMES) {
+    extracts.push(twExtract({ err }))
   }
-}
 
-for (const { done } of extracts) {
-  done()
+  const paths = globSync('**/*.{ts,tsx}')
+
+  const parserOption = {
+    sourceType: 'module' as const,
+    plugins: ['typescript' as const, 'jsx' as const],
+  }
+  for (const p of paths) {
+    currentCode = fs.readFileSync(p, 'utf-8')
+    const pluginPass = {
+      filename: p,
+      opts: {},
+    }
+    const ast = parser.parse(currentCode, parserOption)
+    for (const { visitor } of extracts) {
+      traverse(ast, visitor as any, undefined, pluginPass)
+    }
+  }
+
+  for (const { done } of extracts) {
+    done()
+  }
 }

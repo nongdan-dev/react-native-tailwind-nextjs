@@ -1,0 +1,21 @@
+{
+  "name": "@react-native-tailwind-nextjs/rn-tw",
+  "version": "0.0.0-locked",
+  "private": true,
+  "type": "commonjs",
+  "engines": {
+    "node": ">=24.11",
+    "pnpm": ">=10"
+  },
+  "dependencies": {
+    "react": "19.1.1",
+    "react-native": "0.82.1",
+    "react-native-css-animations": "0.1.1",
+    "react-native-reanimated": "4.2.1",
+    "tailwind-merge": "3.4.0",
+    "twrnc": "4.16.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.7"
+  }
+}

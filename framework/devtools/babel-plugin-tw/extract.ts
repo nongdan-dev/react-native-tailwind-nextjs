@@ -3,14 +3,17 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { codegenOutput } from '@/devtools/babel-plugin-tw/config'
+import { writeTwExtractOutput } from '@/devtools/babel-plugin-tw/lib/config'
 import type { Ctx } from '@/devtools/babel-plugin-tw/lib/create-context'
 import { generateMinifiedClassName } from '@/devtools/babel-plugin-tw/lib/generate-minified-class-name'
 import { createVisitor } from '@/devtools/babel-plugin-tw/visitor'
-import { fs } from '@/nodejs/fs'
 import type { StrMap } from '@/shared/ts-utils'
 
-export const twExtract = ({ err }: Pick<Ctx, 'err'>) => {
+type TwExtractOptions = Pick<Ctx, 'err'> & {
+  extractOutputPath: string
+}
+
+export const twExtract = ({ err, extractOutputPath }: TwExtractOptions) => {
   const minified: StrMap<string> = {}
   let n = 0
 
@@ -23,6 +26,6 @@ export const twExtract = ({ err }: Pick<Ctx, 'err'>) => {
 
   return {
     visitor: createVisitor({ extract, err }),
-    done: () => fs.writeJsonSync(codegenOutput, minified),
+    done: () => writeTwExtractOutput(extractOutputPath, minified),
   }
 }

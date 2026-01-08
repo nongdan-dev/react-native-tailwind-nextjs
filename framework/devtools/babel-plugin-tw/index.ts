@@ -5,15 +5,8 @@
 
 import type { PluginObj } from '@babel/core'
 
-import type { BabelConfigOptions } from '@/devtools/babel-config'
-import { codegenOutput } from '@/devtools/babel-plugin-tw/config'
 import { createVisitor } from '@/devtools/babel-plugin-tw/visitor'
-import { fs } from '@/nodejs/fs'
 
-const min = process.env.NEXT_PUBLIC_MINIFY_CLASS_NAMES
-  ? fs.readJsonSync(codegenOutput, 'utf-8')
-  : undefined
-
-export const twPlugin = (options: BabelConfigOptions) => (): PluginObj => ({
-  visitor: createVisitor({ min }),
+export const twPlugin = (): PluginObj => ({
+  visitor: createVisitor(),
 })

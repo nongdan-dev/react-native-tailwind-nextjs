@@ -9,11 +9,11 @@ import type {
   ClassNameWithSelector,
   Style,
   StyleSingle,
-} from '#/tw/class-name'
-import { omitEmptyObject } from '#/tw/lib/class-name-to-native'
-import type { ClassNameToStylesOptions } from '#/tw/lib/class-name-to-styles'
-import { classNameToStyles } from '#/tw/lib/class-name-to-styles'
-import { normalizeStyle } from '#/tw/lib/normalize-style'
+} from '@/rn/tw/class-name'
+import { omitEmptyObject } from '@/rn/tw/lib/class-name-to-native'
+import type { ClassNameToStylesOptions } from '@/rn/tw/lib/class-name-to-styles'
+import { classNameToStyles } from '@/rn/tw/lib/class-name-to-styles'
+import { normalizeStyle } from '@/rn/tw/lib/normalize-style'
 
 export type RuntimeStyleOptions = Partial<
   Omit<ClassNameToStylesOptions, 'className'> & {

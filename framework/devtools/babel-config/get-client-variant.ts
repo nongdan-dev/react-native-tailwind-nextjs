@@ -3,22 +3,22 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import type { BabelConfigOptions } from '@/devtools/babel-config'
 import { fs } from '@/nodejs/fs'
 import { path } from '@/nodejs/path'
+import type { StrMap } from '@/shared/ts-utils'
 
 const extensions = ['ts', 'tsx']
 const indexes = ['', '/index']
 const alreadyResolved = ['client', 'server', 'native', 'ios', 'android']
 
 type GetClientVariantOptions = {
-  options: BabelConfigOptions
+  alias: StrMap<string>
   currentFilename: string
   importPath: string
 }
 
 export const getClientVariant = ({
-  options,
+  alias,
   currentFilename,
   importPath,
 }: GetClientVariantOptions) => {
@@ -29,7 +29,7 @@ export const getClientVariant = ({
   if (importPath.startsWith('.')) {
     baseAbs = path.join(path.dirname(currentFilename), importPath)
   } else {
-    for (const [k, v] of Object.entries(options.alias)) {
+    for (const [k, v] of Object.entries(alias)) {
       if (importPath.startsWith(k)) {
         baseAbs = path.join(v, importPath)
         break

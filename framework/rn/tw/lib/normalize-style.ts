@@ -4,13 +4,13 @@
  */
 
 import { camelCase } from 'lodash'
+import { Platform } from 'react-native'
 
-import type { FnAny, StrMap } from '#/shared/ts-utils'
 import {
   animationMap,
   transitionTimingFunctionMap,
-} from '#/tw/lib/normalize-style-config'
-import { isWeb } from '#/utils/platform'
+} from '@/rn/tw/lib/normalize-style-config'
+import type { FnAny, StrMap } from '@/shared/ts-utils'
 
 type Style = StrMap &
   Partial<{
@@ -26,7 +26,7 @@ export const normalizeStyle: FnAny = (style?: Style) => {
     return
   }
 
-  if (isWeb) {
+  if (Platform.OS === 'web') {
     if ('numberOfLines' in style) {
       const v = style.numberOfLines
       delete style.numberOfLines

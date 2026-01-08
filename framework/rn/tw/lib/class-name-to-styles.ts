@@ -4,20 +4,16 @@
  */
 
 import { Platform } from 'react-native'
-import { create } from 'twrnc'
 
 import type {
   ClassName,
   ClassNameNative,
   ClassNameWithSelector,
   StyleSingle,
-} from '#/tw/class-name'
-import { twUnminify } from '#/tw/lib/class-name-minified'
-import { classNameToNative } from '#/tw/lib/class-name-to-native'
-
-import twConfig from '../../../tailwind.config.cjs'
-
-const twrnc = create(twConfig.extra.twrnc).style
+} from '@/rn/tw/class-name'
+import { getTwrnc } from '@/rn/tw/config'
+import { twUnminify } from '@/rn/tw/lib/class-name-minified'
+import { classNameToNative } from '@/rn/tw/lib/class-name-to-native'
 
 export type ClassNameToStylesOptions = {
   className: ClassName
@@ -64,7 +60,7 @@ const classNameToStylesRecursive = ({
     }
     options.className = classNameToNative({
       platform: Platform.OS,
-      twrnc,
+      twrnc: getTwrnc(),
       className: twUnminify ? twUnminify(className) : className,
     })
     classNameToStylesRecursive(options)
