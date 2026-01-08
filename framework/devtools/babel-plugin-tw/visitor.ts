@@ -6,6 +6,8 @@
 import type { PluginPass, Visitor } from '@babel/core'
 import { z } from 'zod'
 
+import { shouldTranspile } from '@/devtools/babel-config/should-transpile'
+import { getPlatform } from '@/devtools/babel-plugin-tw/lib/config'
 import type {
   CreateContextOptions,
   Ctx,
@@ -13,11 +15,13 @@ import type {
 import { traverseCallExpression } from '@/devtools/babel-plugin-tw/lib/traverse-call-expression'
 import { traverseJSXOpeningElement } from '@/devtools/babel-plugin-tw/lib/traverse-jsx-opening-element'
 import { traverseTaggedTemplateExpression } from '@/devtools/babel-plugin-tw/lib/traverse-tagged-template-expression'
-import { isInDir } from '@/nodejs/path'
 
 const pluginPassOptsSchema = z.object({
   transpileDirs: z.array(z.string()),
+  extractOutputPath: z.string(),
+  twrncConfig: z.record(z.string(), z.any()),
 })
+export type TwPluginOptions = z.infer<typeof pluginPassOptsSchema>
 
 export type CreateVisitorOptions = Partial<Pick<Ctx, 'extract' | 'err'>>
 export type TraverseOptions = Omit<
@@ -25,24 +29,26 @@ export type TraverseOptions = Omit<
   'rootPath' | 'calleeName'
 >
 
-export const createVisitor = (
-  options: CreateVisitorOptions = {},
-): Visitor<PluginPass> => ({
+export const createVisitor = ({
+  extract,
+  err,
+}: CreateVisitorOptions = {}): Visitor<PluginPass> => ({
   // use program path to get plugin pass and perform some checks before traverse
   // also prioritize this plugin over others such as react compiler
   Program: (programPath, pluginPass) => {
-    if (!pluginPass.filename) {
-      return
-    }
-    const { transpileDirs } = pluginPassOptsSchema.parse(pluginPass.opts)
-    if (!transpileDirs.some(d => isInDir(d, pluginPass.filename))) {
+    const { transpileDirs, extractOutputPath, twrncConfig } =
+      pluginPassOptsSchema.parse(pluginPass.opts)
+    if (!shouldTranspile(pluginPass.filename, transpileDirs)) {
       return
     }
 
     const o: TraverseOptions = {
-      ...options,
+      extractOutputPath,
+      twrncConfig,
       programPath,
-      pluginPass,
+      platform: getPlatform(pluginPass),
+      extract,
+      err,
     }
     programPath.traverse({
       JSXOpeningElement: p => traverseJSXOpeningElement(p, o),

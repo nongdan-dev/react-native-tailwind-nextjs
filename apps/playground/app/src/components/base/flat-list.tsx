@@ -5,10 +5,10 @@
 
 import type { ReactNode } from 'react'
 
+import type { ClassName } from '@/rn/tw/class-name'
+import { createClassNameComponent } from '@/rn/tw/lib/create-class-name-component'
 import type { FlatListPropsWocn } from '#/components/base-without-class-name/flat-list'
 import { FlatListWocn } from '#/components/base-without-class-name/flat-list'
-import type { ClassName } from '#/tw/class-name'
-import { createClassNameComponent } from '#/tw/lib/create-class-name-component'
 
 export type { FlatListRn } from '#/components/base-without-class-name/flat-list'
 

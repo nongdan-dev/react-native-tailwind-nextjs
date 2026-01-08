@@ -3,6 +3,9 @@
  * See LICENSE file in the project root for full license information.
  */
 
+// rnx doesnt support typescript in this file
+// we need to use js here
+
 const config = {
   dependencies: {
     'react-native-reanimated-web': {
@@ -14,4 +17,4 @@ const config = {
   },
 }
 
-export default config
+module.exports = config

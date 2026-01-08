@@ -5,12 +5,12 @@
 
 'use client'
 
-import { get } from 'lodash'
 import { useEffect } from 'react'
 
 import '@/components/ui/button-enhancer.css'
 
-import { clsx } from '#/tw/clsx'
+import { clsx } from '@/rn/tw/clsx'
+import { get } from '@/shared/lodash'
 
 const RIPPLE_MS = 1000
 

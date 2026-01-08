@@ -7,7 +7,7 @@
 
 import { useEffect } from 'react'
 
-import { rnwClassName } from '#/tw/lib/react-native-web'
+import { rnwClassName } from '@/rn/tw/lib/react-native-web'
 
 if (typeof window === 'object' && window) {
   // @ts-expect-error

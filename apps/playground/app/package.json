@@ -4,13 +4,8 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
-    "start": "cross-env _NEXT=1 next dev --webpack",
-    "build": "cross-env _NEXT=1 next build --webpack",
-    "start_minify_class_names": "cross-env NEXT_PUBLIC_MINIFY_CLASS_NAMES=1 next dev --webpack",
-    "build_minify_class_names": "cross-env NEXT_PUBLIC_MINIFY_CLASS_NAMES=1 next build --webpack",
     "rn": "react-native start",
     "android": "react-native run-android",
-    "postinstall": "patch-package",
     "lint": "eslint --ext=.ts,.tsx,.js --fix . && prettier --log-level=error --write .",
     "tsc": "tsc --noEmit && cd z && tsc --noEmit"
   },
@@ -22,7 +17,6 @@
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-navigation/native": "7.1.26",
     "@react-navigation/native-stack": "7.9.0",
-    "accept-language": "3.0.20",
     "eventemitter3": "5.0.1",
     "i18next": "25.7.3",
     "js-cookie": "3.0.5",
@@ -31,30 +25,18 @@
     "react-dom": "19.1.1",
     "react-i18next": "16.5.1",
     "react-native": "0.82.1",
-    "react-native-css-animations": "0.1.1",
     "react-native-fast-image": "8.6.3",
     "react-native-reanimated": "4.2.1",
     "react-native-safe-area-context": "5.6.2",
     "react-native-screens": "4.19.0",
     "react-native-svg": "15.15.1",
-    "react-native-svg-web": "1.0.9",
-    "react-native-web": "0.21.2",
-    "react-native-worklets": "0.7.1",
-    "tailwind-merge": "3.4.0",
-    "twrnc": "4.16.0"
+    "react-native-worklets": "0.7.1"
   },
   "devDependencies": {
     "@react-native-community/cli": "20.0.2",
-    "@react-native/metro-config": "0.82.1",
+    "@react-native/gradle-plugin": "0.82.1",
+    "@react-native/codegen": "0.82.1",
     "@types/react": "19.2.7",
-    "@types/react-dom": "19.2.3",
-    "autoprefixer": "10.4.23",
-    "cross-env": "10.1.0",
-    "patch-package": "8.0.1",
-    "postcss-rename": "0.8.0",
-    "prettier": "3.7.4",
-    "prettier-plugin-tailwindcss": "0.7.2",
-    "react-native-svg-transformer": "1.5.2",
-    "tailwindcss": "4.1.18"
+    "@types/react-dom": "19.2.3"
   }
 }

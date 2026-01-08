@@ -5,8 +5,8 @@
 
 import type { ColorSchemeName } from 'react-native'
 
-import type { Falsish } from '#/shared/ts-utils'
-import type { ClassNameDarkModeState } from '#/tw/class-name'
+import type { ClassNameDarkModeState } from '@/rn/tw/class-name'
+import type { Falsish } from '@/shared/ts-utils'
 
 export const darkModeCookieKey = 'dark-mode'
 export const darkModeCookieMaxAge = 60 * 60 * 24 * 365

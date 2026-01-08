@@ -5,18 +5,18 @@
 
 import type { PropsWithChildren, ReactNode } from 'react'
 
+import type { Variant } from '@/rn/tw/cva'
+import { cva } from '@/rn/tw/cva'
 import type { PressableProps } from '#/components/base/pressable'
 import { Pressable } from '#/components/base/pressable'
 import { Text } from '#/components/base/text'
 import { View } from '#/components/base/view'
-import type { Variant } from '#/tw/cva'
-import { cva } from '#/tw/cva'
 
 const button = cva({
   classNames: {
     button:
-      'group flex cursor-pointer items-center justify-center gap-2 overflow-hidden transition select-none active:translate-y-0.5',
-    text: 'font-medium select-none',
+      'group flex cursor-pointer select-none items-center justify-center gap-2 overflow-hidden transition active:translate-y-0.5',
+    text: 'select-none font-medium',
     press: 'absolute inset-px translate-y-1 bg-gray-500',
   },
   attributes: {

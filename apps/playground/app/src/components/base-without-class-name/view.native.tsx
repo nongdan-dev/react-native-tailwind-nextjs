@@ -5,15 +5,15 @@
 
 /* eslint-disable no-restricted-imports */
 
-import { get } from 'lodash'
 import { Children, useState } from 'react'
 import type { LayoutChangeEvent, ViewStyle } from 'react-native'
 import { View } from 'react-native'
 import Animated from 'react-native-reanimated'
 
+import type { GridStyle, GridTrack } from '@/rn/tw/class-name'
+import { isReanimated } from '@/rn/tw/lib/is-reanimated'
+import { get } from '@/shared/lodash'
 import type { ViewPropsWocn } from '#/components/base-without-class-name/view'
-import type { GridStyle, GridTrack } from '#/tw/class-name'
-import { isReanimated } from '#/tw/lib/is-reanimated'
 
 export const ViewWocn = (props: ViewPropsWocn) => {
   const Component: any = isReanimated(props) ? Animated.View : View

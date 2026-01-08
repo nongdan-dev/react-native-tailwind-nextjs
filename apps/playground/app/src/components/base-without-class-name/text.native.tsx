@@ -8,9 +8,9 @@
 import { Text } from 'react-native'
 import Animated from 'react-native-reanimated'
 
+import { isReanimated } from '@/rn/tw/lib/is-reanimated'
+import { styleToProps } from '@/rn/tw/lib/style-to-props'
 import type { TextPropsWocn } from '#/components/base-without-class-name/text'
-import { isReanimated } from '#/tw/lib/is-reanimated'
-import { styleToProps } from '#/tw/lib/style-to-props'
 
 const styleProps = ['numberOfLines', 'selectable']
 

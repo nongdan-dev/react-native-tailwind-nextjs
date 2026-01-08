@@ -8,11 +8,12 @@ import { types as t } from '@babel/core'
 import { z } from 'zod'
 
 import { getIsServer } from '@/devtools/babel-config/get-is-server'
-import { isInDir } from '@/nodejs/path'
+import { shouldTranspile } from '@/devtools/babel-config/should-transpile'
 
 const pluginPassOptsSchema = z.object({
   transpileDirs: z.array(z.string()),
 })
+export type AsyncHookPluginOptions = z.infer<typeof pluginPassOptsSchema>
 
 const hookRegex = /^use[A-Z]/
 
@@ -26,11 +27,8 @@ export const asyncHookPlugin = (api: ConfigAPI): PluginObj => {
       // use program path to get plugin pass and perform some checks before traverse
       // also prioritize this plugin over others such as react compiler
       Program: (programPath, pluginPass) => {
-        if (isServer || !pluginPass.filename) {
-          return
-        }
         const { transpileDirs } = pluginPassOptsSchema.parse(pluginPass.opts)
-        if (!transpileDirs.some(d => isInDir(d, pluginPass.filename))) {
+        if (isServer || !shouldTranspile(pluginPass.filename, transpileDirs)) {
           return
         }
         programPath.traverse({

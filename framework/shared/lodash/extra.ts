@@ -3,7 +3,7 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { camelCase, snakeCase, upperFirst } from '@/shared/lodash'
+import { camelCase, snakeCase, upperFirst } from 'lodash-es'
 
 export const captialCase = (s?: string) =>
   snakeCase(s)

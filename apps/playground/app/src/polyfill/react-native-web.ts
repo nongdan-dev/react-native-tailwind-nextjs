@@ -3,7 +3,7 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { rnwClassName } from '#/tw/lib/react-native-web'
+import { rnwClassName } from '@/rn/tw/lib/react-native-web'
 
 if (typeof global === 'object' && global) {
   // @ts-expect-error

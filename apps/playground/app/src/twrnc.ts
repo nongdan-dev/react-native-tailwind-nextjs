@@ -3,5 +3,4 @@
  * See LICENSE file in the project root for full license information.
  */
 
-module.exports = require('lodash')
-Object.assign(module.exports, require('./extra'))
+export const twrncConfig = {}

@@ -3,13 +3,13 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { camelCase } from 'lodash'
 import { Platform } from 'react-native'
 
 import {
   animationMap,
   transitionTimingFunctionMap,
 } from '@/rn/tw/lib/normalize-style-config'
+import { camelCase } from '@/shared/lodash'
 import type { FnAny, StrMap } from '@/shared/ts-utils'
 
 type Style = StrMap &

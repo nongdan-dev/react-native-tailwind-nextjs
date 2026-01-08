@@ -3,23 +3,30 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import type { MetroConfig } from '@react-native/metro-config'
-import { getDefaultConfig, mergeConfig } from '@react-native/metro-config'
+import { getDefaultConfig } from '@react-native/metro-config'
+import { makeMetroConfig } from '@rnx-kit/metro-config'
+import MetroSymlinksResolver from '@rnx-kit/metro-resolver-symlinks'
 
 export const config = (dir: string) => {
   const defaultConfig = getDefaultConfig(dir)
   const { assetExts, sourceExts } = defaultConfig.resolver
 
-  const extraConfig: MetroConfig = {
-    transformer: {
-      babelTransformerPath:
-        require.resolve('react-native-svg-transformer/react-native'),
-    },
+  return makeMetroConfig({
+    projectRoot: dir,
     resolver: {
       assetExts: assetExts.filter(e => e !== 'svg'),
       sourceExts: [...sourceExts, 'svg'],
+      resolveRequest: MetroSymlinksResolver(),
     },
-  }
-
-  return mergeConfig(defaultConfig, extraConfig)
+    transformer: {
+      babelTransformerPath:
+        require.resolve('react-native-svg-transformer/react-native'),
+      getTransformOptions: async () => ({
+        transform: {
+          experimentalImportSupport: false,
+          inlineRequires: false,
+        },
+      }),
+    },
+  })
 }

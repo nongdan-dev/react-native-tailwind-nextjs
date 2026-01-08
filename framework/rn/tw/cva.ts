@@ -3,9 +3,8 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { set } from 'lodash'
-
 import { clsx } from '@/rn/tw/clsx'
+import { set } from '@/shared/lodash'
 import type { StrMap } from '@/shared/ts-utils'
 
 type ClassNames<Map> = {

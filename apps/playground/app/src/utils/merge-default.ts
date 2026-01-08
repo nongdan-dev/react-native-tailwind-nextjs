@@ -3,7 +3,7 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import type { StrMap } from '#/shared/ts-utils'
+import type { StrMap } from '@/shared/ts-utils'
 
 export const mergeDefault = (
   value: StrMap<unknown>,

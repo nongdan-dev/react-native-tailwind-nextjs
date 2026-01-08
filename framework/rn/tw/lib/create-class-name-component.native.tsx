@@ -3,7 +3,6 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { get, isEqual } from 'lodash'
 import type { FC } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
@@ -39,6 +38,7 @@ import {
   useMarkerPeerState,
 } from '@/rn/tw/lib/marker'
 import { runtimeStyle } from '@/rn/tw/runtime-style'
+import { get, isEqual } from '@/shared/lodash'
 import type { StrMap } from '@/shared/ts-utils'
 import { useResponsiveState } from '#/responsive/index.native'
 import { useDarkModeState } from '#/theme/index.native'

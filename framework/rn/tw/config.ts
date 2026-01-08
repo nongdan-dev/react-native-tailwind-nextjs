@@ -25,4 +25,4 @@ let twrnc = create()
 export const setTwrncConfig = (twrncConfig: TwConfig) => {
   twrnc = create(twrncConfig)
 }
-export const getTwrnc = () => twrnc
+export const getTwrnc = () => twrnc.style

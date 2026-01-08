@@ -5,7 +5,7 @@
 
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import type { ClassName } from '#/tw/class-name'
+import type { ClassName } from '@/rn/tw/class-name'
 
 export const useSafeAreaPadding = () => {
   const insets = useSafeAreaInsets()

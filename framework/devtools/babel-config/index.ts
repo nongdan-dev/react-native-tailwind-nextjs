@@ -3,9 +3,11 @@
  * See LICENSE file in the project root for full license information.
  */
 
+import type { AsyncHookPluginOptions } from '@/devtools/babel-plugin-async-hook'
 import { asyncHookPlugin } from '@/devtools/babel-plugin-async-hook'
 import { clientExtensionPlugin } from '@/devtools/babel-plugin-client-extension'
 import { twPlugin } from '@/devtools/babel-plugin-tw'
+import type { TwPluginOptions } from '@/devtools/babel-plugin-tw/visitor'
 import { getAlias } from '@/devtools/ts/get-alias'
 import { path } from '@/nodejs/path'
 import { frameworkRoot } from '@/root'
@@ -14,6 +16,7 @@ export type BabelConfigOptions = {
   dir: string
   target: 'rn' | 'next'
   transpileDirs?: string[]
+  twrncConfig?: object
   twExtractOutputPath?: string
 }
 
@@ -21,19 +24,21 @@ export const config = ({
   dir,
   target,
   transpileDirs = [dir],
+  twrncConfig = require(path.join(dir, './src/twrnc')),
   twExtractOutputPath = dir,
 }: BabelConfigOptions) => {
   transpileDirs = [
     path.join(frameworkRoot, './rn'),
-    ...transpileDirs.map(d => path.join(dir, d)),
+    ...transpileDirs.map(d => (path.isAbsolute(d) ? d : path.join(dir, d))),
   ]
 
-  const asyncHookOptions = {
+  const asyncHookOptions: AsyncHookPluginOptions = {
     transpileDirs,
   }
 
-  const twOptions = {
+  const twOptions: TwPluginOptions = {
     transpileDirs,
+    twrncConfig,
     extractOutputPath: twExtractOutputPath,
   }
 

@@ -3,7 +3,7 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import type { ClassName } from '#/tw/class-name'
+import type { ClassName } from '@/rn/tw/class-name'
 
 // on web we dont need safe area
 export const useSafeAreaPadding = (): ClassName => undefined

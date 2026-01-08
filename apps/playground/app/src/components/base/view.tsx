@@ -5,10 +5,10 @@
 
 import type { FC } from 'react'
 
+import type { ClassName } from '@/rn/tw/class-name'
+import { createClassNameComponent } from '@/rn/tw/lib/create-class-name-component'
 import type { ViewPropsWocn } from '#/components/base-without-class-name/view'
 import { ViewWocn } from '#/components/base-without-class-name/view'
-import type { ClassName } from '#/tw/class-name'
-import { createClassNameComponent } from '#/tw/lib/create-class-name-component'
 
 export type { ViewRn } from '#/components/base-without-class-name/view'
 

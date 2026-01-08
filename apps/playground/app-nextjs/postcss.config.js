@@ -6,6 +6,8 @@
 // nextjs doesnt support typescript in this file
 // we need to use js here
 
+// tsconfig-paths is already installed at workspace root
+// eslint-disable-next-line import/no-extraneous-dependencies
 require('tsconfig-paths/register')
 require('@/nodejs/entrypoint')
 

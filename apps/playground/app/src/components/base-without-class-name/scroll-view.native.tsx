@@ -8,8 +8,8 @@
 import { ScrollView } from 'react-native'
 import Animated from 'react-native-reanimated'
 
+import { isReanimated } from '@/rn/tw/lib/is-reanimated'
 import type { ScrollViewPropsWocn } from '#/components/base-without-class-name/scroll-view'
-import { isReanimated } from '#/tw/lib/is-reanimated'
 
 export const ScrollViewWocn = (props: ScrollViewPropsWocn) => {
   const Component: any = isReanimated(props) ? Animated.ScrollView : ScrollView

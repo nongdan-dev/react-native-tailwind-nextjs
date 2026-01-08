@@ -8,7 +8,7 @@ import { z } from 'zod'
 
 import { getClientVariant } from '@/devtools/babel-config/get-client-variant'
 import { getIsServer } from '@/devtools/babel-config/get-is-server'
-import { isInDir } from '@/nodejs/path'
+import { shouldTranspile } from '@/devtools/babel-config/should-transpile'
 
 const pluginPassOptsSchema = z.object({
   transpileDirs: z.array(z.string()),
@@ -26,13 +26,10 @@ export const clientExtensionPlugin = (api: ConfigAPI): PluginObj => {
       // use program path to get plugin pass and perform some checks before traverse
       // also prioritize this plugin over others such as react compiler
       Program: (programPath, pluginPass) => {
-        if (isServer || !pluginPass.filename) {
-          return
-        }
         const { transpileDirs, alias } = pluginPassOptsSchema.parse(
           pluginPass.opts,
         )
-        if (!transpileDirs.some(d => isInDir(d, pluginPass.filename))) {
+        if (isServer || !shouldTranspile(pluginPass.filename, transpileDirs)) {
           return
         }
         const currentFilename = pluginPass.filename as string

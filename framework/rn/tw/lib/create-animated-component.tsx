@@ -3,10 +3,10 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { set } from 'lodash'
 import type { TextStyle, ViewStyle } from 'react-native'
 import Animated from 'react-native-reanimated'
 
+import { set } from '@/shared/lodash'
 import type { StrMap } from '@/shared/ts-utils'
 
 export const createAnimatedComponent = (Component: any) => (props: any) => {

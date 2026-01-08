@@ -3,7 +3,7 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { tw } from '#/tw/tw'
+import { tw } from '@/rn/tw/tw'
 
 // use tw`` here to collect and map when class names are minified
 // these class names should match with custom variant in global.css

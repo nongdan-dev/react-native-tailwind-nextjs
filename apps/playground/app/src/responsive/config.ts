@@ -6,7 +6,7 @@
 import type {
   ClassNameResponsiveSelector,
   ClassNameResponsiveState,
-} from '#/tw/class-name'
+} from '@/rn/tw/class-name'
 
 const config: Record<ClassNameResponsiveSelector, number> = {
   '2xl': 1536,

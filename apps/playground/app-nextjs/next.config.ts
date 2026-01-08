@@ -11,7 +11,6 @@ const config: NextConfig = {
       ...c.resolve.alias,
       'next-unchecked/headers': '@/polyfill/next/headers',
       'next-unchecked/navigation': '@/polyfill/next/navigation',
-      lodash: 'lodash-es',
       'react-native': 'react-native-web',
       'react-native-svg': 'react-native-svg-web',
     }
