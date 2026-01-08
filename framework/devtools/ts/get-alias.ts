@@ -6,11 +6,11 @@
 import { path } from '@/nodejs/path'
 import type { StrMap } from '@/shared/ts-utils'
 
-type GetAliasesOptions = {
+type Options = {
   relative?: true
 }
 
-export const getAlias = (dir: string, { relative }: GetAliasesOptions = {}) => {
+export const getAlias = (dir: string, { relative }: Options = {}) => {
   const tsconfig = require(path.join(dir, 'tsconfig.json'))
   const paths: StrMap<string[]> = tsconfig.compilerOptions.paths
 

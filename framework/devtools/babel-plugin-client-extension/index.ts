@@ -14,7 +14,6 @@ import {
 import { shouldTranspile } from '@/devtools/babel-config/should-transpile'
 
 const pluginPassOptsSchema = z.object({
-  transpileDirs: z.array(z.string()),
   alias: z.record(z.string(), z.string()),
 })
 
@@ -27,10 +26,8 @@ export const clientExtensionPlugin = (api: ConfigAPI): PluginObj => {
       // also prioritize this plugin over others such as react compiler
       Program: (programPath, pluginPass) => {
         const isServer = getIsServer(pluginPass, callerIsServer)
-        const { transpileDirs, alias } = pluginPassOptsSchema.parse(
-          pluginPass.opts,
-        )
-        if (isServer || !shouldTranspile(pluginPass.filename, transpileDirs)) {
+        const { alias } = pluginPassOptsSchema.parse(pluginPass.opts)
+        if (isServer || !shouldTranspile(pluginPass.filename)) {
           return
         }
         const currentFilename = pluginPass.filename as string

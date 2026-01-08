@@ -20,7 +20,11 @@ if (!supported.some(v => v === pkg)) {
   log.fatal(`Invalid devtools script ${pkg}`)
 }
 
-export const run = (dir: string) =>
+type Options = {
+  dir: string
+}
+
+export const run = ({ dir }: Options) =>
   require(`@/devtools/${pkg}`)
     .run(dir)
     .catch((err: Error) => log.stack(err, 'fatal'))

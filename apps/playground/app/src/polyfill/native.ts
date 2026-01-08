@@ -3,4 +3,5 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import '#/polyfill/shared'
+import '#/polyfill/set-i18n'
+import '#/polyfill/set-twrnc-config'

@@ -7,7 +7,11 @@ import { getDefaultConfig } from '@react-native/metro-config'
 import { makeMetroConfig } from '@rnx-kit/metro-config'
 import MetroSymlinksResolver from '@rnx-kit/metro-resolver-symlinks'
 
-export const config = (dir: string) => {
+type Options = {
+  dir: string
+}
+
+export const config = ({ dir }: Options) => {
   const defaultConfig = getDefaultConfig(dir)
   const { assetExts, sourceExts } = defaultConfig.resolver
 

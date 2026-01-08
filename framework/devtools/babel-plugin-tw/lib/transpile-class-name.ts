@@ -13,7 +13,7 @@ import {
   stripSelector,
 } from '@/rn/core/tw/lib/class-name-to-native'
 
-export type TranspileClassNameOptions = {
+type Options = {
   className: string
   ctx: Ctx
   path: NodePath
@@ -23,9 +23,7 @@ const space = /\s+/g
 // on web it will return string
 // on react native it will convert to js objects or closure function for
 // selectors such as responsive, theme, events active focus..
-export const transpileClassName = (
-  options: TranspileClassNameOptions,
-): ClassName | Node => {
+export const transpileClassName = (options: Options): ClassName | Node => {
   const {
     className,
     ctx,

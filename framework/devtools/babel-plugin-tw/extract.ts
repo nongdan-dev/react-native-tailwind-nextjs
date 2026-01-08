@@ -9,11 +9,11 @@ import { generateMinifiedClassName } from '@/devtools/babel-plugin-tw/lib/genera
 import { createVisitor } from '@/devtools/babel-plugin-tw/visitor'
 import type { StrMap } from '@/shared/ts-utils'
 
-type TwExtractOptions = Pick<Ctx, 'err'> & {
+type Options = Pick<Ctx, 'err'> & {
   extractOutputPath: string
 }
 
-export const twExtract = ({ err, extractOutputPath }: TwExtractOptions) => {
+export const twExtract = ({ err, extractOutputPath }: Options) => {
   const minified: StrMap<string> = {}
   let n = 0
 

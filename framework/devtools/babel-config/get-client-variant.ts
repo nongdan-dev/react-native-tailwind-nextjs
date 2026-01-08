@@ -11,7 +11,7 @@ const extensions = ['ts', 'tsx']
 const indexes = ['', '/index']
 const alreadyResolved = ['client', 'server', 'native', 'ios', 'android']
 
-type GetClientVariantOptions = {
+type Options = {
   alias: StrMap<string>
   currentFilename: string
   importPath: string
@@ -21,7 +21,7 @@ export const getClientVariant = ({
   alias,
   currentFilename,
   importPath,
-}: GetClientVariantOptions) => {
+}: Options) => {
   if (alreadyResolved.some(k => importPath.endsWith(`.${k}`))) {
     return
   }

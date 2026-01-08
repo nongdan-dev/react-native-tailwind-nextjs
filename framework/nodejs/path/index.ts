@@ -35,6 +35,9 @@ export const isFrameworkRoot = (
 export const isRepoRoot = (abs: string | Falsish): abs is NonFalsish<string> =>
   isSameDir(repoRoot, abs)
 
+export const isRelative = (abs: string) =>
+  abs.startsWith('@/') || abs.startsWith('#') || abs.startsWith('.')
+
 /**
  * Join paths then check using fs.exists just like {@link require.resolve}
  */

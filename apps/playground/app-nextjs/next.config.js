@@ -7,4 +7,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 require('tsconfig-paths/register')
 require('@/nodejs/entrypoint/ts-node')
-module.exports = require('./test').config
+module.exports = require('@/devtools/next-config').config({
+  dir: __dirname,
+})

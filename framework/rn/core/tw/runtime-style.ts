@@ -15,7 +15,7 @@ import type { ClassNameToStylesOptions } from '@/rn/core/tw/lib/class-name-to-st
 import { classNameToStyles } from '@/rn/core/tw/lib/class-name-to-styles'
 import { normalizeStyle } from '@/rn/core/tw/lib/normalize-style'
 
-export type RuntimeStyleOptions = Partial<
+type Options = Partial<
   Omit<ClassNameToStylesOptions, 'className'> & {
     state?: ClassNameState
     style?: Style
@@ -24,7 +24,7 @@ export type RuntimeStyleOptions = Partial<
 
 export const runtimeStyle = (
   className: ClassName,
-  { state, style, onSelector, ...options }: RuntimeStyleOptions = {},
+  { state, style, onSelector, ...options }: Options = {},
 ): StyleSingle | undefined => {
   if (!className) {
     return

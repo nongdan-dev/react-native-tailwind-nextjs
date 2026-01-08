@@ -37,6 +37,7 @@ export const LinkUntypedWocn = async ({
       pathname = `/${locale}${pathname}`
     }
   }
-  const href = query ? `${pathname}?${qsStableStringify(query)}` : pathname
+  const q = qsStableStringify(query)
+  const href = q ? `${pathname}?${q}` : pathname
   return <Link {...(props as any)} href={href} />
 }

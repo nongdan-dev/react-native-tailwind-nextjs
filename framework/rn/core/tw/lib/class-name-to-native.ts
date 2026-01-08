@@ -26,7 +26,7 @@ import {
 } from '@/rn/core/tw/lib/normalize-style-config'
 import { camelCase } from '@/shared/lodash'
 
-export type ClassNameToNativeOptions = {
+type Options = {
   platform: Platform['OS']
   twrnc: Function
   className: string
@@ -38,10 +38,8 @@ const throwOnUnknown = (className: string) => {
 }
 const space = /\s+/g
 
-export const classNameToNative = (
-  options: ClassNameToNativeOptions,
-): ClassNameNative => {
-  const required: Required<ClassNameToNativeOptions> = {
+export const classNameToNative = (options: Options): ClassNameNative => {
+  const required: Required<Options> = {
     ...options,
     onUnknown: options.onUnknown || throwOnUnknown,
   }
@@ -156,7 +154,7 @@ const omitEmptyClassName = (className: ClassNameNative): ClassNameNative => {
   return omitEmptyObject(className)
 }
 
-type ExtraTwrncOptions = Required<ClassNameToNativeOptions>
+type ExtraTwrncOptions = Required<Options>
 type ExtraTwrnc = (options: ExtraTwrncOptions) => any
 const extraTwrnc: ExtraTwrnc[] = []
 

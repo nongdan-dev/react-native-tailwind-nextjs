@@ -5,7 +5,7 @@
 
 // nextjs entry point
 
-import '#/polyfill'
+import '#/polyfill/server'
 
 import type { PropsWithChildren } from 'react'
 
@@ -13,10 +13,10 @@ import '#/app.css'
 
 import { ButtonEnhancer } from '@/rn/core/components/ui/button-enhancer'
 import { useCurrentLang } from '@/rn/core/i18n'
-import { ReactNativeWebEnhancer } from '@/rn/core/polyfill/react-native-web-client'
 import { useDarkModeUser } from '@/rn/core/theme'
 import { darkClassName, lightClassName } from '@/rn/core/theme/config'
 import { clsx } from '@/rn/core/tw/clsx'
+import { ClientEnhancer } from '#/polyfill/client'
 
 export const App = async ({ children }: PropsWithChildren) => {
   const [lang, dark] = await Promise.all([useCurrentLang(), useDarkModeUser()])
@@ -29,7 +29,7 @@ export const App = async ({ children }: PropsWithChildren) => {
 
   return (
     <html lang={lang} className={htmlClassName}>
-      <ReactNativeWebEnhancer />
+      <ClientEnhancer />
       <ButtonEnhancer />
       <body className='flex min-h-dvh w-full flex-col'>{children}</body>
     </html>

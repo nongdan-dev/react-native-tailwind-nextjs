@@ -17,7 +17,6 @@ import { traverseJSXOpeningElement } from '@/devtools/babel-plugin-tw/lib/traver
 import { traverseTaggedTemplateExpression } from '@/devtools/babel-plugin-tw/lib/traverse-tagged-template-expression'
 
 const pluginPassOptsSchema = z.object({
-  transpileDirs: z.array(z.string()),
   extractOutputPath: z.string(),
   twrncConfig: z.record(z.string(), z.any()),
 })
@@ -36,9 +35,10 @@ export const createVisitor = ({
   // use program path to get plugin pass and perform some checks before traverse
   // also prioritize this plugin over others such as react compiler
   Program: (programPath, pluginPass) => {
-    const { transpileDirs, extractOutputPath, twrncConfig } =
-      pluginPassOptsSchema.parse(pluginPass.opts)
-    if (!shouldTranspile(pluginPass.filename, transpileDirs)) {
+    const { extractOutputPath, twrncConfig } = pluginPassOptsSchema.parse(
+      pluginPass.opts,
+    )
+    if (!shouldTranspile(pluginPass.filename)) {
       return
     }
 

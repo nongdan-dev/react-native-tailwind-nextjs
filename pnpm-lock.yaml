@@ -296,6 +296,12 @@ importers:
         specifier: 1.5.2
         version: 1.5.2(react-native-svg@15.15.1(react-native@0.82.1(@babel/core@7.28.5)(@react-native-community/cli@20.1.0(typescript@5.9.3))(@react-native/metro-config@0.82.1(@babel/core@7.28.5))(@types/react@19.2.7)(react@19.1.1))(react@19.1.1))(react-native@0.82.1(@babel/core@7.28.5)(@react-native-community/cli@20.1.0(typescript@5.9.3))(@react-native/metro-config@0.82.1(@babel/core@7.28.5))(@types/react@19.2.7)(react@19.1.1))(typescript@5.9.3)
 
+  framework/devtools/next-config:
+    dependencies:
+      next:
+        specifier: '*'
+        version: 16.1.1(@babel/core@7.28.5)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(sass@1.97.2)
+
   framework/devtools/normalize:
     dependencies:
       semver:
@@ -349,6 +355,12 @@ importers:
       type-coverage:
         specifier: 2.29.7
         version: 2.29.7(typescript@5.9.3)
+
+  framework/devtools/webpack-resolve-client-extension:
+    devDependencies:
+      enhanced-resolve:
+        specifier: 5.18.4
+        version: 5.18.4
 
   framework/nodejs/babelrc:
     dependencies:

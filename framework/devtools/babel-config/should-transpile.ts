@@ -3,15 +3,20 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { isInDir } from '@/nodejs/path'
+import { isRelative } from '@/nodejs/path'
 import type { Falsish } from '@/shared/ts-utils'
 
 export const shouldTranspileExtension = /\.tsx?/
 
-export const shouldTranspile = (
-  filename: string | Falsish,
-  transpileDirs: string[],
-) =>
-  filename &&
-  shouldTranspileExtension.test(filename) &&
-  transpileDirs.some(d => isInDir(d, filename))
+export const shouldTranspile = (filename: string | Falsish) => {
+  if (!filename) {
+    return false
+  }
+  if (isRelative(filename)) {
+    return true
+  }
+  if (filename.startsWith('@') || filename.includes('node_modules')) {
+    return false
+  }
+  return shouldTranspileExtension.test(filename)
+}

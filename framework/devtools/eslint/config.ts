@@ -42,7 +42,7 @@ type Alias = {
   rootDir: string
   prefix: string
 }
-type CreateConfigOptions = {
+type Options = {
   dir?: string
   alias?: Alias[] | boolean
   ignoreShadowed?: boolean
@@ -55,7 +55,7 @@ export const createConfig = ({
   alias = !!process.env._ESLINT_ALIAS_GLOB,
   ignoreShadowed = !!process.env._ESLINT_IGNORE_SHADOWED,
   tsProjectService = !!process.env._ESLINT_TS_PROJECT_SERVICE,
-}: CreateConfigOptions = {}) => {
+}: Options = {}) => {
   const jsShadowed: string[] = []
   if (ignoreShadowed) {
     jsShadowed.push(

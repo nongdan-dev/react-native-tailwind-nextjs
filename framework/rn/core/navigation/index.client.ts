@@ -10,7 +10,7 @@ export const useRoute = () => {
   const searchParams = useSearchParams()
   return {
     pathname,
-    query: searchParams && Object.fromEntries(searchParams),
+    query: Object.fromEntries(searchParams),
   }
 }
 

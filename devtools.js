@@ -7,4 +7,6 @@
 
 require('./devtools-register')
 require('@/nodejs/entrypoint')
-require('@/devtools').run(__dirname)
+require('@/devtools').run({
+  dir: __dirname,
+})

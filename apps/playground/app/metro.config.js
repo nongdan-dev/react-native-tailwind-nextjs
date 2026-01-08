@@ -10,4 +10,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 require('tsconfig-paths/register')
 require('@/nodejs/entrypoint')
-module.exports = require('@/devtools/metro-config').config(__dirname)
+module.exports = require('@/devtools/metro-config').config({
+  dir: __dirname,
+})
