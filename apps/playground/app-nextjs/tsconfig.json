@@ -3,8 +3,8 @@
   "compilerOptions": {
     "paths": {
       "@/*": ["../../../framework/*"],
-      "#/*": ["./src/*"]
+      "#/*": ["../app/src/*"]
     }
   },
-  "include": ["./*", "./src/**/*", "../../../framework/**/*"]
+  "include": ["./*", "./src/**/*", "../app/src/**/*", "../../../framework/**/*"]
 }

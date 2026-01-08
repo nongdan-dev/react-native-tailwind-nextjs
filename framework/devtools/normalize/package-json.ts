@@ -7,16 +7,23 @@ import { compare } from 'semver'
 
 import { fs } from '@/nodejs/fs'
 import { glob } from '@/nodejs/glob'
-import { logMinimal as log } from '@/nodejs/log'
+import { minimal as log } from '@/nodejs/log'
 import { isInFramework, isRepoRoot, path } from '@/nodejs/path'
 import { frameworkRoot, repoRoot } from '@/root'
 import { groupBy, kebabCase, omit } from '@/shared/lodash'
 import type { StrMap } from '@/shared/ts-utils'
 
+const keys = [
+  'dependencies',
+  'devDependencies',
+  'optionalDependencies',
+  'peerDependencies',
+  'bundleDependencies',
+] as const
 type PackageData = {
   name: string
   version: string
-  key: 'dependencies' | 'devDependencies'
+  key: (typeof keys)[number]
   path: string
 }
 
@@ -108,8 +115,6 @@ export const normalizePackageJson = async () => {
       ]),
     }
 
-    const keys = ['dependencies', 'devDependencies'] as const
-
     for (const key of keys) {
       const map: StrMap = newPackageJson[key] || {}
       for (const [pkg, version] of Object.entries(map)) {
@@ -138,7 +143,9 @@ export const normalizePackageJson = async () => {
   }
 
   for (const arr of Object.values(allDependencies)) {
-    if (Object.keys(groupBy(arr, 'version')).length > 1) {
+    const versions = groupBy(arr, 'version')
+    delete versions['*']
+    if (Object.keys(versions).length > 1) {
       const detail = arr
         .sort((a, b) => {
           if (!validSemverRegex.test(a.version)) {
@@ -167,6 +174,10 @@ export const normalizePackageJson = async () => {
           `${d.name} version must be exact ${d.version.replace(invalidVersionRegex, '')}:`,
           d.path,
         )
+      }
+
+      if (d.key === 'peerDependencies' && d.version !== '*') {
+        log.warn(`${d.name} version must be * in peer dependencies`, d.path)
       }
 
       const original = getPackageNameFromTypes(d.name)

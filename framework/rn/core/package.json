@@ -1,0 +1,34 @@
+{
+  "name": "@react-native-tailwind-nextjs/rn-core",
+  "version": "0.0.0-locked",
+  "private": true,
+  "type": "commonjs",
+  "engines": {
+    "node": ">=24.11",
+    "pnpm": ">=10"
+  },
+  "dependencies": {
+    "eventemitter3": "5.0.1",
+    "i18next": "25.7.4",
+    "js-cookie": "3.0.5",
+    "react-i18next": "16.5.1",
+    "react-native-css-animations": "0.1.1",
+    "tailwind-merge": "3.4.0",
+    "twrnc": "4.16.0"
+  },
+  "peerDependencies": {
+    "@react-native-async-storage/async-storage": "*",
+    "@react-navigation/native": "*",
+    "next": "*",
+    "react": "*",
+    "react-native": "*",
+    "react-native-fast-image": "*",
+    "react-native-reanimated": "*",
+    "react-native-safe-area-context": "*",
+    "react-native-svg": "*"
+  },
+  "devDependencies": {
+    "@types/js-cookie": "3.0.6",
+    "@types/react": "19.2.7"
+  }
+}

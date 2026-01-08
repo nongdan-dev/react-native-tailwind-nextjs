@@ -4,11 +4,11 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
+    "eslint": "node ./devtools eslint",
     "lint": "pnpm -s normalize && pnpm -s eslint && pnpm -s stylelint && pnpm -s prettier",
     "normalize": "node ./devtools normalize",
-    "eslint": "node ./devtools eslint",
-    "stylelint": "node ./devtools stylelint",
     "prettier": "node ./devtools prettier",
+    "stylelint": "node ./devtools stylelint",
     "ts": "node ./devtools ts"
   },
   "engines": {
@@ -21,8 +21,7 @@
   },
   "devDependencies": {
     "@types/node": "25.0.3",
-    "typescript": "5.9.3",
-    "typescript-plugin-css-modules": "5.2.0"
+    "typescript": "5.9.3"
   },
   "pnpm": {
     "patchedDependencies": {

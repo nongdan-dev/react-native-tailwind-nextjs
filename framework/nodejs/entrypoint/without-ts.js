@@ -50,8 +50,6 @@ envDirs
     }),
   )
 
-// json5 is already installed at workspace root
-// eslint-disable-next-line import/no-extraneous-dependencies
 require('json5/lib/register')
 // treat json extension as json5 to import json with comments
 const exts = require.extensions

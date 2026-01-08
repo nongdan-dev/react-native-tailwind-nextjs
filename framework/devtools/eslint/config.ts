@@ -168,7 +168,6 @@ export const createConfig = ({
         {
           devDependencies: false,
           optionalDependencies: false,
-          peerDependencies: false,
           bundledDependencies: false,
         },
       ],

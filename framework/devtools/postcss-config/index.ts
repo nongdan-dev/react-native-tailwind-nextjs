@@ -3,19 +3,23 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { path } from '@/nodejs/path'
-import type { StrMap } from '@/shared/ts-utils'
+import { readTwExtractOutput } from '../babel-plugin-tw/lib/config'
 
-export const config = (dir: string, min?: string) => {
-  let j: StrMap<string> | undefined = undefined
-  if (min) {
-    j = require(path.join(dir, min))
-  }
+type Options = {
+  dir: string
+  twExtractOutputPath?: string
+}
+
+export const config = ({
+  dir,
+  twExtractOutputPath = dir
+}: Options) => {
+  const min = readTwExtractOutput(twExtractOutputPath)
   return {
     plugins: {
       '@tailwindcss/postcss': {},
       'postcss-rename': {
-        strategy: (n: string) => j?.[n] || n,
+        strategy: (n: string) => min?.[n] || n,
       },
       autoprefixer: {},
     },

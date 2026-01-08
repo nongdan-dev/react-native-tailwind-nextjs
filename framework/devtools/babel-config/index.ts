@@ -10,7 +10,7 @@ import { twPlugin } from '@/devtools/babel-plugin-tw'
 import type { TwPluginOptions } from '@/devtools/babel-plugin-tw/visitor'
 import { getAlias } from '@/devtools/ts/get-alias'
 import { path } from '@/nodejs/path'
-import { frameworkRoot } from '@/root'
+import { frameworkRn } from '@/root'
 
 export type BabelConfigOptions = {
   dir: string
@@ -28,7 +28,7 @@ export const config = ({
   twExtractOutputPath = dir,
 }: BabelConfigOptions) => {
   transpileDirs = [
-    path.join(frameworkRoot, './rn'),
+    frameworkRn,
     ...transpileDirs.map(d => (path.isAbsolute(d) ? d : path.join(dir, d))),
   ]
 

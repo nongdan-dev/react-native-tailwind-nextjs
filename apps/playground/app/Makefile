@@ -1,7 +1,7 @@
 default: fmt
 
 clean:
-	npm i \
+	pnpm i \
 	&& cd ios \
 	&& pod install \
 	&& cd ../android \
@@ -10,7 +10,7 @@ clean:
 
 clean_deep:
 	make -Bs clean_deep_rm \
-	&& npm i \
+	&& pnpm i \
 	&& cd ios \
 	&& xcodebuild clean -quiet \
 	&& pod cache clean --all \
@@ -31,8 +31,8 @@ tw:
 	&& node -r ./z/register ./z/babel-extract;
 
 fmt:
-	npm run lint \
-	&& npm run tsc \
+	pnpm lint \
+	&& pnpm tsc \
 	&& make -Bs fmt_objc \
 	&& make -Bs fmt_swift \
 	&& make -Bs fmt_java \

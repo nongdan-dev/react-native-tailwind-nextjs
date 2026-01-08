@@ -6,6 +6,7 @@
 const path = require('node:path')
 
 module.exports = {
-  frameworkRoot: __dirname,
   repoRoot: path.dirname(__dirname),
+  frameworkRoot: __dirname,
+  frameworkRn: path.join(__dirname, './rn'),
 }

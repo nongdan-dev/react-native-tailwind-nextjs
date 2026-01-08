@@ -9,8 +9,8 @@ const config: NextConfig = {
   webpack: (c, { isServer }) => {
     c.resolve.alias = {
       ...c.resolve.alias,
-      'next-unchecked/headers': '@/polyfill/next/headers',
-      'next-unchecked/navigation': '@/polyfill/next/navigation',
+      'next-unchecked/headers': '@/rn/core/polyfill/next/headers',
+      'next-unchecked/navigation': '@/rn/core/polyfill/next/navigation',
       'react-native': 'react-native-web',
       'react-native-svg': 'react-native-svg-web',
     }
@@ -41,6 +41,10 @@ const config: NextConfig = {
     })
 
     return c
+  },
+
+  experimental: {
+    externalDir: true,
   },
 
   devIndicators: false,

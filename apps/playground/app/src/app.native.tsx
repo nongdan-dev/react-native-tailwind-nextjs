@@ -5,21 +5,22 @@
 
 // react-native entry point
 
+import '#/polyfill'
+
 import { createStaticNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import type { PropsWithChildren } from 'react'
 import { useEffect, useState } from 'react'
-import type { ViewStyle } from 'react-native'
 import { AppRegistry } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import { TwPeerProvider } from '@/rn/tw/marker'
-import { tw } from '@/rn/tw/tw'
-import { i18nPromise, I18nProvider } from '#/i18n/index.native'
+import { getI18nPromise, I18nProvider } from '@/rn/core/i18n/index.native'
+import { darkModePromise, DarkModeProvider } from '@/rn/core/theme/index.native'
+import { TwPeerProvider } from '@/rn/core/tw/marker'
+import { tw } from '@/rn/core/tw/tw'
+import { composeProviders } from '@/rn/core/utils/compose-providers'
 import { rHome } from '#/pages/route-paths'
 import { routes } from '#/pages/routes'
-import { darkModePromise, DarkModeProvider } from '#/theme/index.native'
-import { composeProviders } from '#/utils/compose-providers'
 
 import { name as appName } from '../app.json'
 
@@ -28,7 +29,7 @@ const RootStack = createNativeStackNavigator({
   initialRouteName: rHome,
   screenOptions: {
     headerShown: false,
-    contentStyle: tw`bg-white` as ViewStyle,
+    contentStyle: tw`bg-white`,
   },
 })
 const Navigation = createStaticNavigation(RootStack)
@@ -36,7 +37,7 @@ const Navigation = createStaticNavigation(RootStack)
 const LoadingProvider = ({ children }: PropsWithChildren) => {
   const [loading, setLoading] = useState(true)
   useEffect(() => {
-    Promise.all([i18nPromise, darkModePromise]).finally(() => {
+    Promise.all([getI18nPromise(), darkModePromise]).finally(() => {
       setLoading(false)
     })
   }, [])

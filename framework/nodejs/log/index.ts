@@ -250,5 +250,5 @@ export class Log {
 
 export const log = new Log()
 
-export const logMinimal = new Log()
-logMinimal.minimal = true
+export const minimal = new Log()
+minimal.minimal = true

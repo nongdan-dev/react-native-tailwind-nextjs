@@ -5,19 +5,18 @@
 
 // nextjs entry point
 
-import '#/polyfill/react-native-web'
-import '#/polyfill/minified-class-names'
+import '#/polyfill'
 
 import type { PropsWithChildren } from 'react'
 
 import '#/app.css'
 
-import { clsx } from '@/rn/tw/clsx'
-import { ButtonEnhancer } from '#/components/ui/button-enhancer'
-import { useCurrentLang } from '#/i18n'
-import { ReactNativeWebEnhancer } from '#/polyfill/react-native-web-client'
-import { useDarkModeUser } from '#/theme'
-import { darkClassName, lightClassName } from '#/theme/config'
+import { ButtonEnhancer } from '@/rn/core/components/ui/button-enhancer'
+import { useCurrentLang } from '@/rn/core/i18n'
+import { ReactNativeWebEnhancer } from '@/rn/core/polyfill/react-native-web-client'
+import { useDarkModeUser } from '@/rn/core/theme'
+import { darkClassName, lightClassName } from '@/rn/core/theme/config'
+import { clsx } from '@/rn/core/tw/clsx'
 
 export const App = async ({ children }: PropsWithChildren) => {
   const [lang, dark] = await Promise.all([useCurrentLang(), useDarkModeUser()])

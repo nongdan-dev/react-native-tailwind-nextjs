@@ -5,7 +5,7 @@
 
 // shortcut to run devtools scripts
 
-import { log } from '@/nodejs/log'
+import { minimal as log } from '@/nodejs/log'
 
 const supported = [
   'normalize',

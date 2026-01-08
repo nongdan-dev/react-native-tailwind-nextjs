@@ -3,19 +3,20 @@
  * See LICENSE file in the project root for full license information.
  */
 
+import type { StableStringifyOptions } from 'json-stable-stringify'
 import jsonStableStringify from 'json-stable-stringify'
 
 import { jsonSafe } from '@/shared/json-safe'
 import type { Nullish } from '@/shared/ts-utils'
 
-export const jsonStable = (v: unknown) => {
+export const jsonStable = (v: unknown, options?: StableStringifyOptions) => {
   let j: Nullish<string>
   try {
-    j = jsonStableStringify(v)
+    j = jsonStableStringify(v, options)
   } catch (err) {
     void err
     // try to fix circular json
-    j = jsonStableStringify(JSON.parse(jsonSafe(v)))
+    j = jsonStableStringify(JSON.parse(jsonSafe(v)), options)
   }
   if (!j) {
     throw new Error('Empty json stable stringify')

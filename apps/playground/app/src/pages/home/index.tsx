@@ -3,16 +3,16 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { ScrollView } from '#/components/base/scroll-view'
-import { H1, Span } from '#/components/base/text'
-import { View } from '#/components/base/view'
-import { Button } from '#/components/ui/button'
-import { useTranslation } from '#/i18n'
-import { I18nSwitcher } from '#/i18n/i18n-switcher'
+import { ScrollView } from '@/rn/core/components/base/scroll-view'
+import { H1, Span } from '@/rn/core/components/base/text'
+import { View } from '@/rn/core/components/base/view'
+import { Button } from '@/rn/core/components/ui/button'
+import { useTranslation } from '@/rn/core/i18n'
+import { isWeb } from '@/rn/core/utils/platform'
+import { DarkModeSwitcher } from '#/components/dark-mode-switcher'
+import { I18nSwitcher } from '#/components/i18n-switcher'
 import { DemoGrid } from '#/pages/home/grid'
 import { DemoRuntime } from '#/pages/home/runtime'
-import { DarkModeSwitcher } from '#/theme/dark-mode-switcher'
-import { isWeb } from '#/utils/platform'
 
 export const HomePage = async () => {
   const t = await useTranslation('home')

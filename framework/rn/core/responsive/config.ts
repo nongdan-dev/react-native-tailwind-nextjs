@@ -1,0 +1,38 @@
+/**
+ * Copyright (c) 2025-2026 nongdan.dev
+ * See LICENSE file in the project root for full license information.
+ */
+
+import type {
+  ClassNameResponsiveSelector,
+  ClassNameResponsiveState,
+} from '@/rn/core/tw/class-name'
+
+const config: Record<ClassNameResponsiveSelector, number> = {
+  '2xl': 1536,
+  xl: 1280,
+  lg: 1024,
+  md: 768,
+  sm: 640,
+  xs: 0,
+}
+const widths = Object.entries(config) as [ClassNameResponsiveSelector, number][]
+const breakpoints = widths.map(([k]) => k) as ClassNameResponsiveSelector[]
+
+const toResponsiveBreakpoint = (width: number) => {
+  for (const [k, v] of widths) {
+    if (width >= v) {
+      return k
+    }
+  }
+  throw new Error('Responsive breakpoint width is less than 0')
+}
+
+export const toResponsiveState = (width: number) => {
+  const state: ClassNameResponsiveState = {}
+  const breakpoint = toResponsiveBreakpoint(width)
+  for (const k of breakpoints) {
+    state[k] = k === breakpoint
+  }
+  return state
+}

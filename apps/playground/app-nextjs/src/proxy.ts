@@ -3,23 +3,27 @@
  * See LICENSE file in the project root for full license information.
  */
 
+import '#/polyfill/set-i18n'
+
 import acceptLang from 'accept-language'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
-import type { Locale } from '#/i18n/config'
 import {
-  defaultLocale,
+  getDefaultLocale,
+  getLangs,
+  getLocales,
   i18nCookieKey,
   i18nCookieMaxAge,
   i18nHeaderKey,
   isValidLocale,
-  langs,
-  locales,
-} from '#/i18n/config'
-import { urlHeaderKey } from '#/navigation/config'
+} from '@/rn/core/i18n/config'
+import { urlHeaderKey } from '@/rn/core/navigation/config'
 
+const locales = getLocales()
+const langs = getLangs()
 acceptLang.languages(langs)
+const defaultLocale = getDefaultLocale()
 
 export const proxy = ({
   url,
@@ -48,14 +52,14 @@ export const proxy = ({
 
   // try to get locale from cookie, it can be invalid
   let localeCookieRaw = cookies.get(i18nCookieKey)?.value
-  let localeCookie = localeCookieRaw as Locale
+  let localeCookie = localeCookieRaw
   if (!isValidLocale(localeCookie)) {
     localeCookieRaw = undefined
     localeCookie = defaultLocale
   }
 
   // try to set locale to response cookie, do not set if it is already set
-  const setCookieLocale = (response: NextResponse, locale: Locale) => {
+  const setCookieLocale = (response: NextResponse, locale: string) => {
     if (localeCookieRaw && localeCookie === locale) {
       return
     }
@@ -83,12 +87,10 @@ export const proxy = ({
   }
 
   // if no locale from path or cookie, try to get from browser header accept language and redirect
-  let localeHeaderRaw = acceptLang.get(headers.get('accept-language')) as
-    | Locale
-    | undefined
-  let localeHeader = localeHeaderRaw as Locale
+  let localeHeaderRaw = acceptLang.get(headers.get('accept-language'))
+  let localeHeader = localeHeaderRaw
   if (!isValidLocale(localeHeader)) {
-    localeHeaderRaw = undefined
+    localeHeaderRaw = null
     localeHeader = defaultLocale
   }
   if (!localePath && localeHeaderRaw && localeHeader !== defaultLocale) {

@@ -8,8 +8,6 @@ import { exec, spawn } from 'node:child_process'
 import { promisify } from 'node:util'
 import treeKill from 'tree-kill'
 
-import { waitTimeout } from '@/shared/wait-timeout'
-
 const execAsync = promisify(exec)
 const spawnAsync = promisify(spawn)
 
@@ -21,7 +19,7 @@ export const kill = async (process?: ChildProcess) => {
   process.stdin?.end()
   killPid(process.pid)
   process.kill()
-  await waitTimeout()
+  await new Promise(r => setTimeout(r, 1000))
   process.kill('SIGKILL')
 }
 
