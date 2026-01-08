@@ -4,7 +4,7 @@
  */
 
 import { setI18nLabels, setLocales } from '@/rn/core/i18n/config'
-import { locales } from '#/i18n'
+import { locales } from '#/i18n/config'
 import { labels } from '#/i18n/labels'
 
 setLocales(locales)

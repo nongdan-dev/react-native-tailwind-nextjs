@@ -6,10 +6,12 @@
 import { isInDir } from '@/nodejs/path'
 import type { Falsish } from '@/shared/ts-utils'
 
+export const shouldTranspileExtension = /\.tsx?/
+
 export const shouldTranspile = (
   filename: string | Falsish,
   transpileDirs: string[],
 ) =>
   filename &&
-  /\.tsx?/.test(filename) &&
+  shouldTranspileExtension.test(filename) &&
   transpileDirs.some(d => isInDir(d, filename))

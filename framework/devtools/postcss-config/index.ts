@@ -3,17 +3,13 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { readTwExtractOutput } from '../babel-plugin-tw/lib/config'
+import { readTwExtractOutput } from '@/devtools/babel-plugin-tw/lib/config'
 
 type Options = {
-  dir: string
-  twExtractOutputPath?: string
+  twExtractOutputPath: string
 }
 
-export const config = ({
-  dir,
-  twExtractOutputPath = dir
-}: Options) => {
+export const config = ({ twExtractOutputPath }: Options) => {
   const min = readTwExtractOutput(twExtractOutputPath)
   return {
     plugins: {

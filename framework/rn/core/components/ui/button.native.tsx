@@ -8,8 +8,8 @@ import type { LayoutChangeEvent } from 'react-native'
 
 import type { PressableRn } from '@/rn/core/components/base-without-class-name/pressable'
 import type { ButtonProps } from '@/rn/core/components/ui/button'
-import { ButtonWithoutRipples } from '@/rn/core/components/ui/button-without-ripples'
 import { Ripple } from '@/rn/core/components/ui/button-ripple.native'
+import { ButtonWithoutRipples } from '@/rn/core/components/ui/button-without-ripples'
 
 const rippleColor = 'rgba(255,255,255,0.5)'
 const rippleDurationMs = 1000

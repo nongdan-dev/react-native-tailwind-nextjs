@@ -7,26 +7,27 @@ import type { ConfigAPI, NodePath, PluginObj } from '@babel/core'
 import { types as t } from '@babel/core'
 import { z } from 'zod'
 
-import { getIsServer } from '@/devtools/babel-config/get-is-server'
+import {
+  getCallerIsServer,
+  getIsServer,
+} from '@/devtools/babel-config/is-server'
 import { shouldTranspile } from '@/devtools/babel-config/should-transpile'
 
 const pluginPassOptsSchema = z.object({
   transpileDirs: z.array(z.string()),
 })
-export type AsyncHookPluginOptions = z.infer<typeof pluginPassOptsSchema>
 
 const hookRegex = /^use[A-Z]/
 
 export const asyncHookPlugin = (api: ConfigAPI): PluginObj => {
-  const isServer = getIsServer({
-    api,
-  })
+  const callerIsServer = getCallerIsServer(api)
 
   return {
     visitor: {
       // use program path to get plugin pass and perform some checks before traverse
       // also prioritize this plugin over others such as react compiler
       Program: (programPath, pluginPass) => {
+        const isServer = getIsServer(pluginPass, callerIsServer)
         const { transpileDirs } = pluginPassOptsSchema.parse(pluginPass.opts)
         if (isServer || !shouldTranspile(pluginPass.filename, transpileDirs)) {
           return
@@ -83,7 +84,7 @@ const stripAwaitOrYield = (
   const arg = p.node.argument
   const invalid = (): never => {
     throw p.buildCodeFrameError(
-      'only support `await use...` or `await Promise.all(...)`',
+      'Only support `await use...` or `await Promise.all(...)`',
     )
   }
   if (!arg) {

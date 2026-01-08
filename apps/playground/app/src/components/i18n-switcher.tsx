@@ -9,7 +9,7 @@ import { Text } from '@/rn/core/components/base/text'
 import { View } from '@/rn/core/components/base/view'
 import { getLang } from '@/rn/core/i18n/config'
 import { useI18nSwitcherProps } from '@/rn/core/i18n/use-i18n-switcher-props'
-import { languages } from '#/i18n'
+import { languages } from '#/i18n/config'
 
 export const I18nSwitcher = async () => {
   const {

@@ -3,7 +3,7 @@
  * See LICENSE file in the project root for full license information.
  */
 
-// react native metro doesnt support typescript in this file
+// nextjs doesnt support typescript in this file
 // we need to use commonjs here
 
 // tsconfig-paths is already installed at workspace root
@@ -13,6 +13,6 @@ require('@/nodejs/entrypoint/ts-node')
 
 module.exports = require('@/devtools/babel-config').config({
   dir: __dirname,
-  target: 'next',
+  target: 'nextjs',
   twrncConfig: require('#/twrnc').twrncConfig,
 })

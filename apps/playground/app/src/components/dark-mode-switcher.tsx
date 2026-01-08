@@ -7,7 +7,7 @@
 
 import { Text } from '@/rn/core/components/base/text'
 import { View } from '@/rn/core/components/base/view'
-import { useTranslation } from '@/rn/core/i18n'
+import { useTranslation } from '@/rn/core/i18n/index.client'
 import { useDarkModeUser, useSetDarkMode } from '@/rn/core/theme'
 
 export const DarkModeSwitcher = async () => {

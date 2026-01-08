@@ -31,7 +31,7 @@ export const getClientVariant = ({
   } else {
     for (const [k, v] of Object.entries(alias)) {
       if (importPath.startsWith(k)) {
-        baseAbs = path.join(v, importPath)
+        baseAbs = path.join(v, importPath.replace(k, ''))
         break
       }
     }

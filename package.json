@@ -4,11 +4,11 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
-    "eslint": "node ./devtools eslint",
     "lint": "pnpm -s normalize && pnpm -s eslint && pnpm -s stylelint && pnpm -s prettier",
     "normalize": "node ./devtools normalize",
-    "prettier": "node ./devtools prettier",
+    "eslint": "node ./devtools eslint",
     "stylelint": "node ./devtools stylelint",
+    "prettier": "node ./devtools prettier",
     "ts": "node ./devtools ts"
   },
   "engines": {
