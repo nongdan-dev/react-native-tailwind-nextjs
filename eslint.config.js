@@ -7,4 +7,6 @@
 
 require('./devtools-register')
 require('@/nodejs/entrypoint')
-module.exports = require('@/devtools/eslint/config').config
+module.exports = require('@/devtools/eslint/config').config({
+  dir: __dirname,
+})

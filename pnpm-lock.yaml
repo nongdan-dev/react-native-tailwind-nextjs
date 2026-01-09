@@ -81,9 +81,6 @@ importers:
       '@types/react':
         specifier: 19.2.7
         version: 19.2.7
-      tailwindcss:
-        specifier: 4.1.18
-        version: 4.1.18
 
   apps/playground/app-nextjs:
     dependencies:
@@ -350,7 +347,7 @@ importers:
   framework/devtools/tailwind:
     dependencies:
       tailwindcss:
-        specifier: 4.1.18
+        specifier: '*'
         version: 4.1.18
 
   framework/devtools/ts:

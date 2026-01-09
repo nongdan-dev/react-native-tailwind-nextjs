@@ -4,6 +4,7 @@
  */
 
 const m = require('@/nodejs/entrypoint/without-ts')
-require('@babel/register')(require('@/nodejs/babelrc'))
+const babelrc = require('@/nodejs/babelrc')
+require('@babel/register')(babelrc)
 
 module.exports = m

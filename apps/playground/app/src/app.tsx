@@ -9,8 +9,6 @@ import '#/polyfill/server'
 
 import type { PropsWithChildren } from 'react'
 
-import '#/app.css'
-
 import { ButtonEnhancer } from '@/rn/core/components/ui/button-enhancer'
 import { useCurrentLang } from '@/rn/core/i18n'
 import { useDarkModeUser } from '@/rn/core/theme'

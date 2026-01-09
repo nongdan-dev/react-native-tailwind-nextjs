@@ -4,10 +4,7 @@
  */
 
 @import 'tailwindcss';
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@config './tailwind.config.js';
 
 @custom-variant web {
   html.web & {

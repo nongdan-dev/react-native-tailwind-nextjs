@@ -7,6 +7,7 @@ import type { Config } from 'tailwindcss'
 
 import { globSync } from '@/nodejs/glob'
 import { frameworkRoot } from '@/root'
+import { merge } from '@/shared/lodash'
 
 export const config: Config = {
   content: [
@@ -15,3 +16,5 @@ export const config: Config = {
     }),
   ],
 }
+
+export const mergeConfig = (...configs: object[]) => merge(config, ...configs)

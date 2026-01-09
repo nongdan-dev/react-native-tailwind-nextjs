@@ -43,19 +43,19 @@ type Alias = {
   prefix: string
 }
 type Options = {
-  dir?: string
+  dir: string
   alias?: Alias[] | boolean
   ignoreShadowed?: boolean
   tsProjectService?: boolean
 }
 
-export const createConfig = ({
-  dir = repoRoot,
+export const config = ({
+  dir,
   // use flags to esable those features since it can be slow
   alias = !!process.env._ESLINT_ALIAS_GLOB,
   ignoreShadowed = !!process.env._ESLINT_IGNORE_SHADOWED,
   tsProjectService = !!process.env._ESLINT_TS_PROJECT_SERVICE,
-}: Options = {}) => {
+}: Options) => {
   const jsShadowed: string[] = []
   if (ignoreShadowed) {
     jsShadowed.push(
@@ -321,5 +321,3 @@ export const createConfig = ({
     tsNonFixable,
   )
 }
-
-export const config = createConfig()

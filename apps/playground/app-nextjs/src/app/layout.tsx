@@ -3,9 +3,9 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import { useTranslation } from '#/i18n'
+import '../../tailwind.css'
 
-import '#/app.css'
+import { useTranslation } from '#/i18n'
 
 export { App as default } from '#/app'
 

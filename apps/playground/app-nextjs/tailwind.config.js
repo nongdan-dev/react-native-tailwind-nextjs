@@ -10,15 +10,12 @@
 require('tsconfig-paths/register')
 require('@/nodejs/entrypoint/ts-node')
 const { path } = require('@/nodejs/path')
-const { content } = require('@/devtools/tailwind/config').config
+const { mergeConfig } = require('@/devtools/tailwind/config')
+const { twrncConfig } = require('#/twrnc')
 
-console.log('=== app-nextjs')
-process.exit(1)
-
-module.exports = {
+module.exports = mergeConfig(twrncConfig, {
   content: [
-    ...content,
     path.join(__dirname, '../app/src/**/*.{ts,tsx}'),
     path.join(__dirname, './src/**/*.{ts,tsx}'),
   ],
-}
+})
