@@ -28,7 +28,7 @@ export const isInRepo = (abs: string | Falsish): abs is NonFalsish<string> =>
   isInDir(repoRoot, abs)
 
 export const isSameDir = (abs1: string, abs2: string | Falsish) =>
-  !path.relative(abs1, abs2)
+  !!abs2 && !path.relative(abs1, abs2)
 export const isFrameworkRoot = (
   abs: string | Falsish,
 ): abs is NonFalsish<string> => isSameDir(frameworkRoot, abs)

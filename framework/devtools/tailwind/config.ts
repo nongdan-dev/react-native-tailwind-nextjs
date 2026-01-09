@@ -6,8 +6,8 @@
 import type { Config } from 'tailwindcss'
 
 import { path } from '@/nodejs/path'
-import { mergeWith } from '@/shared/lodash'
 import { frameworkRoot } from '@/root'
+import { mergeWith } from '@/shared/lodash'
 
 const pathConfig: Config = {
   content: [path.join(frameworkRoot, './rn/**/*.{ts,tsx}')],

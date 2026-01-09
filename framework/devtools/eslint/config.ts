@@ -163,14 +163,7 @@ export const config = ({
       'no-func-assign': warn,
       'no-class-assign': warn,
       'import/no-mutable-exports': warn,
-      'import/no-extraneous-dependencies': [
-        warn,
-        {
-          devDependencies: false,
-          optionalDependencies: false,
-          bundledDependencies: false,
-        },
-      ],
+      'import/no-extraneous-dependencies': [warn, { includeTypes: true }],
 
       '@typescript-eslint/no-unused-vars': [warn, { args: 'none' }],
       '@typescript-eslint/no-shadow': warn,
