@@ -8,6 +8,9 @@ patchedDependencies:
   eslint-plugin-no-relative-import-paths@1.6.1:
     hash: 1f4f44a0291f37edd3ed872252d9c243f106cf091b4a7a6a76325d9a769b6302
     path: patches/eslint-plugin-no-relative-import-paths@1.6.1.patch
+  react-native-web:
+    hash: cb99b0f1f3fc1437a80921acfa8d441cfe4aaa6bc5033ed00532da6f98624a72
+    path: patches/react-native-web.patch
 
 importers:
 
@@ -95,10 +98,10 @@ importers:
         version: 19.1.1(react@19.1.1)
       react-native-svg-web:
         specifier: 1.0.9
-        version: 1.0.9(prop-types@15.8.1)(react-native-web@0.21.2(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1)
+        version: 1.0.9(prop-types@15.8.1)(react-native-web@0.21.2(patch_hash=cb99b0f1f3fc1437a80921acfa8d441cfe4aaa6bc5033ed00532da6f98624a72)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1)
       react-native-web:
         specifier: 0.21.2
-        version: 0.21.2(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+        version: 0.21.2(patch_hash=cb99b0f1f3fc1437a80921acfa8d441cfe4aaa6bc5033ed00532da6f98624a72)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
     devDependencies:
       '@svgr/webpack':
         specifier: 8.1.0
@@ -10570,11 +10573,11 @@ snapshots:
       - supports-color
       - typescript
 
-  react-native-svg-web@1.0.9(prop-types@15.8.1)(react-native-web@0.21.2(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1):
+  react-native-svg-web@1.0.9(prop-types@15.8.1)(react-native-web@0.21.2(patch_hash=cb99b0f1f3fc1437a80921acfa8d441cfe4aaa6bc5033ed00532da6f98624a72)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1):
     dependencies:
       prop-types: 15.8.1
       react: 19.1.1
-      react-native-web: 0.21.2(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      react-native-web: 0.21.2(patch_hash=cb99b0f1f3fc1437a80921acfa8d441cfe4aaa6bc5033ed00532da6f98624a72)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
 
   react-native-svg@15.15.1(react-native@0.82.1(@babel/core@7.28.5)(@react-native-community/cli@20.1.0(typescript@5.9.3))(@react-native/metro-config@0.82.1(@babel/core@7.28.5))(@types/react@19.2.7)(react@19.1.1))(react@19.1.1):
     dependencies:
@@ -10584,7 +10587,7 @@ snapshots:
       react-native: 0.82.1(@babel/core@7.28.5)(@react-native-community/cli@20.1.0(typescript@5.9.3))(@react-native/metro-config@0.82.1(@babel/core@7.28.5))(@types/react@19.2.7)(react@19.1.1)
       warn-once: 0.1.1
 
-  react-native-web@0.21.2(react-dom@19.1.1(react@19.1.1))(react@19.1.1):
+  react-native-web@0.21.2(patch_hash=cb99b0f1f3fc1437a80921acfa8d441cfe4aaa6bc5033ed00532da6f98624a72)(react-dom@19.1.1(react@19.1.1))(react@19.1.1):
     dependencies:
       '@babel/runtime': 7.28.4
       '@react-native/normalize-colors': 0.74.89

@@ -288,11 +288,12 @@ TODO:
   - Styles are runtime generated and injected to head, which overrides the tailwind css.
   - Need to extract style on ssr render, which is incompatible or inefficient with nextjs app router ssr stream.
   - Class names are omited from props.
-- We will patch react-native-web to allow className and introduce a new prop to compute className instead of using react native style sheet. Only some critical components are being patched: Text, View, ScrollView, Pressable, TextInput, FlatList. Those components are also exported with reanimated support in react native.
-  - Add \_\_rnwClassNameData and className in forwardedProps
+- We will patch react-native-web to allow className and introduce a new prop to compute className instead of using react native style sheet, and more to support custom html tag. Only some critical components are being patched: Text, View, ScrollView, Pressable, TextInput, FlatList. Those components are also exported with reanimated support in react native.
+  - Add \_\_rnwTag, \_\_rnwClassNameData, className in forwardedProps
+  - Update logic in createElement to use \_\_rnwTag
   - Add \_\_rnwClassNameData to each components being patched
   - Update logic in createDOMProps to call a global function \_\_rnwClassName. We can not pass function as prop in app router ssr stream. The global function was injected in src/polyfill/react-native.ts
-  - There could be better way to handle this, but let's just leave this for now..
+  - There could be better way to handle these, but let's just leave it for now..
 - Props with prefix data- will be merged into dataSet as react native web only support this prop. TODO:
 
 ### VS Code Intellisense

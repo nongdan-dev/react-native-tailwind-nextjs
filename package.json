@@ -25,7 +25,8 @@
   },
   "pnpm": {
     "patchedDependencies": {
-      "eslint-plugin-no-relative-import-paths@1.6.1": "patches/eslint-plugin-no-relative-import-paths@1.6.1.patch"
+      "eslint-plugin-no-relative-import-paths@1.6.1": "patches/eslint-plugin-no-relative-import-paths@1.6.1.patch",
+      "react-native-web": "patches/react-native-web.patch"
     }
   }
 }

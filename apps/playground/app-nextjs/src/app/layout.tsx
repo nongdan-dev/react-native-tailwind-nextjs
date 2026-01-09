@@ -5,6 +5,8 @@
 
 import { useTranslation } from '#/i18n'
 
+import '#/app.css'
+
 export { App as default } from '#/app'
 
 export const generateMetadata = async () => {
