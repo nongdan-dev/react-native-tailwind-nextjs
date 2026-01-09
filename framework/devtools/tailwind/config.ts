@@ -5,16 +5,19 @@
 
 import type { Config } from 'tailwindcss'
 
-import { globSync } from '@/nodejs/glob'
-import { frameworkRoot } from '@/root'
-import { merge } from '@/shared/lodash'
+import { path } from '@/nodejs/path'
+import { mergeWith } from '@/shared/lodash'
 
-export const config: Config = {
-  content: [
-    ...globSync('**/*.{js,jsx,ts,tsx}', {
-      cwd: frameworkRoot,
-    }),
-  ],
+const pathConfig: Config = {
+  content: [path.join(__dirname, '../**/*.{ts,tsx}')],
 }
 
-export const mergeConfig = (...configs: object[]) => merge(config, ...configs)
+const withArray = (a: unknown, b: unknown) => {
+  if (Array.isArray(a)) {
+    return a.concat(b)
+  }
+  return
+}
+
+export const config = (...configs: object[]) =>
+  mergeWith(pathConfig, ...configs, withArray)

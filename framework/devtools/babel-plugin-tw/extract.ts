@@ -10,10 +10,10 @@ import { createVisitor } from '@/devtools/babel-plugin-tw/visitor'
 import type { StrMap } from '@/shared/ts-utils'
 
 type Options = Pick<Ctx, 'err'> & {
-  extractOutputPath: string
+  twExtractOutputPath: string
 }
 
-export const twExtract = ({ err, extractOutputPath }: Options) => {
+export const twExtract = ({ err, twExtractOutputPath }: Options) => {
   const minified: StrMap<string> = {}
   let n = 0
 
@@ -26,6 +26,6 @@ export const twExtract = ({ err, extractOutputPath }: Options) => {
 
   return {
     visitor: createVisitor({ extract, err }),
-    done: () => writeTwExtractOutput(extractOutputPath, minified),
+    done: () => writeTwExtractOutput(twExtractOutputPath, minified),
   }
 }

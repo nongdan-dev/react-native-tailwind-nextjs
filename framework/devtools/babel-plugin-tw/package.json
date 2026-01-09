@@ -10,7 +10,7 @@
   "dependencies": {
     "@babel/core": "7.28.5",
     "@babel/template": "7.27.2",
-    "react-native": "0.82.1",
+    "react-native": "0.83.1",
     "twrnc": "4.16.0",
     "zod": "4.3.5"
   },

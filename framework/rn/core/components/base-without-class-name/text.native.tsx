@@ -17,5 +17,5 @@ const styleProps = ['numberOfLines', 'selectable']
 export const TextWocn = (props: TextPropsWocn) => {
   props = styleToProps(props, styleProps)
   const Component: any = isReanimated(props) ? Animated.Text : Text
-  return <Component {...props} />
+  return <Component suppressHighlighting {...props} />
 }

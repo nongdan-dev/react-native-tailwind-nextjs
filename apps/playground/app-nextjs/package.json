@@ -6,8 +6,8 @@
   "scripts": {
     "start": "next dev --webpack",
     "build": "next build --webpack",
-    "start_minify_class_names": "cross-env NEXT_PUBLIC_MINIFY_CLASS_NAMES=1 next dev --webpack",
-    "build_minify_class_names": "cross-env NEXT_PUBLIC_MINIFY_CLASS_NAMES=1 next build --webpack"
+    "start2": "cross-env NEXT_PUBLIC_MINIFY_CLASS_NAMES=1 next dev --webpack",
+    "build2": "cross-env NEXT_PUBLIC_MINIFY_CLASS_NAMES=1 next build --webpack"
   },
   "engines": {
     "node": ">=24.11",
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "accept-language": "3.0.20",
-    "react-dom": "19.1.1",
+    "react-dom": "19.2.3",
     "next": "16.1.1",
     "react-native-svg-web": "1.0.9",
     "react-native-web": "0.21.2"

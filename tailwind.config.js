@@ -7,4 +7,4 @@
 
 require('./devtools-register')
 require('@/nodejs/entrypoint')
-module.exports = require('@/devtools/tailwind/config').config
+module.exports = require('@/devtools/tailwind/config').config()

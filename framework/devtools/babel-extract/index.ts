@@ -12,7 +12,11 @@ import { twExtract } from '@/devtools/babel-plugin-tw/extract'
 import { fs } from '@/nodejs/fs'
 import { globSync } from '@/nodejs/glob'
 
-export const extract = () => {
+type Options = {
+  twExtractOutputPath: string
+}
+
+export const extract = ({ twExtractOutputPath }: Options) => {
   let currentCode = ''
   const err = (npath: NodePath, msg: string) => {
     const loc = npath.node?.loc
@@ -29,7 +33,7 @@ export const extract = () => {
 
   const extracts = []
   if (process.env.NEXT_PUBLIC_MINIFY_CLASS_NAMES) {
-    extracts.push(twExtract({ err }))
+    extracts.push(twExtract({ err, twExtractOutputPath }))
   }
 
   const paths = globSync('**/*.{ts,tsx}')

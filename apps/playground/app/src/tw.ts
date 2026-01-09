@@ -3,8 +3,8 @@
  * See LICENSE file in the project root for full license information.
  */
 
-import type { TwConfig } from 'twrnc'
+import type { Config } from 'tailwindcss'
 
-export const twrncConfig: TwConfig = {
+export const twConfig: Config = {
   //
 }

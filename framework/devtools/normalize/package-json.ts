@@ -10,6 +10,7 @@ import { glob } from '@/nodejs/glob'
 import { minimal as log } from '@/nodejs/log'
 import { isInFramework, isRepoRoot, path } from '@/nodejs/path'
 import { frameworkRoot, repoRoot } from '@/root'
+import { jsonSafe } from '@/shared/json-safe'
 import { groupBy, kebabCase, omit } from '@/shared/lodash'
 import type { StrMap } from '@/shared/ts-utils'
 
@@ -127,6 +128,9 @@ export const normalizePackageJson = async () => {
       }
     }
 
+    if (jsonSafe(packageJson) === jsonSafe(newPackageJson)) {
+      return
+    }
     await fs.writeJson(p, newPackageJson, { spaces: 2 })
   })
 

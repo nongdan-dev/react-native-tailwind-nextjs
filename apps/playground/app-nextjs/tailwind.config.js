@@ -10,12 +10,17 @@
 require('tsconfig-paths/register')
 require('@/nodejs/entrypoint/ts-node')
 const { path } = require('@/nodejs/path')
-const { mergeConfig } = require('@/devtools/tailwind/config')
-const { twrncConfig } = require('#/twrnc')
 
-module.exports = mergeConfig(twrncConfig, {
+/** @type {import('tailwindcss').Config} */
+const pathConfig = {
   content: [
     path.join(__dirname, '../app/src/**/*.{ts,tsx}'),
     path.join(__dirname, './src/**/*.{ts,tsx}'),
   ],
-})
+}
+
+module.exports = require('@/devtools/tailwind/config').config(
+  pathConfig,
+  require('#/twrnc').twrncConfig,
+  require('#/tw').twConfig,
+)
