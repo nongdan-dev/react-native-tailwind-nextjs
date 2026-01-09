@@ -28,7 +28,6 @@
     "babel-loader": "10.0.0",
     "baseline-browser-mapping": "latest",
     "cross-env": "10.1.0",
-    "postcss-rename": "0.8.0",
-    "tailwindcss": "4.1.18"
+    "postcss-rename": "0.8.0"
   }
 }

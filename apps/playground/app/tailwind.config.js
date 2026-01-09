@@ -13,10 +13,7 @@ const { path } = require('@/nodejs/path')
 
 /** @type {import('tailwindcss').Config} */
 const pathConfig = {
-  content: [
-    path.join(__dirname, '../app/src/**/*.{ts,tsx}'),
-    path.join(__dirname, './src/**/*.{ts,tsx}'),
-  ],
+  content: [path.join(__dirname, './src/**/*.{ts,tsx}')],
 }
 
 module.exports = require('@/devtools/tailwind/config').config(

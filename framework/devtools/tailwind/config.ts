@@ -7,9 +7,10 @@ import type { Config } from 'tailwindcss'
 
 import { path } from '@/nodejs/path'
 import { mergeWith } from '@/shared/lodash'
+import { frameworkRoot } from '@/root'
 
 const pathConfig: Config = {
-  content: [path.join(__dirname, '../**/*.{ts,tsx}')],
+  content: [path.join(frameworkRoot, './rn/**/*.{ts,tsx}')],
 }
 
 const withArray = (a: unknown, b: unknown) => {
@@ -20,4 +21,4 @@ const withArray = (a: unknown, b: unknown) => {
 }
 
 export const config = (...configs: object[]) =>
-  mergeWith(pathConfig, ...configs, withArray)
+  mergeWith({}, pathConfig, ...configs, withArray)

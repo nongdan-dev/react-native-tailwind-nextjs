@@ -75,6 +75,12 @@ importers:
       '@react-native-community/cli':
         specifier: 20.1.0
         version: 20.1.0(typescript@5.9.3)
+      '@react-native-community/cli-platform-android':
+        specifier: 20.1.0
+        version: 20.1.0
+      '@react-native-community/cli-platform-ios':
+        specifier: 20.1.0
+        version: 20.1.0
       '@react-native/codegen':
         specifier: 0.83.1
         version: 0.83.1(@babel/core@7.28.5)
@@ -133,9 +139,6 @@ importers:
       postcss-rename:
         specifier: 0.8.0
         version: 0.8.0
-      tailwindcss:
-        specifier: 4.1.18
-        version: 4.1.18
 
   framework/devtools/babel-config:
     dependencies:
