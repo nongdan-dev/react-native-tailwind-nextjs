@@ -9,7 +9,7 @@ import { FlatList } from 'react-native'
 import Animated from 'react-native-reanimated'
 
 import type { FlatListPropsWocn } from '@/rn/core/components/base-without-class-name/flat-list'
-import { isReanimated } from '@/rn/core/tw/lib/is-reanimated'
+import { isReanimated } from '@/rn/core/components/base-without-class-name/props'
 
 export const FlatListWocn = (props: FlatListPropsWocn<any>) => {
   const Component: any = isReanimated(props) ? Animated.FlatList : FlatList

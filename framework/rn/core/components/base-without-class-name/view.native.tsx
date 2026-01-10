@@ -10,9 +10,9 @@ import type { LayoutChangeEvent, ViewStyle } from 'react-native'
 import { View } from 'react-native'
 import Animated from 'react-native-reanimated'
 
+import { isReanimated } from '@/rn/core/components/base-without-class-name/props'
 import type { ViewPropsWocn } from '@/rn/core/components/base-without-class-name/view'
 import type { GridStyle, GridTrack } from '@/rn/core/tw/class-name'
-import { isReanimated } from '@/rn/core/tw/lib/is-reanimated'
 import { get } from '@/shared/lodash'
 
 export const ViewWocn = (props: ViewPropsWocn) => {

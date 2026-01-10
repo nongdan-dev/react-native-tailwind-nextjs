@@ -11,7 +11,7 @@ import { rnwClassName } from '@/rn/core/tw/lib/react-native-web'
 
 if (typeof window === 'object' && window) {
   // @ts-expect-error
-  window.__rnwClassName = rnwClassName
+  window.rnwClassName = rnwClassName
 }
 
 export const ReactNativeWebEnhancer = () => {

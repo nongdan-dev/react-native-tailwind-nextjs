@@ -11,7 +11,6 @@ import type { PropsWithChildren } from 'react'
 
 import '../tailwind.css'
 
-import { ButtonEnhancer } from '@/rn/core/components/ui/button-enhancer'
 import { useCurrentLang } from '@/rn/core/i18n'
 import { useDarkModeUser } from '@/rn/core/theme'
 import { darkClassName, lightClassName } from '@/rn/core/theme/config'
@@ -30,7 +29,6 @@ export const App = async ({ children }: PropsWithChildren) => {
   return (
     <html lang={lang} className={htmlClassName}>
       <ClientEnhancer />
-      <ButtonEnhancer />
       <body className='flex min-h-dvh w-full flex-col'>{children}</body>
     </html>
   )

@@ -39,4 +39,4 @@ export const H6: FC<TextProps> = props => (
   <Text {...props} accessibilityRole='header' aria-level='6' />
 )
 
-export const Span: FC<TextProps> = props => <Text {...props} __rnwTag='span' />
+export const Span: FC<TextProps> = props => <Text {...props} rnwTag='span' />

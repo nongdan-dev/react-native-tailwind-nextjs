@@ -5,7 +5,6 @@
 
 /* eslint-disable no-restricted-imports */
 
-import type { Ref } from 'react'
 import type {
   NativeMethods,
   ScrollViewComponent,
@@ -13,10 +12,9 @@ import type {
 } from 'react-native'
 import { ScrollView } from 'react-native'
 
-export type ScrollViewPropsWocn = ScrollViewProps & {
-  ref?: Ref<ScrollViewRn>
-  __rnwTag?: string
-}
+import type { CommonProps } from '@/rn/core/components/base-without-class-name/props'
+
+export type ScrollViewPropsWocn = CommonProps<ScrollViewRn> & ScrollViewProps
 export const ScrollViewWocn = ScrollView
 
 // export original type for ref

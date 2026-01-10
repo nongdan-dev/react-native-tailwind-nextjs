@@ -5,7 +5,6 @@
 
 /* eslint-disable no-restricted-imports */
 
-import type { Ref } from 'react'
 import type {
   FlatListComponent,
   FlatListProps,
@@ -13,10 +12,12 @@ import type {
 } from 'react-native'
 import { FlatList } from 'react-native'
 
-export type FlatListPropsWocn<T> = FlatListProps<T> & {
-  ref?: Ref<FlatListRn<T, FlatListProps<T>>>
-  __rnwTag?: string
-}
+import type { CommonProps } from '@/rn/core/components/base-without-class-name/props'
+
+export type FlatListPropsWocn<T> = CommonProps<
+  FlatListRn<T, FlatListProps<T>>
+> &
+  FlatListProps<T>
 export const FlatListWocn = FlatList
 
 // export original type for ref

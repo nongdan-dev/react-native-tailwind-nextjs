@@ -26,10 +26,6 @@ export const runtimeStyle = (
   className: ClassName,
   { state, style, onSelector, ...options }: Options = {},
 ): StyleSingle | undefined => {
-  if (!className) {
-    return
-  }
-
   const styles = classNameToStyles({
     className,
     onSelector: selector =>

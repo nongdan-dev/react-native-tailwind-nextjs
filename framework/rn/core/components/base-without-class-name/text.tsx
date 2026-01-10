@@ -5,18 +5,17 @@
 
 /* eslint-disable no-restricted-imports */
 
-import type { Ref } from 'react'
 import type { NativeMethods, TextComponent, TextProps } from 'react-native'
 import { Text } from 'react-native'
 
-export type TextPropsWocn = Omit<
-  TextProps,
-  // should be supported using class name in native
-  'numberOfLines' | 'selectable'
-> & {
-  ref?: Ref<TextRn>
-  __rnwTag?: string
-}
+import type { CommonProps } from '@/rn/core/components/base-without-class-name/props'
+
+export type TextPropsWocn = CommonProps<TextRn> &
+  Omit<
+    TextProps,
+    // should be supported using class name in native
+    'numberOfLines' | 'selectable'
+  >
 export const TextWocn = Text
 
 // export original type for ref

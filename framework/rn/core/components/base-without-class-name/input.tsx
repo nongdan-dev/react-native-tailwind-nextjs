@@ -5,7 +5,6 @@
 
 /* eslint-disable no-restricted-imports */
 
-import type { Ref } from 'react'
 import type {
   NativeMethods,
   TextInputComponent,
@@ -13,14 +12,14 @@ import type {
 } from 'react-native'
 import { TextInput } from 'react-native'
 
-export type InputPropsWocn = Omit<
-  TextInputProps,
-  // should be supported using class name in native
-  'placeholderTextColor' | 'caretHidden'
-> & {
-  ref?: Ref<InputRn>
-  __rnwTag?: string
-}
+import type { CommonProps } from '@/rn/core/components/base-without-class-name/props'
+
+export type InputPropsWocn = CommonProps<InputRn> &
+  Omit<
+    TextInputProps,
+    // should be supported using class name in native
+    'placeholderTextColor' | 'caretHidden'
+  >
 export const InputWocn = TextInput
 
 // export original type for ref

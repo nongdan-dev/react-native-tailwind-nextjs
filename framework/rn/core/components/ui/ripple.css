@@ -3,17 +3,17 @@
  * See LICENSE file in the project root for full license information.
  */
 
-.ui-ripple {
+.ripple {
   position: absolute;
   border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.5);
   opacity: 1;
   pointer-events: none;
   transform: scale(0);
-  animation: ui-ripple 1000ms ease-out forwards;
+  animation: ripple 1000ms ease-out forwards;
+  will-change: transform, opacity;
 }
 
-@keyframes ui-ripple {
+@keyframes ripple {
   to {
     opacity: 0;
     transform: scale(1);
