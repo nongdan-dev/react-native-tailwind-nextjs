@@ -91,7 +91,7 @@ type RippleItemProps = RippleProps & {
   style: ViewStyle
 }
 
-const Ripple = ({ className, style }: RippleItemProps) => {
+const Ripple = (props: RippleItemProps) => {
   const scale = useSharedValue(0)
   const opacity = useSharedValue(1)
 
@@ -114,11 +114,6 @@ const Ripple = ({ className, style }: RippleItemProps) => {
   }))
 
   return (
-    <View
-      pointerEvents='none'
-      className={className}
-      style={[style, animation]}
-      nativeForceAnimated
-    />
+    <View {...props} pointerEvents='none' nativeAnimatedStyle={animation} />
   )
 }

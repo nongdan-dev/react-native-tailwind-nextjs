@@ -8,7 +8,10 @@
 import { TextInput } from 'react-native'
 
 import type { InputPropsWocn } from '@/rn/core/components/base-without-class-name/input'
-import { isReanimated } from '@/rn/core/components/base-without-class-name/props'
+import {
+  isReanimated,
+  renderAnimatedStyle,
+} from '@/rn/core/components/base-without-class-name/props'
 import { createAnimatedComponent } from '@/rn/core/tw/lib/create-animated-component'
 import { styleToProps } from '@/rn/core/tw/lib/style-to-props'
 
@@ -17,7 +20,7 @@ const styleProps = ['placeholderTextColor', 'caretHidden']
 export const InputWocn = (props: InputPropsWocn) => {
   props = styleToProps(props, styleProps)
   const Component: any = isReanimated(props) ? AnimatedInput : TextInput
-  return <Component {...props} />
+  return renderAnimatedStyle(Component, props)
 }
 
 const AnimatedInput = createAnimatedComponent(TextInput)

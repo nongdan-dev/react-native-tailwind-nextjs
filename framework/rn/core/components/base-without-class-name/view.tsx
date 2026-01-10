@@ -13,7 +13,5 @@ import type { CommonProps } from '@/rn/core/components/base-without-class-name/p
 export type ViewPropsWocn = CommonProps<ViewRn> & ViewProps
 export const ViewWocn = View
 
-console.log('ViewWocn')
-
 // export original type for ref
 export type ViewRn = ViewComponent & NativeMethods

@@ -8,7 +8,10 @@
 import { Text } from 'react-native'
 import Animated from 'react-native-reanimated'
 
-import { isReanimated } from '@/rn/core/components/base-without-class-name/props'
+import {
+  isReanimated,
+  renderAnimatedStyle,
+} from '@/rn/core/components/base-without-class-name/props'
 import type { TextPropsWocn } from '@/rn/core/components/base-without-class-name/text'
 import { styleToProps } from '@/rn/core/tw/lib/style-to-props'
 
@@ -17,5 +20,9 @@ const styleProps = ['numberOfLines', 'selectable']
 export const TextWocn = (props: TextPropsWocn) => {
   props = styleToProps(props, styleProps)
   const Component: any = isReanimated(props) ? Animated.Text : Text
-  return <Component suppressHighlighting {...props} />
+
+  return renderAnimatedStyle(Component, {
+    suppressHighlighting: true,
+    ...props,
+  })
 }
