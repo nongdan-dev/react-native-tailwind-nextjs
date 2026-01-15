@@ -1,0 +1,17 @@
+{
+  "name": "@react-native-tailwind-nextjs/devtools-metro-config",
+  "version": "0.0.0-locked",
+  "private": true,
+  "type": "commonjs",
+  "engines": {
+    "node": ">=24.11",
+    "pnpm": ">=10"
+  },
+  "dependencies": {
+    "@react-native/metro-babel-transformer": "0.83.1",
+    "@react-native/metro-config": "0.83.1",
+    "@rnx-kit/metro-config": "2.2.2",
+    "@rnx-kit/metro-resolver-symlinks": "0.2.10",
+    "react-native-svg-transformer": "1.5.2"
+  }
+}

@@ -2,9 +2,8 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "paths": {
-      "@/*": ["./src/*"],
-      "#/*": ["./z/*"]
+      "@/*": ["./framework/*"]
     }
   },
-  "include": ["./**/*.d.ts", "./*", "./src/**/*"]
+  "include": ["./*", "./framework/**/*"]
 }

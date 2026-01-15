@@ -1,5 +1,11 @@
-// eslint doesnt support typescript in this file with commonjs package type
-// we need to use commonjs here
+/**
+ * Copyright (c) 2025-2026 nongdan.dev
+ * See LICENSE file in the project root for full license information.
+ */
 
-require('./z/register')
-module.exports = require('./z/eslint-config').config
+// reexport config at root to be compatible with vscode intellisense
+
+require('./devtools-register')
+module.exports = require('@/devtools/eslint/config').config({
+  dir: __dirname,
+})

@@ -1,0 +1,23 @@
+{
+  "name": "@react-native-tailwind-nextjs/devtools-babel-config",
+  "version": "0.0.0-locked",
+  "private": true,
+  "type": "commonjs",
+  "engines": {
+    "node": ">=24.11",
+    "pnpm": ">=10"
+  },
+  "dependencies": {
+    "@babel/preset-react": "7.28.5",
+    "@babel/preset-typescript": "7.28.5",
+    "@react-native/babel-preset": "0.83.1",
+    "babel-plugin-module-resolver": "5.0.2"
+  },
+  "peerDependencies": {
+    "react-native-worklets": "*"
+  },
+  "devDependencies": {
+    "@babel/core": "7.28.6",
+    "@types/babel__core": "7.20.5"
+  }
+}

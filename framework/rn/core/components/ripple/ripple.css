@@ -1,0 +1,21 @@
+/**
+ * Copyright (c) 2025-2026 nongdan.dev
+ * See LICENSE file in the project root for full license information.
+ */
+
+.ripple {
+  position: absolute;
+  border-radius: 9999px;
+  opacity: 1;
+  pointer-events: none;
+  transform: scale(0);
+  animation: ripple 1000ms ease-out forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes ripple {
+  to {
+    opacity: 0;
+    transform: scale(1);
+  }
+}

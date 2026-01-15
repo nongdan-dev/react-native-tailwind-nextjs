@@ -1,0 +1,31 @@
+/**
+ * Copyright (c) 2025-2026 nongdan.dev
+ * See LICENSE file in the project root for full license information.
+ */
+
+import type { Platform } from 'react-native'
+import type { TwConfig } from 'twrnc'
+import { create } from 'twrnc/create'
+
+import packageJson from '@/devtools/babel-plugin-tw/package.json'
+
+// can not import twrnc directly as it imports react-native which is not available in nodejs babel env
+export const createTwrnc = (
+  platform: Platform['OS'],
+  twrncConfig: TwConfig,
+) => {
+  const rnVersionStr = packageJson.dependencies['react-native']
+  const matches = /(\d+)\.(\d+)\.(\d+)/.exec(rnVersionStr)
+  if (!matches) {
+    throw new Error('Can not parse react native version')
+  }
+  const rnVersion = {
+    major: Number(matches[1]),
+    minor: Number(matches[2]),
+    patch: Number(matches[3]),
+  }
+
+  return create(twrncConfig, platform, rnVersion).style
+}
+
+export type Twrnc = ReturnType<typeof createTwrnc>

@@ -87,14 +87,15 @@ next-env.d.ts
 
 # local/debug output
 *.local
+*.local.*
+*.debug.*
 *.sqlite
 *.sqlite3
-*.debug.*
 
 # pick one between npm/yarn/pnpm
-# package-lock.json
+package-lock.json
 yarn.lock
-pnpm-lock.yaml
+# pnpm-lock.yaml
 
 # go, rust
 **/.*-cache/

@@ -16,8 +16,8 @@ const _style = {
   transition: [
     /* .. */
   ],
-  transitionDuration: 200,
-  transitionTimingFunction: 'ease-in',
+  transitionDuration: 150,
+  transitionTimingFunction: 'ease-in-out',
 }
 const MyComponent = () => <View style={_style} />
 
@@ -135,6 +135,7 @@ const MyComponent = () => <View className={classNameStringFromSomeWhere} />
 - Support platform selector: `web:`, `ios:`, `android:`, `native:`. It will be striped out at build time if the platform doesnt match.
   - On web we need to define a custom variant in global css to take precedence.
   - Automatically strip out class names that are not compatible in native:
+    - `theme-`
     - `web:`
     - `web-`
     - `hover:`
@@ -268,7 +269,7 @@ I18n is already set up and configured to work on all variants: server, client, n
 
 ### Theme
 
-Dark mode is already set up and configured to work on all variants: server, client, native.
+Theme and dark mode is already set up and configured to work on all variants: server, client, native.
 
 ### Navigation
 
@@ -288,12 +289,13 @@ TODO:
   - Styles are runtime generated and injected to head, which overrides the tailwind css.
   - Need to extract style on ssr render, which is incompatible or inefficient with nextjs app router ssr stream.
   - Class names are omited from props.
-- We will patch react-native-web to allow className and introduce a new prop to compute className instead of using react native style sheet. Only some critical components are being patched: Text, View, ScrollView, Pressable, TextInput, FlatList. Those components are also exported with reanimated support in react native.
-  - Add \_\_rnwClassNameData and className in forwardedProps
-  - Add \_\_rnwClassNameData to each components being patched
-  - Update logic in createDOMProps to call a global function \_\_rnwClassName. We can not pass function as prop in app router ssr stream. The global function was injected in src/polyfill/react-native.ts
-  - There could be better way to handle this, but let's just leave this for now..
-- Props with prefix data- will be merged into dataSet as react native web only support this prop. TODO:
+- We will patch react-native-web to allow className and introduce a new prop to compute className instead of using react native style sheet, and more to support custom html tag. Only some critical components are being patched: Text, View, ScrollView, Pressable, TextInput, FlatList. Those components are also exported with reanimated support in react native.
+  - Add rnwTag, rnwClassNameData, className in forwardedProps
+  - Update logic in createElement to use rnwTag
+  - Add rnwClassNameData to each components being patched
+  - Update logic in createDOMProps to call a global function rnwClassName. We can not pass function as prop in app router ssr stream. The global function was injected in src/polyfill/react-native.ts
+  - There could be better way to handle these, but let's just leave it for now..
+- Props with prefix data- will be merged into dataSet as react native web only support this prop.
 
 ### VS Code Intellisense
 
@@ -302,10 +304,6 @@ TODO:
   "tailwindCSS.classFunctions": ["tw", "cva", "clsx"]
 }
 ```
-
-### Monorepo workspace
-
-We keep this repo as a single npm package for now. We can convert it to pnpm workspace with rnx symlink resolver later.
 
 ### License: MIT
 
