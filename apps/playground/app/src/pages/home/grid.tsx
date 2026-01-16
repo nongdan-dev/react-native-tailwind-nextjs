@@ -8,7 +8,7 @@ import { View } from '@/rn/core/components/base/view'
 
 export const DemoGrid = () => (
   <>
-    <Text className='mt-5 text-center text-black transition dark:text-gray-200'>
+    <Text className='mt-5 text-center font-bold text-black transition dark:text-gray-200'>
       Basic Grid Columns
     </Text>
     <View className='m-auto grid w-full max-w-150 grid-cols-3 gap-2.5 p-2.5'>

@@ -6,6 +6,7 @@
 import type { NextConfig } from 'next'
 
 import { shouldTranspileExtension } from '@/devtools/babel-config/should-transpile'
+import { cssVariablesFilenameRegex } from '@/devtools/webpack-css-variables/transform-css-variables'
 import { ResolveClientExtension } from '@/devtools/webpack-resolve-client-extension'
 
 type Options = {
@@ -52,10 +53,10 @@ export const config = ({ dir }: Options): NextConfig => ({
     })
 
     c.module.rules.unshift({
-      test: themeCssRegex,
+      test: cssVariablesFilenameRegex,
       type: 'javascript/auto',
       use: {
-        loader: require.resolve('@/devtools/webpack-css-theme'),
+        loader: require.resolve('@/devtools/webpack-css-variables'),
       },
     })
 
@@ -80,13 +81,12 @@ const traverseWebpackRule = (rule: any): any => {
     ) {
       rule.exclude = rule.exclude || []
       if (Array.isArray(rule.exclude)) {
-        rule.exclude.push(themeCssRegex)
+        rule.exclude.push(cssVariablesFilenameRegex)
       } else {
-        rule.exclude = [rule.exclude, themeCssRegex]
+        rule.exclude = [rule.exclude, cssVariablesFilenameRegex]
       }
     }
     rule[k] = traverseWebpackRule(v)
   }
   return rule
 }
-const themeCssRegex = /\.theme\.css$/

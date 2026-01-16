@@ -1,5 +1,5 @@
 {
-  "name": "@react-native-tailwind-nextjs/devtools-webpack-css-theme",
+  "name": "@react-native-tailwind-nextjs/devtools-webpack-css-variables",
   "version": "0.0.0-locked",
   "private": true,
   "type": "commonjs",

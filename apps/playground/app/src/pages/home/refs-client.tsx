@@ -1,0 +1,118 @@
+/**
+ * Copyright (c) 2025-2026 nongdan.dev
+ * See LICENSE file in the project root for full license information.
+ */
+
+'use client'
+
+import { useEffect, useRef } from 'react'
+
+import type { FlatListRn } from '@/rn/core/components/base/flat-list'
+import { FlatList } from '@/rn/core/components/base/flat-list'
+import type { InputRn } from '@/rn/core/components/base/input'
+import { Input } from '@/rn/core/components/base/input'
+import type { PressableRn } from '@/rn/core/components/base/pressable'
+import { Pressable } from '@/rn/core/components/base/pressable'
+import type { ScrollViewRn } from '@/rn/core/components/base/scroll-view'
+import { ScrollView } from '@/rn/core/components/base/scroll-view'
+import type { TextRn } from '@/rn/core/components/base/text'
+import { Text } from '@/rn/core/components/base/text'
+import type { ViewRn } from '@/rn/core/components/base/view'
+import { View } from '@/rn/core/components/base/view'
+import { isWeb } from '@/rn/core/utils/platform'
+import { useImmer } from '@/rn/immer'
+import { camelCase } from '@/shared/lodash'
+import type { StrMap } from '@/shared/ts-utils'
+
+export const RefsClient = () => {
+  const [state, setState] = useImmer<StrMap<boolean>>({})
+
+  const textRef = useRef<TextRn>(null)
+  const viewRef = useRef<ViewRn>(null)
+  const scrollViewRef = useRef<ScrollViewRn>(null)
+  const pressableRef = useRef<PressableRn>(null)
+  const inputRef = useRef<InputRn>(null)
+  const flatListRef = useRef<FlatListRn>(null)
+
+  useEffect(() => {
+    setState(d => {
+      if (textRef.current?.measureLayout) {
+        d.text = true
+      }
+      if (viewRef.current?.measureLayout) {
+        d.view = true
+      }
+      if (scrollViewRef.current?.measureLayout) {
+        d.scrollView = true
+      }
+      if (pressableRef.current?.measureLayout) {
+        d.pressable = true
+      }
+      if (inputRef.current?.measureLayout) {
+        d.input = true
+      }
+      if (flatListRef.current?.scrollToItem) {
+        d.flatList = true
+      }
+    })
+  }, [])
+
+  const comma = (
+    <Text className='text-center text-black transition dark:text-white'>
+      {', '}
+    </Text>
+  )
+  const item = (k: string) => (
+    <Text
+      className={[
+        'text-center',
+        state[camelCase(k)] ? 'text-green-500' : 'text-red-500',
+      ]}
+    >
+      {k}
+    </Text>
+  )
+
+  const nativeRefs = (
+    <>
+      <Text ref={textRef} className='hidden' />
+      <View ref={viewRef} className='hidden' />
+      <ScrollView ref={scrollViewRef} className='hidden' />
+      <Pressable ref={pressableRef} className='hidden' />
+      <Input ref={inputRef} className='hidden' />
+      <FlatList
+        ref={flatListRef}
+        data={[]}
+        renderItem={() => null}
+        className='hidden'
+      />
+    </>
+  )
+
+  const refs = (
+    <>
+      {isWeb && nativeRefs}
+      <View className='mx-auto mt-5 max-w-100'>
+        <Text className='text-center font-bold text-black transition dark:text-white'>
+          Native Refs
+        </Text>
+        <View className='flex flex-row'>
+          {item('Text')}
+          {comma}
+          {item('View')}
+          {comma}
+          {item('ScrollView')}
+          {comma}
+          {item('Pressable')}
+          {comma}
+          {item('Input')}
+          {comma}
+          {item('FlatList')}
+        </View>
+      </View>
+    </>
+  )
+
+  // need to render outside of scroll view on native
+  return isWeb ? refs : [refs, nativeRefs]
+}

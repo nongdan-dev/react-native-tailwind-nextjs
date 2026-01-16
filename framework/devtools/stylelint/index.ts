@@ -13,6 +13,7 @@ export const stylelint = async (target: string) =>
     bin: await binRequireResolve('@/devtools/stylelint'),
     args: [
       ['--ignore-path', gitignorePath],
+      ['--config-basedir', __dirname],
       ['--config', await resolvePath(target, 'stylelint.config.js')],
       ['--fix'],
       //

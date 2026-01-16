@@ -6,24 +6,36 @@
 import { transform as defaultTransform } from '@react-native/metro-babel-transformer'
 import { transform as svgTransform } from 'react-native-svg-transformer/react-native'
 
-import { transformCssVariables } from '@/devtools/webpack-css-theme/transform-css-variables'
+import {
+  cssVariablesFilenameRegex,
+  transformCssVariables,
+} from '@/devtools/webpack-css-variables/transform-css-variables'
 
 type Options = {
   filename: string
   src: string
 }
 
-export const transform = async (o: Options) => {
-  if (o.filename.endsWith('.svg')) {
-    return svgTransform(o)
-  }
-
-  if (o.filename.endsWith('.theme.css')) {
-    return defaultTransform({
-      ...o,
-      src: transformCssVariables(o.src),
+export const transform = ({ filename, src, ...options }: Options) => {
+  if (filename.endsWith('.svg')) {
+    return svgTransform({
+      filename,
+      src,
+      ...options,
     })
   }
 
-  return defaultTransform(o)
+  if (cssVariablesFilenameRegex.test(filename)) {
+    return defaultTransform({
+      filename,
+      src: transformCssVariables(src),
+      ...options,
+    })
+  }
+
+  return defaultTransform({
+    filename,
+    src,
+    ...options,
+  })
 }

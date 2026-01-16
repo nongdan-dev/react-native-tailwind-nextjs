@@ -14,6 +14,7 @@ import { useSafeAreaPadding } from '@/rn/core/utils/use-safe-area'
 import { I18nSwitcher } from '#/i18n/i18n-switcher'
 import { DemoGrid } from '#/pages/home/grid'
 import { DemoRuntime } from '#/pages/home/runtime'
+import { useDemoRefs } from '#/pages/home/refs'
 import { DarkModeSwitcher } from '#/theme/dark-mode-switcher'
 import { ThemeSwitcher } from '#/theme/theme-switcher'
 
@@ -22,30 +23,40 @@ export const HomePage = async () => {
   const padding = useSafeAreaPadding()
   const Container = isWeb ? View : ScrollView
 
+  const [demoRefs, demoRefsNative] = useDemoRefs()
+
   return (
-    <Container
-      className={[padding, 'bg-primary-50 flex-1 transition dark:bg-gray-700']}
-    >
-      <View className='bg-primary-100 dark:bg-primary-950 p-10 transition'>
-        <H1 className='text-center text-3xl font-bold text-black transition md:text-4xl lg:text-5xl dark:text-gray-200'>
-          React Native - Tailwind - NextJS
-        </H1>
-        <Span className='mt-5 text-center text-black transition dark:text-gray-200'>
-          {t('description')}
-        </Span>
-        <View className='mt-5 items-center'>
-          <Button className='w-40' type='primary'>
-            CVA Button
-          </Button>
+    <>
+      <Container
+        className={[
+          padding,
+          'bg-primary-50 flex-1 transition dark:bg-gray-700',
+        ]}
+      >
+        <View className='bg-primary-100 dark:bg-primary-950 p-10 transition'>
+          <H1 className='text-center text-3xl font-bold text-black transition md:text-4xl lg:text-5xl dark:text-gray-200'>
+            React Native - Tailwind - NextJS
+          </H1>
+          <Span className='mt-5 text-center text-black transition dark:text-gray-200'>
+            {t('description')}
+          </Span>
+          <View className='mt-5 items-center'>
+            <Button className='w-40' type='primary'>
+              CVA Button
+            </Button>
+          </View>
         </View>
-      </View>
-      <DemoGrid />
-      <Input className='m-auto w-60 rounded-md bg-white text-black transition dark:bg-gray-800 dark:text-gray-200' />
-      <DemoRuntime />
-      <View className='flex-1' />
-      <I18nSwitcher />
-      <ThemeSwitcher />
-      <DarkModeSwitcher />
-    </Container>
+        <DemoGrid />
+        {demoRefs}
+        <DemoRuntime />
+        <Input className='m-auto w-60 rounded-md bg-white text-black transition dark:bg-gray-800 dark:text-gray-200' />
+        <View className='flex-1' />
+        <I18nSwitcher />
+        <ThemeSwitcher />
+        <DarkModeSwitcher />
+      </Container>
+      {/* need to render outside of scroll view on native */}
+      {demoRefsNative}
+    </>
   )
 }

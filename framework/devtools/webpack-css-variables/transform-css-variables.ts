@@ -8,9 +8,11 @@ import * as csstree from 'css-tree'
 import { jsonSafe } from '@/shared/json-safe'
 import type { StrMap } from '@/shared/ts-utils'
 
+export const cssVariablesFilenameRegex = /\.theme\.css$/
+
 export const transformCssVariables = (src: string) => {
   const vars = extractCssVariables(src)
-  return `export default ${jsonSafe(vars)};`
+  return `export default ${jsonSafe(vars)}`
 }
 
 const extractCssVariables = (src: string): StrMap<string> => {
