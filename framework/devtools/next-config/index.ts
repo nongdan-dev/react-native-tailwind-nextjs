@@ -8,6 +8,7 @@ import type { NextConfig } from 'next'
 import { shouldTranspileExtension } from '@/devtools/babel-config/should-transpile'
 import { cssVariablesFilenameRegex } from '@/devtools/webpack-css-variables/transform-css-variables'
 import { ResolveClientExtension } from '@/devtools/webpack-resolve-client-extension'
+import { repoRoot } from '@/root'
 
 type Options = {
   dir: string
@@ -63,7 +64,23 @@ export const config = ({ dir }: Options): NextConfig => ({
     return c
   },
 
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  compiler: {
+    define: {
+      __DEV__: `${process.env.NODE_ENV !== 'production'}`,
+    },
+    reactRemoveProperties: false,
+    relay: undefined,
+    removeConsole: false,
+    styledComponents: false,
+    emotion: false,
+    styledJsx: false,
+  },
   devIndicators: false,
+  output: 'standalone',
+  outputFileTracingRoot: repoRoot,
 })
 
 const traverseWebpackRule = (rule: any): any => {

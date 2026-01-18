@@ -29,16 +29,19 @@ export const proxy = ({
   url,
   nextUrl: { pathname, search },
   cookies,
-  headers,
+  headers: reqHeaders,
 }: NextRequest) => {
-  if (/\.\w+/.test(pathname)) {
-    return NextResponse.next()
+  const headers = new Headers(reqHeaders)
+  headers.set(urlHeaderKey, url)
+
+  if (pathname.startsWith('/_next/') || pathname === '/favicon.ico') {
+    return NextResponse.next({ headers })
   }
 
   const redirect = () => {
     url = new URL(`${pathname}${search}`, url).toString()
     // we can use status 308 here if we need permanant redirect
-    return NextResponse.redirect(url)
+    return NextResponse.redirect(url, { headers })
   }
 
   // if the path is not normalized then normalize it and redirect
@@ -87,7 +90,7 @@ export const proxy = ({
   }
 
   // if no locale from path or cookie, try to get from browser header accept language and redirect
-  let localeHeaderRaw = acceptLang.get(headers.get('accept-language'))
+  let localeHeaderRaw = acceptLang.get(reqHeaders.get('accept-language'))
   let localeHeader = localeHeaderRaw
   if (!isValidLocaleUntyped(localeHeader)) {
     localeHeaderRaw = null
@@ -110,13 +113,12 @@ export const proxy = ({
 
   url = new URL(`${pathname}${search}`, url).toString()
 
-  const resHeaders = new Headers(headers)
-  resHeaders.set(urlHeaderKey, url)
-  resHeaders.set(i18nHeaderKey, localePath)
+  headers.set(urlHeaderKey, url)
+  headers.set(i18nHeaderKey, localePath)
 
   const response = rewrite
-    ? NextResponse.rewrite(url, { headers: resHeaders })
-    : NextResponse.next({ headers: resHeaders })
+    ? NextResponse.rewrite(url, { headers })
+    : NextResponse.next({ headers })
 
   setCookieLocale(response, localePath)
   return response

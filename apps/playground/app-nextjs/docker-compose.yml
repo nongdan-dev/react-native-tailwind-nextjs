@@ -1,0 +1,13 @@
+services:
+  nextjs:
+    container_name: nextjs
+    image: oven/bun:1
+    working_dir: /repo/apps/playground/app-nextjs
+    volumes:
+      - ./.next/standalone:/repo
+    command: bun run server.js
+    environment:
+      - PORT=3333
+      - HOSTNAME=0.0.0.0
+    ports:
+      - '3333:3333'
